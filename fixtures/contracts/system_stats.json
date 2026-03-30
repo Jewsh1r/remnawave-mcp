@@ -1,0 +1,46 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "system_stats",
+  "request": {
+    "method": "GET",
+    "path": "/api/system/stats",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "cpu": {
+          "cores": 2
+        },
+        "memory": {
+          "total": 4105080832,
+          "free": 1357496320,
+          "used": 2747584512
+        },
+        "uptime": 712368.03,
+        "timestamp": 1774856966386,
+        "users": {
+          "statusCounts": {
+            "ACTIVE": 1241,
+            "DISABLED": 731,
+            "LIMITED": 0,
+            "EXPIRED": 719
+          },
+          "totalUsers": 2691
+        },
+        "onlineStats": {
+          "onlineNow": 421,
+          "lastDay": 896,
+          "lastWeek": 1088,
+          "neverOnline": 1311
+        },
+        "nodes": {
+          "totalOnline": 417,
+          "totalBytesLifetime": "71674855442882"
+        }
+      }
+    }
+  }
+}

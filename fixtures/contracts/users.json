@@ -1,0 +1,970 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "users",
+  "request": {
+    "method": "GET",
+    "path": "/api/users",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "total": 2691,
+        "users": [
+          {
+            "uuid": "<REDACTED>",
+            "id": 2726,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-06T07:06:37.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-30T07:06:37.532Z",
+            "updatedAt": "2026-03-30T07:06:37.606Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 0,
+              "lifetimeUsedTrafficBytes": 0,
+              "onlineAt": null,
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": null
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2725,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-06T05:40:18.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-30T05:40:18.724Z",
+            "updatedAt": "2026-03-30T05:40:18.836Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 526879905,
+              "lifetimeUsedTrafficBytes": 526879905,
+              "onlineAt": "2026-03-30T07:49:15.068Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-30T05:41:45.076Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2724,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-13T05:07:21.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-30T05:07:21.542Z",
+            "updatedAt": "2026-03-30T05:07:21.665Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 203938500,
+              "lifetimeUsedTrafficBytes": 203938500,
+              "onlineAt": "2026-03-30T06:50:15.384Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-30T05:13:15.068Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2723,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-06T01:00:20.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-30T01:00:20.997Z",
+            "updatedAt": "2026-03-30T01:00:21.094Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 1222300543,
+              "lifetimeUsedTrafficBytes": 1222300543,
+              "onlineAt": "2026-03-30T07:49:15.148Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-30T01:05:15.135Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2722,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T22:09:32.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T22:09:32.261Z",
+            "updatedAt": "2026-03-29T22:09:32.345Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 178725,
+              "lifetimeUsedTrafficBytes": 178725,
+              "onlineAt": "2026-03-30T07:31:45.149Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-30T07:11:00.208Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2721,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-28T21:17:21.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T21:17:21.813Z",
+            "updatedAt": "2026-03-29T21:17:21.906Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-START"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 22932546,
+              "lifetimeUsedTrafficBytes": 22932546,
+              "onlineAt": "2026-03-29T21:37:15.131Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T21:19:45.147Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2720,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T20:03:40.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T20:03:40.825Z",
+            "updatedAt": "2026-03-29T20:03:40.901Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 0,
+              "lifetimeUsedTrafficBytes": 0,
+              "onlineAt": null,
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": null
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2719,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T19:48:55.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T19:48:55.365Z",
+            "updatedAt": "2026-03-29T19:48:55.452Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 151057028,
+              "lifetimeUsedTrafficBytes": 151057028,
+              "onlineAt": "2026-03-29T21:06:00.393Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T19:53:15.138Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2718,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-28T19:42:57.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T19:42:57.120Z",
+            "updatedAt": "2026-03-29T19:42:57.254Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-START"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 1822344107,
+              "lifetimeUsedTrafficBytes": 1822344107,
+              "onlineAt": "2026-03-30T07:48:30.154Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T19:47:15.376Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2717,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T18:59:37.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T18:59:37.655Z",
+            "updatedAt": "2026-03-29T18:59:37.724Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 0,
+              "lifetimeUsedTrafficBytes": 0,
+              "onlineAt": null,
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": null
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2716,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-05-28T18:58:04.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T18:58:04.842Z",
+            "updatedAt": "2026-03-29T19:05:44.250Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-START"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 2152598732,
+              "lifetimeUsedTrafficBytes": 2152598732,
+              "onlineAt": "2026-03-29T21:15:45.156Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T19:06:30.294Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2715,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-28T18:51:55.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T18:51:55.998Z",
+            "updatedAt": "2026-03-29T18:51:56.176Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-START"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 1330107407,
+              "lifetimeUsedTrafficBytes": 1330107407,
+              "onlineAt": "2026-03-30T07:47:30.096Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T19:00:00.342Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2714,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-28T18:16:35.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T18:16:35.144Z",
+            "updatedAt": "2026-03-29T18:16:35.242Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-START"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 406111419,
+              "lifetimeUsedTrafficBytes": 406111419,
+              "onlineAt": "2026-03-30T07:49:15.068Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T18:19:00.537Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2713,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T18:09:12.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T18:09:12.631Z",
+            "updatedAt": "2026-03-29T18:09:12.703Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 1021982432,
+              "lifetimeUsedTrafficBytes": 1021982432,
+              "onlineAt": "2026-03-30T07:44:30.600Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T18:12:15.271Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2712,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T17:59:04.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T17:59:04.195Z",
+            "updatedAt": "2026-03-29T17:59:04.286Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 637087700,
+              "lifetimeUsedTrafficBytes": 637087700,
+              "onlineAt": "2026-03-30T07:49:15.079Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T18:01:15.212Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2711,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T17:09:17.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T17:09:17.552Z",
+            "updatedAt": "2026-03-29T17:09:17.637Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 817384893,
+              "lifetimeUsedTrafficBytes": 817384893,
+              "onlineAt": "2026-03-30T07:49:15.106Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T17:15:30.270Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2710,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T16:47:04.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T16:47:04.108Z",
+            "updatedAt": "2026-03-29T16:47:04.201Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 0,
+              "lifetimeUsedTrafficBytes": 0,
+              "onlineAt": null,
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": null
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2709,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T13:42:32.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T13:42:32.464Z",
+            "updatedAt": "2026-03-29T13:42:32.537Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 1644899296,
+              "lifetimeUsedTrafficBytes": 1644899296,
+              "onlineAt": "2026-03-30T07:48:30.071Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T13:43:30.392Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2708,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T13:40:22.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T13:40:22.985Z",
+            "updatedAt": "2026-03-29T13:40:23.060Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 814991028,
+              "lifetimeUsedTrafficBytes": 814991028,
+              "onlineAt": "2026-03-29T22:11:16.530Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T13:44:45.100Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2707,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T13:37:18.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T13:37:18.596Z",
+            "updatedAt": "2026-03-29T13:37:18.677Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 2081371160,
+              "lifetimeUsedTrafficBytes": 2081371160,
+              "onlineAt": "2026-03-30T07:49:15.068Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T13:39:30.193Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2706,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T12:46:11.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T12:46:11.779Z",
+            "updatedAt": "2026-03-29T12:46:11.891Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 0,
+              "lifetimeUsedTrafficBytes": 0,
+              "onlineAt": null,
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": null
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2705,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T11:17:27.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T11:17:27.994Z",
+            "updatedAt": "2026-03-29T11:17:28.076Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 187550692,
+              "lifetimeUsedTrafficBytes": 187550692,
+              "onlineAt": "2026-03-29T11:44:45.114Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T11:18:30.301Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2704,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T10:52:38.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T10:52:38.243Z",
+            "updatedAt": "2026-03-29T10:52:38.319Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 2958498279,
+              "lifetimeUsedTrafficBytes": 2958498279,
+              "onlineAt": "2026-03-30T07:47:45.041Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T10:53:15.126Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2703,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-05T10:16:38.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T10:16:38.144Z",
+            "updatedAt": "2026-03-29T10:16:38.232Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 4009469000,
+              "lifetimeUsedTrafficBytes": 4009469000,
+              "onlineAt": "2026-03-30T07:49:15.047Z",
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": "2026-03-29T10:18:45.113Z"
+            }
+          },
+          {
+            "uuid": "<REDACTED>",
+            "id": 2702,
+            "shortUuid": "<REDACTED>",
+            "username": "<REDACTED>",
+            "status": "ACTIVE",
+            "trafficLimitBytes": 0,
+            "trafficLimitStrategy": "NO_RESET",
+            "expireAt": "2026-04-12T09:32:41.000Z",
+            "telegramId": "<REDACTED>",
+            "email": "<REDACTED>",
+            "description": null,
+            "tag": null,
+            "hwidDeviceLimit": null,
+            "externalSquadUuid": "<REDACTED>",
+            "trojanPassword": "<REDACTED>",
+            "vlessUuid": "<REDACTED>",
+            "ssPassword": "<REDACTED>",
+            "lastTriggeredThreshold": 0,
+            "subRevokedAt": null,
+            "lastTrafficResetAt": null,
+            "createdAt": "2026-03-29T09:32:41.869Z",
+            "updatedAt": "2026-03-29T09:32:41.944Z",
+            "subscriptionUrl": "<REDACTED>",
+            "activeInternalSquads": [
+              {
+                "uuid": "<REDACTED>",
+                "name": "PLAN-PRO"
+              }
+            ],
+            "userTraffic": {
+              "usedTrafficBytes": 0,
+              "lifetimeUsedTrafficBytes": 0,
+              "onlineAt": null,
+              "lastConnectedNodeUuid": "<REDACTED>",
+              "firstConnectedAt": null
+            }
+          }
+        ]
+      }
+    }
+  }
+}

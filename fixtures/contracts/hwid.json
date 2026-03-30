@@ -1,0 +1,82 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "hwid",
+  "request": {
+    "method": "GET",
+    "path": "/api/hwid/devices/stats",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "byPlatform": [
+          {
+            "platform": "iOS",
+            "count": 1282
+          },
+          {
+            "platform": "Android",
+            "count": 396
+          },
+          {
+            "platform": "Windows",
+            "count": 181
+          },
+          {
+            "platform": "macOS",
+            "count": 128
+          },
+          {
+            "platform": "iPadOS",
+            "count": 80
+          },
+          {
+            "platform": "AndroidTV",
+            "count": 20
+          },
+          {
+            "platform": "tvOS",
+            "count": 3
+          },
+          {
+            "platform": "windows",
+            "count": 1
+          },
+          {
+            "platform": "Linux",
+            "count": 1
+          }
+        ],
+        "byApp": [
+          {
+            "app": "Happ",
+            "count": 1846
+          },
+          {
+            "app": "FlClash X",
+            "count": 118
+          },
+          {
+            "app": "v2raytun",
+            "count": 94
+          },
+          {
+            "app": "koala-clash",
+            "count": 30
+          },
+          {
+            "app": "prizrak-box",
+            "count": 3
+          }
+        ],
+        "stats": {
+          "totalUniqueDevices": 1975,
+          "totalHwidDevices": 2092,
+          "averageHwidDevicesPerUser": 1.5
+        }
+      }
+    }
+  }
+}

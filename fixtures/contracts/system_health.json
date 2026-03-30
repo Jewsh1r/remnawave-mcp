@@ -1,0 +1,64 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "system_health",
+  "request": {
+    "method": "GET",
+    "path": "/api/system/health",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "runtimeMetrics": [
+          {
+            "rss": 310837248,
+            "heapUsed": 92556880,
+            "heapTotal": 103624704,
+            "external": 3990323,
+            "arrayBuffers": 146373,
+            "eventLoopDelayMs": 20.201005788617888,
+            "eventLoopP99Ms": 21.577727,
+            "activeHandles": 29,
+            "uptime": 12640.012595177,
+            "pid": 125,
+            "timestamp": 1774856963416,
+            "instanceId": "0",
+            "instanceType": "api"
+          },
+          {
+            "rss": 202227712,
+            "heapUsed": 81853416,
+            "heapTotal": 91672576,
+            "external": 4281027,
+            "arrayBuffers": 431234,
+            "eventLoopDelayMs": 20.171589441295545,
+            "eventLoopP99Ms": 21.004287,
+            "activeHandles": 49,
+            "uptime": 12640.063984053,
+            "pid": 126,
+            "timestamp": 1774856963483,
+            "instanceId": "0",
+            "instanceType": "scheduler"
+          },
+          {
+            "rss": 249217024,
+            "heapUsed": 93351496,
+            "heapTotal": 105422848,
+            "external": 4446415,
+            "arrayBuffers": 603589,
+            "eventLoopDelayMs": 20.187552260162605,
+            "eventLoopP99Ms": 21.217279,
+            "activeHandles": 145,
+            "uptime": 12639.446398978,
+            "pid": 137,
+            "timestamp": 1774856962888,
+            "instanceId": "0",
+            "instanceType": "processor"
+          }
+        ]
+      }
+    }
+  }
+}

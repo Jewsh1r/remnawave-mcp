@@ -1,0 +1,3657 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "nodes",
+  "request": {
+    "method": "GET",
+    "path": "/api/nodes",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": [
+        {
+          "uuid": "<REDACTED>",
+          "name": "nl-1",
+          "address": "nl-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:50.276Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 21677431006187,
+          "notifyPercent": 0,
+          "viewPosition": 0,
+          "countryCode": "NL",
+          "tags": [],
+          "createdAt": "2026-02-20T21:44:55.366Z",
+          "updatedAt": "2026-03-30T07:49:00.345Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE_IN_NL",
+                "type": "vless",
+                "network": "xhttp",
+                "security": "reality",
+                "port": 2443,
+                "rawInbound": {
+                  "tag": "BRIDGE_IN_NL",
+                  "port": 2443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "xhttp",
+                    "security": "reality",
+                    "xhttpSettings": {
+                      "mode": "auto",
+                      "path": "/o3QQpzZzTEzuWPri"
+                    },
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "nl-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Netherlands-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Netherlands-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "nl-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "NodeHost",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:47.237Z",
+            "updatedAt": "2026-02-22T00:22:52.304Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 23149,
+          "usersOnline": 110,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "QEMU Virtual CPU version 2.5+",
+              "memoryTotal": 2063589376,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3",
+                "warp"
+              ]
+            },
+            "stats": {
+              "memoryFree": 1043030016,
+              "memoryUsed": 1020559360,
+              "uptime": 493930.8,
+              "loadAvg": [
+                1.29,
+                1.31,
+                1.3
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 7640365.634365635,
+                "txBytesPerSec": 8925731.26873127,
+                "rxTotal": 5843068309611,
+                "txTotal": 5787353681768
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "de-2",
+          "address": "de-2.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:50.223Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 4908500102144,
+          "notifyPercent": 0,
+          "viewPosition": 1,
+          "countryCode": "DE",
+          "tags": [],
+          "createdAt": "2026-02-21T02:59:46.819Z",
+          "updatedAt": "2026-03-30T07:49:00.054Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "USA-DE2",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 4443,
+                "rawInbound": {
+                  "tag": "USA-DE2",
+                  "port": 4443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de-2.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "de-2",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "de-2",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de-2.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "YT-WARP",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "YT-WARP",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de-2.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "NewYork-DE2",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 2443,
+                "rawInbound": {
+                  "tag": "NewYork-DE2",
+                  "port": 2443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de-2.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Germany-DE2",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 3443,
+                "rawInbound": {
+                  "tag": "Germany-DE2",
+                  "port": 3443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de-2.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "NodeHost",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:47.237Z",
+            "updatedAt": "2026-02-22T00:22:52.304Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 27409,
+          "usersOnline": 59,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "QEMU Virtual CPU version 2.5+",
+              "memoryTotal": 1008201728,
+              "hostname": "nodehost.ru",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3",
+                "wg-ny-client",
+                "wg-vn-client"
+              ]
+            },
+            "stats": {
+              "memoryFree": 308756480,
+              "memoryUsed": 699445248,
+              "uptime": 264829.49,
+              "loadAvg": [
+                0.23,
+                0.37,
+                0.35
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 7270939.121756487,
+                "txBytesPerSec": 8078362.275449102,
+                "rxTotal": 1551294883668,
+                "txTotal": 1529633279004
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "bridge-v2",
+          "address": "bridge-v2.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T07:20:00.620Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 31,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": false,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 2990114462466,
+          "notifyPercent": 0,
+          "viewPosition": 2,
+          "countryCode": "RU",
+          "tags": [
+            "BRIDGE",
+            "HIDDEN_TEST"
+          ],
+          "createdAt": "2026-03-20T19:58:41.839Z",
+          "updatedAt": "2026-03-30T07:49:00.179Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-NL",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 15443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-NL",
+                  "port": 15443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-AL",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 16443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-AL",
+                  "port": 16443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-TR",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 17443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-TR",
+                  "port": 17443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-DE2",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 18443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-DE2",
+                  "port": 18443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-LV",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 19443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-LV",
+                  "port": 19443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-FI",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 21443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-FI",
+                  "port": 21443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-NO",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 9443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-NO",
+                  "port": 9443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-SE",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 10443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-SE",
+                  "port": 10443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-JP",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 13443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-JP",
+                  "port": 13443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-KR",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 11443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-KR",
+                  "port": 11443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-PL",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 14443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-PL",
+                  "port": 14443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-PL2",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 21444,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-PL2",
+                  "port": 21444,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE-V2-RU",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 12443,
+                "rawInbound": {
+                  "tag": "BRIDGE-V2-RU",
+                  "port": 12443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "bridge-v2.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": null,
+          "provider": null,
+          "activePluginUuid": null,
+          "xrayUptime": 1760,
+          "usersOnline": 31,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 2,
+              "cpuModel": "Intel Xeon Processor (Icelake)",
+              "memoryTotal": 4105084928,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3",
+                "br-29baf2e1c8b3",
+                "br-d3add7721627",
+                "awg-pl-client",
+                "vethd5c2d79",
+                "veth0fbe462",
+                "vethaac00f2"
+              ]
+            },
+            "stats": {
+              "memoryFree": 2624344064,
+              "memoryUsed": 1480740864,
+              "uptime": 12105.32,
+              "loadAvg": [
+                2,
+                2.22,
+                2.16
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 6163126.873126874,
+                "txBytesPerSec": 5650511.488511489,
+                "rxTotal": 75701104203,
+                "txTotal": 74501667407
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "fi-1",
+          "address": "95.85.251.80",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:50.372Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 3376216010217,
+          "notifyPercent": 0,
+          "viewPosition": 3,
+          "countryCode": "FI",
+          "tags": [],
+          "createdAt": "2026-02-09T13:27:06.308Z",
+          "updatedAt": "2026-03-30T07:49:00.120Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Finland-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "Finland-1",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "fi-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "VPSPay",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:46.999Z",
+            "updatedAt": "2026-02-22T00:23:20.195Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 32209,
+          "usersOnline": 100,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz",
+              "memoryTotal": 2063699968,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-79-generic",
+              "type": "Linux",
+              "version": "#79-Ubuntu SMP PREEMPT_DYNAMIC Tue Aug 12 14:42:46 UTC 2025",
+              "networkInterfaces": [
+                "lo",
+                "ens3"
+              ]
+            },
+            "stats": {
+              "memoryFree": 1178636288,
+              "memoryUsed": 885063680,
+              "uptime": 1239545.27,
+              "loadAvg": [
+                0.59,
+                0.76,
+                0.85
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 8643575.848303393,
+                "txBytesPerSec": 11486240.518962076,
+                "rxTotal": 3531285497429,
+                "txTotal": 3486307891459
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "lv-1",
+          "address": "lv-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:50.556Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 31,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": false,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 5821586036423,
+          "notifyPercent": 0,
+          "viewPosition": 4,
+          "countryCode": "LV",
+          "tags": [],
+          "createdAt": "2026-02-22T07:12:51.988Z",
+          "updatedAt": "2026-03-30T07:49:00.171Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Latvia-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 2443,
+                "rawInbound": {
+                  "tag": "Latvia-1",
+                  "port": 2443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "lv-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "HostVDS",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-22T06:30:12.318Z",
+            "updatedAt": "2026-02-22T06:30:12.317Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 32207,
+          "usersOnline": 51,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 2,
+              "cpuModel": "Intel Xeon Processor (Skylake, IBRS)",
+              "memoryTotal": 4106280960,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-35-generic",
+              "type": "Linux",
+              "version": "#35-Ubuntu SMP PREEMPT_DYNAMIC Mon May 20 15:51:52 UTC 2024",
+              "networkInterfaces": [
+                "lo",
+                "eth0",
+                "awg-gaming",
+                "warp",
+                "br-bc2b1d17d771",
+                "docker0",
+                "vethe69160d",
+                "veth23f06f6",
+                "vetha2aa054",
+                "vethc9f9fea",
+                "vethd3d9a65"
+              ]
+            },
+            "stats": {
+              "memoryFree": 1984339968,
+              "memoryUsed": 2121940992,
+              "uptime": 1034446.94,
+              "loadAvg": [
+                3.64,
+                3.12,
+                2.48
+              ],
+              "interface": {
+                "interface": "eth0",
+                "rxBytesPerSec": 1429881.118881119,
+                "txBytesPerSec": 1464975.024975025,
+                "rxTotal": 5712106931191,
+                "txTotal": 5707366472481
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "us-1",
+          "address": "185.92.182.135",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:51.045Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 101601974054,
+          "notifyPercent": 0,
+          "viewPosition": 5,
+          "countryCode": "US",
+          "tags": [],
+          "createdAt": "2026-03-25T08:12:43.204Z",
+          "updatedAt": "2026-03-30T07:49:00.229Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "USA-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "USA-1",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "us-2.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": null,
+          "provider": null,
+          "activePluginUuid": null,
+          "xrayUptime": 30945,
+          "usersOnline": 9,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 2,
+              "cpuModel": "Intel Xeon Processor (Skylake, IBRS)",
+              "memoryTotal": 4106276864,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-35-generic",
+              "type": "Linux",
+              "version": "#35-Ubuntu SMP PREEMPT_DYNAMIC Mon May 20 15:51:52 UTC 2024",
+              "networkInterfaces": [
+                "lo",
+                "eth0",
+                "warp"
+              ]
+            },
+            "stats": {
+              "memoryFree": 3407454208,
+              "memoryUsed": 698822656,
+              "uptime": 393662.99,
+              "loadAvg": [
+                0.56,
+                0.37,
+                0.28
+              ],
+              "interface": {
+                "interface": "eth0",
+                "rxBytesPerSec": 540102,
+                "txBytesPerSec": 539949,
+                "rxTotal": 121485552356,
+                "txTotal": 118066039166
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "pl-1",
+          "address": "pl.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T07:44:05.326Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 1044559802613,
+          "notifyPercent": 0,
+          "viewPosition": 6,
+          "countryCode": "PL",
+          "tags": [],
+          "createdAt": "2026-03-13T19:52:03.572Z",
+          "updatedAt": "2026-03-30T07:49:00.081Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Poland-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Poland-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "pl.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE_IN_PL",
+                "type": "vless",
+                "network": "xhttp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "BRIDGE_IN_PL",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "xhttp",
+                    "security": "reality",
+                    "xhttpSettings": {
+                      "mode": "auto",
+                      "path": "/oSvuLTDlEsLS8F0o"
+                    },
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "pl.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Poland-HY2",
+                "type": "hysteria",
+                "network": "hysteria",
+                "security": "tls",
+                "port": 9443,
+                "rawInbound": {
+                  "tag": "Poland-HY2",
+                  "port": 9443,
+                  "protocol": "hysteria",
+                  "settings": {
+                    "clients": [],
+                    "version": 2
+                  },
+                  "streamSettings": {
+                    "network": "hysteria",
+                    "security": "tls",
+                    "tlsSettings": {
+                      "alpn": [
+                        "h3"
+                      ],
+                      "certificates": [
+                        {
+                          "keyFile": "/var/lib/remnawave/configs/xray/ssl/cert.key",
+                          "certificateFile": "/var/lib/remnawave/configs/xray/ssl/cert.pem"
+                        }
+                      ]
+                    },
+                    "hysteriaSettings": {
+                      "auth": "<REDACTED_VALUE>",
+                      "version": 2,
+                      "udpIdleTimeout": 60
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": null,
+          "provider": null,
+          "activePluginUuid": null,
+          "xrayUptime": 315,
+          "usersOnline": 10,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "AMD Ryzen 9 9950X 16-Core Processor",
+              "memoryTotal": 1008201728,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3",
+                "awg-rubridge-pl"
+              ]
+            },
+            "stats": {
+              "memoryFree": 478846976,
+              "memoryUsed": 529354752,
+              "uptime": 135763.27,
+              "loadAvg": [
+                0.16,
+                0.22,
+                0.15
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 2354420.5794205796,
+                "txBytesPerSec": 2347271.7282717284,
+                "rxTotal": 361356202064,
+                "txTotal": 372705078702
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "norway-1",
+          "address": "no-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:51.256Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": false,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 603337549911,
+          "notifyPercent": 0,
+          "viewPosition": 7,
+          "countryCode": "NO",
+          "tags": [],
+          "createdAt": "2026-02-22T19:59:01.140Z",
+          "updatedAt": "2026-03-30T07:49:03.359Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Norway-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Norway-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "no-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "4VPS",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-22T19:56:23.772Z",
+            "updatedAt": "2026-02-22T19:56:23.768Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 32203,
+          "usersOnline": 3,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "AMD EPYC 7713P 64-Core Processor",
+              "memoryTotal": 1008201728,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3"
+              ]
+            },
+            "stats": {
+              "memoryFree": 518467584,
+              "memoryUsed": 489734144,
+              "uptime": 211187.26,
+              "loadAvg": [
+                1.61,
+                1.11,
+                1.05
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 4083.8323353293413,
+                "txBytesPerSec": 2033.932135728543,
+                "rxTotal": 55615200587,
+                "txTotal": 54115820347
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "al.nodes.redivo.ru",
+          "address": "al.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:50.912Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 3732781705981,
+          "notifyPercent": 0,
+          "viewPosition": 8,
+          "countryCode": "XX",
+          "tags": [],
+          "createdAt": "2026-02-20T17:53:00.978Z",
+          "updatedAt": "2026-03-30T07:49:00.092Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Albania-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Albania-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "al.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE_IN_AL",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "BRIDGE_IN_AL",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "al.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "AlbaHost",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:48.359Z",
+            "updatedAt": "2026-02-22T00:21:20.189Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 20699,
+          "usersOnline": 26,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz",
+              "memoryTotal": 4106645504,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-31-generic",
+              "type": "Linux",
+              "version": "#31-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 20 00:40:06 UTC 2024",
+              "networkInterfaces": [
+                "lo",
+                "eth0"
+              ]
+            },
+            "stats": {
+              "memoryFree": 3101077504,
+              "memoryUsed": 1005568000,
+              "uptime": 3054714.1,
+              "loadAvg": [
+                1.03,
+                0.96,
+                0.85
+              ],
+              "interface": {
+                "interface": "eth0",
+                "rxBytesPerSec": 251644.35564435567,
+                "txBytesPerSec": 1008095.9040959042,
+                "rxTotal": 4471045791412,
+                "txTotal": 4516441682427
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "se.nodes.redivo.ru",
+          "address": "se.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T07:16:55.308Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 107669768067,
+          "notifyPercent": 0,
+          "viewPosition": 9,
+          "countryCode": "SE",
+          "tags": [],
+          "createdAt": "2026-02-21T01:29:31.421Z",
+          "updatedAt": "2026-03-30T07:49:00.110Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Sweden-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Sweden-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "se.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Sweden-HY2",
+                "type": "hysteria",
+                "network": "hysteria",
+                "security": "tls",
+                "port": 9443,
+                "rawInbound": {
+                  "tag": "Sweden-HY2",
+                  "port": 9443,
+                  "protocol": "hysteria",
+                  "settings": {
+                    "clients": [],
+                    "version": 2
+                  },
+                  "streamSettings": {
+                    "network": "hysteria",
+                    "security": "tls",
+                    "tlsSettings": {
+                      "alpn": [
+                        "h3"
+                      ],
+                      "certificates": [
+                        {
+                          "keyFile": "/var/lib/remnawave/configs/xray/ssl/cert.key",
+                          "certificateFile": "/var/lib/remnawave/configs/xray/ssl/cert.pem"
+                        }
+                      ]
+                    },
+                    "hysteriaSettings": {
+                      "auth": "<REDACTED_VALUE>",
+                      "version": 2,
+                      "udpIdleTimeout": 60
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "NodeHost",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:47.237Z",
+            "updatedAt": "2026-02-22T00:22:52.304Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 1946,
+          "usersOnline": 0,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "QEMU Virtual CPU version 2.5+",
+              "memoryTotal": 1008312320,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-79-generic",
+              "type": "Linux",
+              "version": "#79-Ubuntu SMP PREEMPT_DYNAMIC Tue Aug 12 14:42:46 UTC 2025",
+              "networkInterfaces": [
+                "lo",
+                "ens3"
+              ]
+            },
+            "stats": {
+              "memoryFree": 519114752,
+              "memoryUsed": 489197568,
+              "uptime": 1199411.29,
+              "loadAvg": [
+                0,
+                0,
+                0
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 421.5784215784216,
+                "txBytesPerSec": 491.50849150849155,
+                "rxTotal": 31865082697,
+                "txTotal": 30243131610
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "tr.nodes.redivo.ru",
+          "address": "tr.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:51.324Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 1654179058902,
+          "notifyPercent": 0,
+          "viewPosition": 10,
+          "countryCode": "TR",
+          "tags": [],
+          "createdAt": "2026-02-21T01:45:00.492Z",
+          "updatedAt": "2026-03-30T07:49:00.100Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Turkey-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Turkey-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "tr.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE_IN_TR",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "BRIDGE_IN_TR",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "tr.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "VPS.TC",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:47.525Z",
+            "updatedAt": "2026-02-22T00:35:59.685Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 19448,
+          "usersOnline": 18,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz",
+              "memoryTotal": 2063585280,
+              "hostname": "trnode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "eth0",
+                "warp"
+              ]
+            },
+            "stats": {
+              "memoryFree": 1459027968,
+              "memoryUsed": 604557312,
+              "uptime": 1099940.54,
+              "loadAvg": [
+                0.14,
+                0.17,
+                0.18
+              ],
+              "interface": {
+                "interface": "eth0",
+                "rxBytesPerSec": 745178.8211788213,
+                "txBytesPerSec": 793715.2847152848,
+                "rxTotal": 1149307498502,
+                "txTotal": 1121616299838
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "hk-1",
+          "address": "hk-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:52.346Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 31,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": false,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 14627355035,
+          "notifyPercent": 0,
+          "viewPosition": 11,
+          "countryCode": "HK",
+          "tags": [],
+          "createdAt": "2026-02-22T07:12:50.935Z",
+          "updatedAt": "2026-03-30T04:30:31.831Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Hong Kong-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Hong Kong-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "hk-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Japan-HK",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 2443,
+                "rawInbound": {
+                  "tag": "Japan-HK",
+                  "port": 2443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "hk-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "HostVDS",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-22T06:30:12.318Z",
+            "updatedAt": "2026-02-22T06:30:12.317Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 27547,
+          "usersOnline": 0,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "Intel Xeon Processor (Skylake, IBRS)",
+              "memoryTotal": 1008369664,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-35-generic",
+              "type": "Linux",
+              "version": "#35-Ubuntu SMP PREEMPT_DYNAMIC Mon May 20 15:51:52 UTC 2024",
+              "networkInterfaces": [
+                "lo",
+                "eth0",
+                "warp"
+              ]
+            },
+            "stats": {
+              "memoryFree": 580956160,
+              "memoryUsed": 427413504,
+              "uptime": 1034499.58,
+              "loadAvg": [
+                0.11,
+                0.04,
+                0.01
+              ],
+              "interface": {
+                "interface": "eth0",
+                "rxBytesPerSec": 1038,
+                "txBytesPerSec": 198,
+                "rxTotal": 1790300401,
+                "txTotal": 730247405
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "vietnam-router",
+          "address": "vn.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": true,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-29T22:11:20.236Z",
+          "lastStatusMessage": "",
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 18028,
+          "notifyPercent": 0,
+          "viewPosition": 12,
+          "countryCode": "VN",
+          "tags": [],
+          "createdAt": "2026-02-21T02:09:48.740Z",
+          "updatedAt": "2026-03-30T04:30:31.834Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Vietnam-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "Vietnam-1",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "vn.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "LightNode",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:48.111Z",
+            "updatedAt": "2026-02-22T00:21:39.345Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 0,
+          "usersOnline": 0,
+          "system": null,
+          "versions": null
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "japan-1",
+          "address": "jp-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:52.904Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": false,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 6850080422,
+          "notifyPercent": 0,
+          "viewPosition": 14,
+          "countryCode": "JP",
+          "tags": [],
+          "createdAt": "2026-02-22T19:59:01.283Z",
+          "updatedAt": "2026-03-30T07:48:00.358Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Japan-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "Japan-1",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "jp-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "4VPS",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-22T19:56:23.772Z",
+            "updatedAt": "2026-02-22T19:56:23.768Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 32204,
+          "usersOnline": 0,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz",
+              "memoryTotal": 1008201728,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3"
+              ]
+            },
+            "stats": {
+              "memoryFree": 556072960,
+              "memoryUsed": 452128768,
+              "uptime": 422338.39,
+              "loadAvg": [
+                0,
+                0,
+                0
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 2854.1458541458546,
+                "txBytesPerSec": 197.8021978021978,
+                "rxTotal": 3197282328,
+                "txTotal": 1992956567
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "kr-1",
+          "address": "kr-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": false,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-30T04:18:53.493Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 5859624195,
+          "notifyPercent": 0,
+          "viewPosition": 15,
+          "countryCode": "KR",
+          "tags": [],
+          "createdAt": "2026-03-21T17:37:49.982Z",
+          "updatedAt": "2026-03-30T07:48:00.348Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "South Korea-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "South Korea-1",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "kr-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": null,
+          "provider": null,
+          "activePluginUuid": null,
+          "xrayUptime": 30944,
+          "usersOnline": 0,
+          "system": {
+            "info": {
+              "arch": "x64",
+              "cpus": 1,
+              "cpuModel": "Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz",
+              "memoryTotal": 1008197632,
+              "hostname": "remnanode",
+              "platform": "linux",
+              "release": "6.8.0-106-generic",
+              "type": "Linux",
+              "version": "#106-Ubuntu SMP PREEMPT_DYNAMIC Fri Mar  6 07:58:08 UTC 2026",
+              "networkInterfaces": [
+                "lo",
+                "ens3",
+                "warp"
+              ]
+            },
+            "stats": {
+              "memoryFree": 557867008,
+              "memoryUsed": 450330624,
+              "uptime": 479480.82,
+              "loadAvg": [
+                0,
+                0.03,
+                0.04
+              ],
+              "interface": {
+                "interface": "ens3",
+                "rxBytesPerSec": 949.2537313432837,
+                "txBytesPerSec": 197.01492537313436,
+                "rxTotal": 4387006561,
+                "txTotal": 3964843599
+              }
+            }
+          },
+          "versions": {
+            "xray": "26.3.27",
+            "node": "2.7.0"
+          }
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "de.nodes.redivo.ru",
+          "address": "de.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": true,
+          "isConnecting": true,
+          "isDisabled": false,
+          "lastStatusChange": "2026-03-29T22:11:20.040Z",
+          "lastStatusMessage": "",
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 9543432729852,
+          "notifyPercent": 0,
+          "viewPosition": 16,
+          "countryCode": "DE",
+          "tags": [],
+          "createdAt": "2026-02-21T00:54:55.677Z",
+          "updatedAt": "2026-03-30T04:30:31.837Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "Germany-1",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 8443,
+                "rawInbound": {
+                  "tag": "Germany-1",
+                  "port": 8443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "BRIDGE_IN_DE",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "BRIDGE_IN_DE",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "de.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "Senko.Digital",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:48.662Z",
+            "updatedAt": "2026-02-22T00:20:59.375Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 0,
+          "usersOnline": 0,
+          "system": null,
+          "versions": null
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "ny-1",
+          "address": "ny-1.nodes.redivo.ru",
+          "port": 2222,
+          "isConnected": false,
+          "isConnecting": false,
+          "isDisabled": true,
+          "lastStatusChange": "2026-03-30T01:22:45.058Z",
+          "lastStatusMessage": "\"timeout of 15000ms exceeded\"",
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": true,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 2109140494203,
+          "notifyPercent": 0,
+          "viewPosition": 17,
+          "countryCode": "US",
+          "tags": [],
+          "createdAt": "2026-02-21T04:48:22.413Z",
+          "updatedAt": "2026-03-30T04:30:31.841Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "New-York",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 443,
+                "rawInbound": {
+                  "tag": "New-York",
+                  "port": 443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ny-1.nodes.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": "<REDACTED_UUID>",
+          "provider": {
+            "name": "RackNerd",
+            "uuid": "<REDACTED>",
+            "faviconLink": "<REDACTED_URL>",
+            "loginUrl": "<REDACTED_URL>",
+            "createdAt": "2026-02-21T20:02:47.776Z",
+            "updatedAt": "2026-02-22T00:22:04.118Z"
+          },
+          "activePluginUuid": null,
+          "xrayUptime": 0,
+          "usersOnline": 0,
+          "system": null,
+          "versions": null
+        },
+        {
+          "uuid": "<REDACTED>",
+          "name": "ru-bridge",
+          "address": "ru-bridge.redivo.ru",
+          "port": 2222,
+          "isConnected": false,
+          "isConnecting": false,
+          "isDisabled": true,
+          "lastStatusChange": "2026-03-30T01:22:39.894Z",
+          "lastStatusMessage": null,
+          "trafficResetDay": 1,
+          "consumptionMultiplier": 1,
+          "isTrafficTrackingActive": false,
+          "trafficLimitBytes": 0,
+          "trafficUsedBytes": 8417634385141,
+          "notifyPercent": 0,
+          "viewPosition": 18,
+          "countryCode": "RU",
+          "tags": [],
+          "createdAt": "2026-03-13T15:37:00.828Z",
+          "updatedAt": "2026-03-30T04:30:31.844Z",
+          "configProfile": {
+            "activeConfigProfileUuid": "<REDACTED_UUID>",
+            "activeInbounds": [
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-US",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 17443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-US",
+                  "port": 17443,
+                  "protocol": "vless",
+                  "settings": {
+                    "flow": "<REDACTED_VALUE>",
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-PL",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 14443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-PL",
+                  "port": 14443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-DE",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 3443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-DE",
+                  "port": 3443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-IN",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 15443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-IN",
+                  "port": 15443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-AL",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 5443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-AL",
+                  "port": 5443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-TR",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 6443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-TR",
+                  "port": 6443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-FI",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 4443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-FI",
+                  "port": 4443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-NY",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 2443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-NY",
+                  "port": 2443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-LV",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 7443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-LV",
+                  "port": 7443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-NO",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 9443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-NO",
+                  "port": 9443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-SE",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 10443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-SE",
+                  "port": 10443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-VN",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 11443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-VN",
+                  "port": 11443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-HK",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 12443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-HK",
+                  "port": 12443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "RU-BRIDGE-JP",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 13443,
+                "rawInbound": {
+                  "tag": "RU-BRIDGE-JP",
+                  "port": 13443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "uuid": "<REDACTED>",
+                "profileUuid": "<REDACTED_UUID>",
+                "tag": "<REDACTED_VALUE>",
+                "type": "vless",
+                "network": "tcp",
+                "security": "reality",
+                "port": 16443,
+                "rawInbound": {
+                  "tag": "<REDACTED_VALUE>",
+                  "port": 16443,
+                  "protocol": "vless",
+                  "settings": {
+                    "clients": [],
+                    "decryption": "none"
+                  },
+                  "sniffing": {
+                    "enabled": true,
+                    "destOverride": [
+                      "http",
+                      "tls",
+                      "quic"
+                    ]
+                  },
+                  "streamSettings": {
+                    "network": "tcp",
+                    "security": "reality",
+                    "realitySettings": {
+                      "dest": "/dev/shm/nginx.sock",
+                      "show": false,
+                      "xver": 1,
+                      "spiderX": "",
+                      "shortIds": [
+                        "<REDACTED_VALUE>"
+                      ],
+                      "privateKey": "<REDACTED_VALUE>",
+                      "serverNames": [
+                        "ru-bridge.redivo.ru"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "providerUuid": null,
+          "provider": null,
+          "activePluginUuid": null,
+          "xrayUptime": 0,
+          "usersOnline": 0,
+          "system": null,
+          "versions": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "bandwidth_stats",
+  "request": {
+    "method": "GET",
+    "path": "/api/system/stats/bandwidth",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "bandwidthLastTwoDays": {
+          "current": "535.87 GiB",
+          "previous": "2.69 TiB",
+          "difference": "-2.17 TiB"
+        },
+        "bandwidthLastSevenDays": {
+          "current": "17.85 TiB",
+          "previous": "21.39 TiB",
+          "difference": "-3.54 TiB"
+        },
+        "bandwidthLast30Days": {
+          "current": "60.16 TiB",
+          "previous": "5.03 TiB",
+          "difference": "55.13 TiB"
+        },
+        "bandwidthCalendarMonth": {
+          "current": "60.16 TiB",
+          "previous": "5.03 TiB",
+          "difference": "55.13 TiB"
+        },
+        "bandwidthCurrentYear": {
+          "current": "65.19 TiB",
+          "previous": "0",
+          "difference": "65.19 TiB"
+        }
+      }
+    }
+  }
+}

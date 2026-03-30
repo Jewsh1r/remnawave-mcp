@@ -1,0 +1,33 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "metadata",
+  "request": {
+    "method": "GET",
+    "path": "/api/system/metadata",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "version": "2.7.3",
+        "build": {
+          "time": "2026-03-29T22:11:10Z",
+          "number": "206"
+        },
+        "git": {
+          "backend": {
+            "commitSha": "<REDACTED_VALUE>",
+            "branch": "main",
+            "commitUrl": "<REDACTED_URL>"
+          },
+          "frontend": {
+            "commitSha": "<REDACTED_VALUE>",
+            "commitUrl": "<REDACTED_URL>"
+          }
+        }
+      }
+    }
+  }
+}

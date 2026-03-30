@@ -1,0 +1,26 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "node_plugins",
+  "request": {
+    "method": "GET",
+    "path": "/api/node-plugins",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "response": {
+        "total": 1,
+        "nodePlugins": [
+          {
+            "uuid": "<REDACTED>",
+            "viewPosition": 1,
+            "name": "torrent-blocker",
+            "pluginConfig": null
+          }
+        ]
+      }
+    }
+  }
+}

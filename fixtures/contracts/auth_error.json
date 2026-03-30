@@ -1,0 +1,19 @@
+{
+  "captured_at": "2026-03-30T07:49:25Z",
+  "source": "live_remnawave_panel",
+  "domain": "auth_error",
+  "request": {
+    "method": "GET",
+    "path": "/api/system/stats",
+    "headers": {
+      "Authorization": "<REDACTED>"
+    }
+  },
+  "response": {
+    "status": 401,
+    "body": {
+      "message": "Unauthorized",
+      "statusCode": 401
+    }
+  }
+}
