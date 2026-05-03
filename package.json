@@ -25,7 +25,8 @@
     "build": "tsup",
     "check": "tsc --noEmit",
     "test": "vitest run",
-    "extract:remnawave-openapi": "tsx scripts/extract-remnawave-openapi.ts"
+    "extract:remnawave-openapi": "tsx scripts/extract-remnawave-openapi.ts",
+    "generate:remnawave-operation-inventory": "tsx scripts/generate-remnawave-operation-inventory.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",
