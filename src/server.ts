@@ -3,13 +3,13 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import * as z from 'zod';
 
 import { RemnawaveClient } from './client/index.js';
-import { PROMPT_DEFINITIONS } from './prompts/index.js';
 import type { RuntimeConfig } from './runtime/config.js';
 import { createStderrLogger } from './runtime/logger.js';
 import { installProcessGuards } from './runtime/process-guard.js';
 import { buildServerDefinition, registerDiscoverySurface, type DiscoveryManifest } from './server/discovery.js';
-import { createStableCoreTools } from './tools/index.js';
 
+import { createRemnawaveApiClientAdapter } from './remnawave-api/client-adapter.js';
+import { routeRemnawaveApiRequest } from './remnawave-api/router.js';
 export interface ServerRuntime {
   readonly close: () => Promise<void>;
   readonly discovery: DiscoveryManifest;
@@ -27,8 +27,6 @@ export async function startServer(config: RuntimeConfig): Promise<ServerRuntime>
     {
       capabilities: {
         tools: { listChanged: false },
-        resources: { listChanged: false },
-        prompts: { listChanged: false },
       },
     },
   );
@@ -37,90 +35,33 @@ export async function startServer(config: RuntimeConfig): Promise<ServerRuntime>
     baseUrl: config.remnawaveBaseUrl,
     apiToken: config.remnawaveApiToken,
   });
-  const toolRegistry = createStableCoreTools({
-    client: {
-      getUsers: () => remnawaveClient.getUsers(),
-      resolveUser: (uuid: string) => remnawaveClient.resolveUser(uuid),
-      getNodes: () => remnawaveClient.getNodes(),
-      getSystemStats: () => remnawaveClient.getSystemStats(),
-      getSystemHealth: () => remnawaveClient.getSystemHealth(),
-      getSubscriptions: () => remnawaveClient.getSubscriptions(),
-      getMetadata: () => remnawaveClient.getMetadata(),
-      getNodePlugins: () => remnawaveClient.getNodePlugins(),
-      getBandwidthStats: () => remnawaveClient.getBandwidthStats(),
-      getHwidInspection: () => remnawaveClient.getHwidInspection(),
-      patchUserSettings: (userUuid: string, settings: Record<string, unknown>) =>
-        remnawaveClient.patchUserSettings(userUuid, settings),
+  const remnawaveApiClient = createRemnawaveApiClientAdapter(remnawaveClient);
+  const remnawaveApiToolInput = z
+    .object({
+      domain: z.string().min(1),
+      operation: z.string().min(1).optional(),
+      payload: z.unknown().optional(),
+      responseMode: z.enum(['normalized', 'raw']).optional(),
+      confirmToken: z.string().min(1).optional(),
+    })
+    .strict();
+
+  mcpServer.registerTool(
+    'remnawave_api',
+    {
+      title: 'Remnawave API',
+      description: 'Primary interface for all Remnawave operations. Use domain + operation + payload pattern.',
+      inputSchema: remnawaveApiToolInput,
     },
-  });
-
-  const genericToolInput = z.object({}).catchall(z.unknown()).default({});
-
-  for (const tool of discovery.tools) {
-    mcpServer.registerTool(
-      tool.name,
-      {
-        title: tool.title,
-        description: tool.description,
-        inputSchema: genericToolInput,
-      },
-      async (args) => {
-        const result = await toolRegistry.callTool(tool.name, args);
-        const safeResult = toJsonSafe(result);
-        return {
-          content: [{ type: 'text', text: JSON.stringify(safeResult, null, 2) }],
-          structuredContent: asStructuredContent(safeResult),
-        };
-      },
-    );
-  }
-
-  for (const resource of discovery.resources) {
-    mcpServer.registerResource(
-      resource.name,
-      resource.uri,
-      {
-        title: resource.title,
-        description: resource.description,
-        mimeType: resource.mimeType,
-      },
-      async () => {
-        const result = await toolRegistry.readResource(resource.uri);
-        const safeResult = toJsonSafe(result);
-        return {
-          contents: [
-            {
-              uri: resource.uri,
-              mimeType: resource.mimeType,
-              text: JSON.stringify(safeResult, null, 2),
-            },
-          ],
-        };
-      },
-    );
-  }
-
-  for (const prompt of PROMPT_DEFINITIONS) {
-    mcpServer.registerPrompt(
-      prompt.name,
-      {
-        title: prompt.title,
-        description: prompt.description,
-      },
-      async () => ({
-        messages: [
-          {
-            role: 'user',
-            content: {
-              type: 'text',
-              text: prompt.body,
-            },
-          },
-        ],
-      }),
-    );
-  }
-
+    async (args) => {
+      const result = await routeRemnawaveApiRequest(args, remnawaveApiClient);
+      const safeResult = toJsonSafe(result);
+      return {
+        content: [{ type: 'text', text: JSON.stringify(safeResult, null, 2) }],
+        structuredContent: asStructuredContent(safeResult),
+      };
+    },
+  );
   const transport = new StdioServerTransport();
   transport.onclose = () => {
     logger.info('shutdown', { reason: 'stdin_closed' });
@@ -136,8 +77,6 @@ export async function startServer(config: RuntimeConfig): Promise<ServerRuntime>
     ...config.startupDiagnostics,
     discovery: {
       tools: discovery.tools.map((tool) => tool.name),
-      resources: discovery.resources.map((resource) => resource.uri),
-      prompts: discovery.prompts.map((prompt) => prompt.name),
     },
   });
   await mcpServer.connect(transport);
