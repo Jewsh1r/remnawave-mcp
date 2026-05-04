@@ -58,22 +58,41 @@ describe('remnawave_api compact risk behavior', () => {
   });
 
   test('tier3 mutations return compact confirmation errors before execution', async () => {
-    const deleteNode = vi.fn(async (nodeUuid: string) => ({ uuid: nodeUuid, deleted: true }));
+    const restartNode = vi.fn(async (nodeUuid: string) => ({ uuid: nodeUuid, restarted: true }));
     const result = await routeRemnawaveApiRequest(
-      { domain: 'nodes', operation: 'manage_lifecycle', payload: { action: 'delete', nodeUuid: 'node-1' } },
-      createClient({ deleteNode }),
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' } },
+      createClient({ restartNode }),
     );
 
     expect(result).toMatchObject({
       error: {
         code: 'CONFIRMATION_REQUIRED',
         kind: 'confirmation_required',
-        message: 'Confirmation token required before executing nodes.manage_lifecycle.',
+        message: 'Confirmation token required before executing nodes.restart.',
         retryable: false,
         token: expect.stringMatching(/^sha256:/),
       },
     });
-    expect(deleteNode).not.toHaveBeenCalled();
+    expect(restartNode).not.toHaveBeenCalled();
+    expectCompact(result);
+  });
+
+  test('confirm safety mode executes only when top-level confirmToken matches', async () => {
+    const restartNode = vi.fn(async (nodeUuid: string) => ({ uuid: nodeUuid, restarted: true }));
+    const client = createClient({ restartNode });
+    const first = await routeRemnawaveApiRequest(
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' } },
+      client,
+    );
+
+    const token = (first as { error: { token: string } }).error.token;
+    const result = await routeRemnawaveApiRequest(
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' }, confirmToken: token },
+      client,
+    );
+
+    expect(result).toEqual({ updated: { uuid: 'node-1', restarted: true } });
+    expect(restartNode).toHaveBeenCalledTimes(1);
     expectCompact(result);
   });
 });

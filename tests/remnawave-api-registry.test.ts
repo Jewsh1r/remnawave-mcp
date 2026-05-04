@@ -49,6 +49,14 @@ function createRegistration(overrides: Partial<OperationRegistration> = {}): Ope
     write: false,
     rawAllowed: false,
     ...overrides,
+    safetyMode: overrides.safetyMode ?? 'direct',
+    openapi: overrides.openapi ?? {
+      method: 'get',
+      path: '/api/system/stats',
+      operationId: 'SystemController_getStats',
+      requestSchemaKey: null,
+      responseSchemaKeys: [],
+    },
   };
 }
 
@@ -265,6 +273,14 @@ describe('OperationRegistry', () => {
       helpText: 'Provide username and telegramId; execution creates one user.',
       write: true,
       rawAllowed: false,
+      safetyMode: 'direct',
+      openapi: {
+        method: 'get',
+        path: '/api/system/stats',
+        operationId: 'SystemController_getStats',
+        requestSchemaKey: null,
+        responseSchemaKeys: [],
+      },
       riskTier: 'tier_2_bounded_mutation',
       deferred: false,
       schemaSummary: 'payload requires username:string and telegramId:integer',

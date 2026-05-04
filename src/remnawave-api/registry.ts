@@ -43,6 +43,7 @@ import type {
 import { applySensitiveReadPolicy, type SensitiveReadRevealMode } from '../runtime/errors.js';
 import { registerRuntimeDomainOperations } from './domains/index.js';
 import { REMNAWAVE_OPERATION_INVENTORY } from './generated/operation-inventory.js';
+import type { RemnawaveOpenApiBinding, RemnawaveOperationSafetyMode, RemnawaveSupportedOperationContract } from './operation-contract.js';
 import { getSupportedOperationRisk } from './risk.js';
 import {
   getSupportedOperationSchema,
@@ -174,6 +175,8 @@ export interface DescribeOperationMetadata {
   readonly payloadExample: Record<string, unknown>;
   readonly sideEffects: OperationRegistration['sideEffects'];
   readonly rawAllowed: boolean;
+  readonly safetyMode: RemnawaveOperationSafetyMode;
+  readonly openapi: RemnawaveOpenApiBinding;
   readonly execution: {
     readonly clientMethod: string;
   };
@@ -208,6 +211,8 @@ export interface OperationRegistration {
   readonly disposition: ScopeDisposition;
   readonly write: boolean;
   readonly rawAllowed: boolean;
+  readonly safetyMode: RemnawaveOperationSafetyMode;
+  readonly openapi: RemnawaveOpenApiBinding;
 }
 
 export interface RemnawaveApiScopeMap {
@@ -391,6 +396,8 @@ export class OperationRegistry {
       clientMethod: registration.execution.clientMethod,
     },
     rawAllowed: registration.rawAllowed,
+    safetyMode: registration.safetyMode,
+    openapi: registration.openapi,
   };
   }
 
@@ -484,7 +491,7 @@ function supportedReadOperation(
   execute: (client: RemnawaveApiClient, payload: Record<string, unknown>) => Promise<OperationExecutionResult>,
 ): OperationRegistration {
   const schema = getSupportedOperationSchema(domain, operation);
-  const rawAllowed = isRawAllowedByInventory(domain, operation);
+  const contract = getSupportedInventoryContract(domain, operation);
 
   return {
     discovery: {
@@ -514,7 +521,9 @@ function supportedReadOperation(
     },
     disposition: 'supported',
     write: false,
-    rawAllowed,
+    rawAllowed: contract.rawAllowed,
+    safetyMode: contract.safetyMode,
+    openapi: contract.openapi,
   };
 }
 
@@ -531,7 +540,7 @@ function supportedWriteOperation(
   execute: (client: RemnawaveApiClient, payload: Record<string, unknown>) => Promise<OperationExecutionResult>,
 ): OperationRegistration {
   const schema = getSupportedOperationSchema(domain, operation);
-  const rawAllowed = isRawAllowedByInventory(domain, operation);
+  const contract = getSupportedInventoryContract(domain, operation);
 
   return {
     discovery: {
@@ -561,7 +570,9 @@ function supportedWriteOperation(
     },
     disposition: 'supported',
     write: true,
-    rawAllowed,
+    rawAllowed: contract.rawAllowed,
+    safetyMode: contract.safetyMode,
+    openapi: contract.openapi,
   };
 }
 
@@ -728,14 +739,26 @@ function unsupportedOperation(
     disposition,
     write,
     rawAllowed: false,
+    safetyMode: write ? 'confirm' : 'direct',
+    openapi: {
+      method: 'get',
+      path: '',
+      operationId: clientMethod,
+      requestSchemaKey: null,
+      responseSchemaKeys: [],
+    },
   };
 }
 
-function isRawAllowedByInventory(domain: string, operation: string): boolean {
+function getSupportedInventoryContract(domain: string, operation: string): RemnawaveSupportedOperationContract {
   const key = `${domain}.${operation}`;
   const contract = REMNAWAVE_OPERATION_INVENTORY.operations.find((entry) => entry.key === key);
 
-  return contract?.status === 'supported' && contract.rawAllowed === true && contract.write === false;
+  if (contract?.status !== 'supported') {
+    throw new Error(`Supported operation inventory entry not found for ${key}.`);
+  }
+
+  return contract;
 }
 
 async function unsupportedExecution(): Promise<OperationExecutionResult> {
