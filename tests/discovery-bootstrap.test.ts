@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
+import { buildRemnawaveApiToolDiscoveryDescription } from '../src/remnawave-api/contract.js';
 import { loadRuntimeConfig } from '../src/runtime/config.js';
 import { RuntimeConfigError } from '../src/runtime/errors.js';
 import {
@@ -10,48 +11,55 @@ import {
 } from '../src/server/discovery.js';
 
 describe('discovery bootstrap', () => {
-  test('lists the exact stable-core discovery surface in deterministic order for the supported mode', () => {
+  const supportedRemnawaveVersions = ['2.7.0', '2.7.1', '2.7.2', '2.7.3', '2.7.4'] as const;
+  const blockedRemnawaveVersions = [
+    { label: 'missing', rawValue: undefined, expectedCode: 'REMNAWAVE_VERSION_UNKNOWN' },
+    { label: 'whitespace', rawValue: '   ', expectedCode: 'REMNAWAVE_VERSION_UNKNOWN' },
+    { label: 'latest', rawValue: 'latest', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '2.7', rawValue: '2.7', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '2.7.x', rawValue: '2.7.x', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: 'v2.7.4', rawValue: 'v2.7.4', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '2.7.4-beta.1', rawValue: '2.7.4-beta.1', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '2.6.4', rawValue: '2.6.4', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '2.8.0', rawValue: '2.8.0', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '2.8.1', rawValue: '2.8.1', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+    { label: '3.0.0', rawValue: '3.0.0', expectedCode: 'REMNAWAVE_VERSION_UNSUPPORTED' },
+  ] as const;
+
+  test('lists only remnawave_api as the single discovery tool', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.3',
+      REMNAWAVE_VERSION: '2.7.4',
     });
 
     const manifest = buildDiscoveryManifest(config);
 
-    expect(manifest.tools.map((tool) => tool.name)).toEqual([
-      'users_list',
-      'users_resolve',
-      'nodes_list',
-      'system_get_stats',
-      'system_get_health',
-      'subscriptions_list',
-      'users_mutate_subscription',
-      'users_mutate_squads',
-      'advanced_get_metadata',
-      'advanced_list_node_plugins',
-      'advanced_get_bandwidth_stats',
-      'advanced_get_hwid_inspection',
-    ]);
-    expect(manifest.resources.map((resource) => resource.uri)).toEqual([
-      'remnawave://panel/statistics',
-      'remnawave://nodes/status',
-      'remnawave://system/health',
-    ]);
-    expect(manifest.prompts.map((prompt) => prompt.name)).toEqual([
-      'operator_diagnostics',
-      'user_resolution',
-      'node_investigation',
-      'traffic_interpretation',
-      'plugin_investigation',
-    ]);
+    expect(manifest.tools).toHaveLength(1);
+    expect(manifest.tools[0]?.name).toBe('remnawave_api');
   });
 
-  test('returns the same ordered discovery surface across repeated builds and registration passes', () => {
+  test.each(supportedRemnawaveVersions)(
+    'advertises exactly remnawave_api for supported Remnawave version %s',
+    (version) => {
+      const config = loadRuntimeConfig({
+        REMNAWAVE_BASE_URL: 'https://panel.example.test',
+        REMNAWAVE_API_TOKEN: 'token-value',
+        REMNAWAVE_VERSION: version,
+      });
+
+      const manifest = buildDiscoveryManifest(config);
+
+      expect(manifest.tools).toHaveLength(1);
+      expect(manifest.tools[0]?.name).toBe('remnawave_api');
+    },
+  );
+
+  test('returns the same ordered discovery surface across repeated builds', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.3',
+      REMNAWAVE_VERSION: '2.7.4',
     });
 
     const firstManifest = buildDiscoveryManifest(config);
@@ -64,7 +72,7 @@ describe('discovery bootstrap', () => {
     expect(registerDiscoverySurface(firstServer)).toEqual(registerDiscoverySurface(firstServer));
   });
 
-  test('fails fast when a capability would be advertised but version gating blocks it', () => {
+  test('fails fast when version gating blocks discovery', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
@@ -80,23 +88,69 @@ describe('discovery bootstrap', () => {
     );
   });
 
-  test('keeps deferred and dropped matrix capabilities out of discovery', () => {
+  test('fails fast when discovery is attempted without a known remnawave version', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.3',
     });
 
-    const surface = listDiscoveryCapabilities(buildServerDefinition(config));
+    expect(() => buildDiscoveryManifest(config)).toThrowError(
+      expect.objectContaining({
+        category: 'version',
+        code: 'REMNAWAVE_VERSION_UNKNOWN',
+      }),
+    );
+  });
 
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('hosts_list');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('config_profiles_list');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('inbounds_list');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('squads_list');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('subscription_page_configs_list');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('ip_control_list');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('bulk_actions_plan');
-    expect(surface.tools.map((tool) => tool.name)).not.toContain('recap_get');
-    expect(surface.resources.map((resource) => resource.uri)).not.toContain('remnawave://metadata');
+  test.each(blockedRemnawaveVersions)(
+    'fails before advertising tools for blocked Remnawave version $label',
+    ({ rawValue, expectedCode }) => {
+      const config = loadRuntimeConfig({
+        REMNAWAVE_BASE_URL: 'https://panel.example.test',
+        REMNAWAVE_API_TOKEN: 'token-value',
+        REMNAWAVE_VERSION: rawValue,
+      });
+
+      expect(() => buildDiscoveryManifest(config)).toThrowError(
+        expect.objectContaining({
+          category: 'version',
+          code: expectedCode,
+        }),
+      );
+      expect(() => buildServerDefinition(config)).toThrowError(
+        expect.objectContaining({
+          category: 'version',
+          code: expectedCode,
+        }),
+      );
+    },
+  );
+
+  test('publishes remnawave_api discovery text from contract', () => {
+    const config = loadRuntimeConfig({
+      REMNAWAVE_BASE_URL: 'https://panel.example.test',
+      REMNAWAVE_API_TOKEN: 'token-value',
+      REMNAWAVE_VERSION: '2.7.4',
+    });
+
+    const manifest = buildDiscoveryManifest(config);
+    const remnawaveApiTool = manifest.tools.find((tool) => tool.name === 'remnawave_api');
+
+    expect(remnawaveApiTool).toBeDefined();
+    expect(remnawaveApiTool?.description).toBe(buildRemnawaveApiToolDiscoveryDescription());
+  });
+
+  test('advertises remnawave_api as the primary single-tool interface', () => {
+    const config = loadRuntimeConfig({
+      REMNAWAVE_BASE_URL: 'https://panel.example.test',
+      REMNAWAVE_API_TOKEN: 'token-value',
+      REMNAWAVE_VERSION: '2.7.4',
+    });
+
+    const manifest = buildDiscoveryManifest(config);
+    const [primaryTool] = manifest.tools;
+
+    expect(primaryTool?.name).toBe('remnawave_api');
+    expect(primaryTool?.description).toContain('Primary interface');
   });
 });

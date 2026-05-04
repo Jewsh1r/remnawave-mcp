@@ -14,11 +14,10 @@ export interface StartupDiagnostics {
     readonly supported: boolean;
     readonly status: 'supported' | 'unsupported' | 'unknown';
     readonly value: string | null;
+    readonly supportedRange?: string;
   };
   readonly capabilities: {
     readonly tools: boolean;
-    readonly resources: boolean;
-    readonly prompts: boolean;
   };
 }
 
@@ -29,7 +28,8 @@ export interface RuntimeConfig {
   readonly startupDiagnostics: StartupDiagnostics;
 }
 
-const SUPPORTED_REMNAWAVE_VERSIONS = new Set(['2.7.3']);
+const SUPPORTED_REMNAWAVE_VERSIONS = new Set(['2.7.0', '2.7.1', '2.7.2', '2.7.3', '2.7.4']);
+const SUPPORTED_REMNAWAVE_RANGE = '2.7.0-2.7.4';
 
 export function loadRuntimeConfig(env: NodeJS.ProcessEnv): RuntimeConfig {
   const remnawaveBaseUrl = readRequiredEnv(env, 'REMNAWAVE_BASE_URL');
@@ -50,12 +50,15 @@ export function loadRuntimeConfig(env: NodeJS.ProcessEnv): RuntimeConfig {
       remnawaveVersion,
       capabilities: {
         tools: remnawaveVersion.supported,
-        resources: remnawaveVersion.supported,
-        prompts: remnawaveVersion.supported,
       },
     },
   };
 }
+
+
+
+
+
 
 function readRequiredEnv(
   env: NodeJS.ProcessEnv,
@@ -92,6 +95,7 @@ function classifyRemnawaveVersion(rawValue: string | undefined): StartupDiagnost
       supported: false,
       status: 'unknown',
       value: null,
+      supportedRange: SUPPORTED_REMNAWAVE_RANGE,
     };
   }
 
@@ -100,6 +104,7 @@ function classifyRemnawaveVersion(rawValue: string | undefined): StartupDiagnost
       supported: true,
       status: 'supported',
       value,
+      supportedRange: SUPPORTED_REMNAWAVE_RANGE,
     };
   }
 
@@ -107,6 +112,7 @@ function classifyRemnawaveVersion(rawValue: string | undefined): StartupDiagnost
     supported: false,
     status: 'unsupported',
     value,
+    supportedRange: SUPPORTED_REMNAWAVE_RANGE,
   };
 }
 
