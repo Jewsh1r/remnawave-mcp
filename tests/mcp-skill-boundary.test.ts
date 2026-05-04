@@ -33,12 +33,18 @@ function expectCompact(value: unknown): void {
 describe('MCP single-tool compact boundary', () => {
   test('discovery exposes compact operation lists without envelope guidance', async () => {
     const result = await routeRemnawaveApiRequest({ domain: 'users' }, createClient());
+    const hostsResult = await routeRemnawaveApiRequest({ domain: 'hosts' }, createClient());
 
     expect(result).toMatchObject({
       domain: 'users',
-      operations: expect.arrayContaining([expect.objectContaining({ name: 'create_user' })]),
+      operations: expect.arrayContaining([
+        expect.objectContaining({ name: 'create_user', write: true, riskTier: 'tier_2_bounded_mutation' }),
+      ]),
     });
+    expect(JSON.stringify(result)).not.toContain('manage_lifecycle');
+    expect(JSON.stringify(hostsResult)).not.toContain('manage_routing');
     expectCompact(result);
+    expectCompact(hostsResult);
   });
 
   test('execution returns the direct operation payload through the boundary', async () => {
@@ -69,12 +75,18 @@ describe('MCP single-tool compact boundary', () => {
     const authResult = await routeRemnawaveApiRequest({ domain: 'auth', operation: 'login', payload: {} }, createClient());
     const keygenResult = await routeRemnawaveApiRequest({ domain: 'keygen', operation: 'generate', payload: {} }, createClient());
     const legacyResult = await routeRemnawaveApiRequest({ domain: 'users', operation: 'manage_lifecycle', payload: {} }, createClient());
+    const nodePluginExecutorResult = await routeRemnawaveApiRequest({ domain: 'node_plugins', operation: 'execute_plugin_executor', payload: {} }, createClient());
+    const hostRoutingResult = await routeRemnawaveApiRequest({ domain: 'hosts', operation: 'manage_routing', payload: {} }, createClient());
 
     expect(authResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
     expect(keygenResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
     expect(legacyResult).toMatchObject({ error: { code: 'UNSUPPORTED_OPERATION', kind: 'unsupported_operation' } });
+    expect(nodePluginExecutorResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
+    expect(hostRoutingResult).toMatchObject({ error: { code: 'UNSUPPORTED_OPERATION', kind: 'unsupported_operation' } });
     expectCompact(authResult);
     expectCompact(keygenResult);
     expectCompact(legacyResult);
+    expectCompact(nodePluginExecutorResult);
+    expectCompact(hostRoutingResult);
   });
 });

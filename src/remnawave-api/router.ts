@@ -550,6 +550,7 @@ function toOperationSummary(operation: OperationRegistration): Record<string, un
     name: operation.discovery.operation,
     disposition: operation.disposition,
     write: operation.write,
+    ...(operation.write ? { riskTier: operation.risk.tier } : {}),
     payloadRequired: true,
     summary: operation.discovery.description,
   };

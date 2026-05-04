@@ -7,7 +7,7 @@ const mocks = vi.hoisted(() => {
   const routeRemnawaveApiRequestMock = vi.fn();
   const createRemnawaveApiClientAdapterMock = vi.fn();
   const constructedClients: Array<{ readonly instance: unknown; readonly options: Record<string, unknown> }> = [];
-  const adapterClient = { getSystemStats: vi.fn(async () => ({ ok: true })) };
+  const adapterClient = { getSystemStats: vi.fn(async () => ({ stats: true })) };
 
   return {
     registerToolMock,

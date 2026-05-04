@@ -55,15 +55,25 @@ describe('routeRemnawaveApiRequest compact contract', () => {
   });
 
   test('domain-only discovery returns a compact contract object without an envelope', async () => {
-    const result = await routeRemnawaveApiRequest({ domain: 'system' }, createClient());
+    const systemResult = await routeRemnawaveApiRequest({ domain: 'system' }, createClient());
+    const usersResult = await routeRemnawaveApiRequest({ domain: 'users' }, createClient());
 
-    expect(result).toMatchObject({
+    expect(systemResult).toMatchObject({
       domain: 'system',
       operations: expect.arrayContaining([
-        expect.objectContaining({ name: 'get_stats', disposition: 'supported' }),
+        expect.objectContaining({ name: 'get_stats', disposition: 'supported', write: false }),
       ]),
     });
-    expectNoLegacyFields(result);
+    expect(usersResult).toMatchObject({
+      domain: 'users',
+      operations: expect.arrayContaining([
+        expect.objectContaining({ name: 'create_user', disposition: 'supported', write: true, riskTier: 'tier_2_bounded_mutation' }),
+      ]),
+    });
+    expect(JSON.stringify(systemResult)).not.toContain('riskTier');
+    expect(JSON.stringify(usersResult)).not.toContain('manage_lifecycle');
+    expectNoLegacyFields(systemResult);
+    expectNoLegacyFields(usersResult);
   });
 
   test('describe returns compact operation metadata without an envelope', async () => {
@@ -182,12 +192,16 @@ describe('routeRemnawaveApiRequest compact contract', () => {
   });
 
   test('unsupported operations return compact unsupported_operation errors', async () => {
-    const result = await routeRemnawaveApiRequest(
+    const unknownResult = await routeRemnawaveApiRequest(
       { domain: 'system', operation: 'not_registered_anywhere', payload: {} },
       createClient(),
     );
+    const groupedHostResult = await routeRemnawaveApiRequest(
+      { domain: 'hosts', operation: 'manage_routing', payload: { action: 'set_port' } },
+      createClient(),
+    );
 
-    expect(result).toMatchObject({
+    expect(unknownResult).toMatchObject({
       error: {
         code: 'UNSUPPORTED_OPERATION',
         kind: 'unsupported_operation',
@@ -195,6 +209,15 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         retryable: false,
       },
     });
-    expectNoLegacyFields(result);
+    expect(groupedHostResult).toMatchObject({
+      error: {
+        code: 'UNSUPPORTED_OPERATION',
+        kind: 'unsupported_operation',
+        message: 'Unsupported operation for hosts: manage_routing.',
+        retryable: false,
+      },
+    });
+    expectNoLegacyFields(unknownResult);
+    expectNoLegacyFields(groupedHostResult);
   });
 });
