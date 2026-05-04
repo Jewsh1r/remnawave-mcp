@@ -220,4 +220,45 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     expectNoLegacyFields(unknownResult);
     expectNoLegacyFields(groupedHostResult);
   });
+
+  test('normalizes supported operation responses through explicit mapper policies', async () => {
+    const usersList = await routeRemnawaveApiRequest(
+      { domain: 'users', operation: 'list', payload: {} },
+      createClient({ getUsers: async () => ({ total: 1, items: [{ uuid: 'user-1', username: 'alice' }] }) }),
+    );
+    const createdUser = await routeRemnawaveApiRequest(
+      {
+        domain: 'users',
+        operation: 'create_user',
+        payload: { username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
+      },
+      createClient({ createUser: async (payload) => ({ response: { uuid: 'user-2', ...payload }, upstreamTrace: 'ignored' }) }),
+    );
+    const resolvedUser = await routeRemnawaveApiRequest(
+      { domain: 'users', operation: 'get_by_uuid', payload: { uuid: 'user-1' } },
+      createClient({ resolveUser: async () => ({ response: { uuid: 'user-1', shortUuid: 'short-1', username: 'alice', extra: true } }) }),
+    );
+
+    expect(usersList).toEqual({ total: 1, items: [{ uuid: 'user-1', username: 'alice' }] });
+    expect(createdUser).toEqual({
+      created: { uuid: 'user-2', username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
+    });
+    expect(resolvedUser).toEqual({
+      user: { found: true, match: { uuid: 'user-1', shortUuid: 'short-1', username: 'alice' } },
+    });
+    expectNoLegacyFields(usersList);
+    expectNoLegacyFields(createdUser);
+    expectNoLegacyFields(resolvedUser);
+  });
+
+  test('public subscription reads are not runtime supported or raw-executable in the current inventory', async () => {
+    const result = await routeRemnawaveApiRequest(
+      { domain: 'public_subscriptions', operation: 'read', payload: { shortUuid: 'short-1' }, responseMode: 'raw' },
+      createClient(),
+    );
+
+    expect(result).toMatchObject({ error: { kind: 'unsupported_operation' } });
+    expectNoLegacyFields(result);
+  });
+
 });

@@ -13,9 +13,7 @@ export function registerSystemOperations(
     'system_get_stats',
     'getSystemStats',
     async (client) => ({
-      result: {
-        stats: context.toLooseSystemStats(await client.getSystemStats()),
-      },
+      result: await client.getSystemStats(),
     }),
   ));
 }

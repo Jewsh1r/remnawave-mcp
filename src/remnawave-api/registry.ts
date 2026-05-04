@@ -41,9 +41,10 @@ import type {
   NormalizedUsersResponse,
 } from '../client/index.js';
 import { applySensitiveReadPolicy, type SensitiveReadRevealMode } from '../runtime/errors.js';
+import { createOperationResponseMapper, type OperationResponseMapper } from './response-mappers.js';
 import { registerRuntimeDomainOperations } from './domains/index.js';
 import { REMNAWAVE_OPERATION_INVENTORY } from './generated/operation-inventory.js';
-import type { RemnawaveOpenApiBinding, RemnawaveOperationSafetyMode, RemnawaveSupportedOperationContract } from './operation-contract.js';
+import type { RemnawaveNormalizerId, RemnawaveOpenApiBinding, RemnawaveOperationSafetyMode, RemnawaveSupportedOperationContract } from './operation-contract.js';
 import { getSupportedOperationRisk } from './risk.js';
 import {
   getSupportedOperationSchema,
@@ -175,6 +176,7 @@ export interface DescribeOperationMetadata {
   readonly payloadExample: Record<string, unknown>;
   readonly sideEffects: OperationRegistration['sideEffects'];
   readonly rawAllowed: boolean;
+  readonly normalizer: RemnawaveNormalizerId;
   readonly safetyMode: RemnawaveOperationSafetyMode;
   readonly openapi: RemnawaveOpenApiBinding;
   readonly execution: {
@@ -211,6 +213,8 @@ export interface OperationRegistration {
   readonly disposition: ScopeDisposition;
   readonly write: boolean;
   readonly rawAllowed: boolean;
+  readonly normalizer: RemnawaveNormalizerId;
+  readonly responseMapper: OperationResponseMapper;
   readonly safetyMode: RemnawaveOperationSafetyMode;
   readonly openapi: RemnawaveOpenApiBinding;
 }
@@ -396,6 +400,7 @@ export class OperationRegistry {
       clientMethod: registration.execution.clientMethod,
     },
     rawAllowed: registration.rawAllowed,
+    normalizer: registration.normalizer,
     safetyMode: registration.safetyMode,
     openapi: registration.openapi,
   };
@@ -522,6 +527,8 @@ function supportedReadOperation(
     disposition: 'supported',
     write: false,
     rawAllowed: contract.rawAllowed,
+    normalizer: contract.normalizer,
+    responseMapper: createOperationResponseMapper({ domain, operation, normalizer: contract.normalizer }),
     safetyMode: contract.safetyMode,
     openapi: contract.openapi,
   };
@@ -571,6 +578,8 @@ function supportedWriteOperation(
     disposition: 'supported',
     write: true,
     rawAllowed: contract.rawAllowed,
+    normalizer: contract.normalizer,
+    responseMapper: createOperationResponseMapper({ domain, operation, normalizer: contract.normalizer }),
     safetyMode: contract.safetyMode,
     openapi: contract.openapi,
   };
@@ -739,6 +748,8 @@ function unsupportedOperation(
     disposition,
     write,
     rawAllowed: false,
+    normalizer: 'none',
+    responseMapper: (value: unknown) => value,
     safetyMode: write ? 'confirm' : 'direct',
     openapi: {
       method: 'get',

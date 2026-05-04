@@ -13,7 +13,7 @@ export function registerUserOperations(
     'users_list',
     'getUsers',
     async (client) => ({
-      result: context.toUsersListResult(await context.requireClientMethod(client, 'getUsers', 'users.list')()),
+      result: await context.requireClientMethod(client, 'getUsers', 'users.list')(),
     }),
   ));
 
@@ -28,9 +28,7 @@ export function registerUserOperations(
     'createUser',
     context.validateCreateUserPayload,
     async (client, payload) => ({
-      result: {
-        created: await context.requireClientMethod(client, 'createUser', 'users.create_user')(payload),
-      },
+      result: await context.requireClientMethod(client, 'createUser', 'users.create_user')(payload),
     }),
   ));
 
@@ -43,11 +41,9 @@ export function registerUserOperations(
     'users_get_by_uuid',
     'resolveUser',
     async (client, payload) => ({
-      result: {
-        user: context.toUsersResolveResponse(await context.requireClientMethod(client, 'resolveUser', 'users.get_by_uuid')(
-          context.readUuidPayload(payload, 'users.get_by_uuid'),
-        )),
-      },
+      result: await context.requireClientMethod(client, 'resolveUser', 'users.get_by_uuid')(
+        context.readUuidPayload(payload, 'users.get_by_uuid'),
+      ),
     }),
   ));
 
@@ -62,12 +58,10 @@ export function registerUserOperations(
     'setUserState',
     context.validateUsersDisablePayload,
     async (client, payload) => ({
-      result: {
-        updated: await context.requireClientMethod(client, 'setUserState', 'users.disable')(
-          context.readUuidPayload(payload, 'users.disable'),
-          'disable',
-        ),
-      },
+      result: await context.requireClientMethod(client, 'setUserState', 'users.disable')(
+        context.readUuidPayload(payload, 'users.disable'),
+        'disable',
+      ),
     }),
   ));
 
@@ -82,12 +76,10 @@ export function registerUserOperations(
     'setUserState',
     context.validateUsersEnablePayload,
     async (client, payload) => ({
-      result: {
-        updated: await context.requireClientMethod(client, 'setUserState', 'users.enable')(
-          context.readUuidPayload(payload, 'users.enable'),
-          'enable',
-        ),
-      },
+      result: await context.requireClientMethod(client, 'setUserState', 'users.enable')(
+        context.readUuidPayload(payload, 'users.enable'),
+        'enable',
+      ),
     }),
   ));
 }

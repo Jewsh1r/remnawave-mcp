@@ -15,12 +15,10 @@ export function registerHostOperations(
     'bulkSetHostPort',
     context.validateHostsBulkSetPortPayload,
     async (client, payload) => ({
-      result: {
-        updated: await context.requireClientMethod(client, 'bulkSetHostPort', 'hosts.bulk_set_port')(
-          context.readRequiredStringArrayField(payload, 'hostUuids', 'hosts.bulk_set_port'),
-          context.readRequiredIntegerField(payload, 'port', 'hosts.bulk_set_port'),
-        ),
-      },
+      result: await context.requireClientMethod(client, 'bulkSetHostPort', 'hosts.bulk_set_port')(
+        context.readRequiredStringArrayField(payload, 'hostUuids', 'hosts.bulk_set_port'),
+        context.readRequiredIntegerField(payload, 'port', 'hosts.bulk_set_port'),
+      ),
     }),
   ));
 }

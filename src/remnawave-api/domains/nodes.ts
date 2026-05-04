@@ -15,11 +15,9 @@ export function registerNodeOperations(
     'restartNode',
     context.validateNodesRestartPayload,
     async (client, payload) => ({
-      result: {
-        updated: await context.requireClientMethod(client, 'restartNode', 'nodes.restart')(
-          context.readUuidPayload(payload, 'nodes.restart'),
-        ),
-      },
+      result: await context.requireClientMethod(client, 'restartNode', 'nodes.restart')(
+        context.readUuidPayload(payload, 'nodes.restart'),
+      ),
     }),
   ));
 }

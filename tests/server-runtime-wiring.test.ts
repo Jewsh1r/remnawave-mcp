@@ -118,7 +118,7 @@ describe('server runtime wiring', () => {
 
   test('registers the single remnawave_api tool and delegates execution through the extracted adapter', async () => {
     mocks.createRemnawaveApiClientAdapterMock.mockReturnValueOnce(mocks.adapterClient);
-    mocks.routeRemnawaveApiRequestMock.mockResolvedValueOnce({ stats: { users: 1n } });
+    mocks.routeRemnawaveApiRequestMock.mockResolvedValueOnce({ stats: { users: 1n, nested: [2n] } });
 
     const runtime = await startServer(createRuntimeConfig());
 
@@ -136,8 +136,8 @@ describe('server runtime wiring', () => {
 
     expect(mocks.routeRemnawaveApiRequestMock).toHaveBeenCalledWith(request, mocks.adapterClient);
     expect(response).toEqual({
-      content: [{ type: 'text', text: JSON.stringify({ stats: { users: '1' } }, null, 2) }],
-      structuredContent: { stats: { users: '1' } },
+      content: [{ type: 'text', text: JSON.stringify({ stats: { users: '1', nested: ['2'] } }, null, 2) }],
+      structuredContent: { stats: { users: '1', nested: ['2'] } },
     });
 
     await runtime.close();

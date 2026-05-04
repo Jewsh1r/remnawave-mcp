@@ -48,6 +48,8 @@ function createRegistration(overrides: Partial<OperationRegistration> = {}): Ope
     disposition: 'supported',
     write: false,
     rawAllowed: false,
+    normalizer: overrides.normalizer ?? 'none',
+    responseMapper: overrides.responseMapper ?? ((value: unknown) => value),
     ...overrides,
     safetyMode: overrides.safetyMode ?? 'direct',
     openapi: overrides.openapi ?? {
@@ -273,6 +275,7 @@ describe('OperationRegistry', () => {
       helpText: 'Provide username and telegramId; execution creates one user.',
       write: true,
       rawAllowed: false,
+      normalizer: 'none',
       safetyMode: 'direct',
       openapi: {
         method: 'get',

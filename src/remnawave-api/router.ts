@@ -433,7 +433,7 @@ async function executeNormalizedOperation(
   payload: Record<string, unknown>,
 ): Promise<unknown> {
   const execution = await operation.execution.execute(client, payload);
-  return execution.result;
+  return operation.responseMapper(execution.result);
 }
 
 function previewApplyError(failure: PreviewApplyTokenFailure): RemnawaveApiCompactErrorResponse {
@@ -578,6 +578,7 @@ function toOperationDetails(
     riskTier: metadata.riskTier,
     sideEffects: metadata.sideEffects,
     rawAllowed: metadata.rawAllowed,
+    normalizer: metadata.normalizer,
     safetyMode: metadata.safetyMode,
     openapi: metadata.openapi,
     execution: metadata.execution,
