@@ -19,6 +19,7 @@ export interface RemnawaveApiRequest {
   readonly domain?: unknown;
   readonly operation?: unknown;
   readonly payload?: unknown;
+  readonly responseMode?: unknown;
   readonly confirmToken?: unknown;
 }
 
@@ -43,6 +44,7 @@ export async function routeRemnawaveApiRequest(
 
   const domainValue = typeof request.domain === 'string' ? request.domain.trim() : '';
   const operationValue = typeof request.operation === 'string' ? request.operation.trim() : '';
+  const responseModeValue = request.responseMode === undefined ? 'normalized' : request.responseMode;
   const hasPayloadField = Object.hasOwn(request, 'payload');
   const payloadValue = hasPayloadField ? request.payload : undefined;
 
@@ -52,6 +54,7 @@ export async function routeRemnawaveApiRequest(
       operationValue,
       hasPayloadField,
       payloadValue,
+      responseModeValue,
       confirmTokenValue: typeof request.confirmToken === 'string' ? request.confirmToken.trim() : '',
       client,
     });
@@ -75,10 +78,11 @@ async function routeRemnawaveApiRequestUnsafe(input: {
   readonly operationValue: string;
   readonly hasPayloadField: boolean;
   readonly payloadValue: unknown;
+  readonly responseModeValue: unknown;
   readonly confirmTokenValue: string;
   readonly client: RemnawaveApiClient;
 }): Promise<RemnawaveApiResponse> {
-  const { domainValue, operationValue, hasPayloadField, payloadValue, confirmTokenValue, client } = input;
+  const { domainValue, operationValue, hasPayloadField, payloadValue, responseModeValue, confirmTokenValue, client } = input;
 
   if (domainValue === '') {
     return validationError({
@@ -88,6 +92,19 @@ async function routeRemnawaveApiRequestUnsafe(input: {
           field: 'domain',
           code: 'DOMAIN_REQUIRED',
           message: 'domain must be a non-empty string.',
+        },
+      ],
+    });
+  }
+
+  if (responseModeValue !== 'normalized' && responseModeValue !== 'raw') {
+    return validationError({
+      message: 'responseMode must be either "normalized" or "raw".',
+      validationIssues: [
+        {
+          field: 'responseMode',
+          code: 'INVALID_RESPONSE_MODE',
+          message: 'responseMode must be either "normalized" or "raw".',
         },
       ],
     });
@@ -106,6 +123,10 @@ async function routeRemnawaveApiRequestUnsafe(input: {
   }
 
   if (operationValue === '') {
+    if (responseModeValue === 'raw') {
+      return rawModePolicyError(domainValue, 'operation', 'raw response mode is only supported for allowlisted read execution.');
+    }
+
     if (hasPayloadField) {
       return validationError({
         message: 'payload cannot be sent without operation.',
@@ -140,6 +161,10 @@ async function routeRemnawaveApiRequestUnsafe(input: {
     });
   }
 
+  if (responseModeValue === 'raw' && !hasPayloadField) {
+    return rawModePolicyError(`${domainValue}.${operation.discovery.operation}`, 'responseMode', 'raw response mode is only supported for execution requests.');
+  }
+
   if (operation.disposition !== 'supported') {
     return unsupportedOperationError({
       code: operation.disposition === 'deferred' ? 'DEFERRED_OPERATION' : 'DENIED_OPERATION',
@@ -150,6 +175,10 @@ async function routeRemnawaveApiRequestUnsafe(input: {
         message: operation.discovery.helpText,
       },
     });
+  }
+
+  if (responseModeValue === 'raw' && !canReturnRaw(operation)) {
+    return rawModePolicyError(`${domainValue}.${operation.discovery.operation}`, 'responseMode', 'raw response mode is not allowed for this operation.');
   }
 
   if (!hasPayloadField) {
@@ -191,6 +220,10 @@ async function routeRemnawaveApiRequestUnsafe(input: {
   }
 
   try {
+    if (responseModeValue === 'raw') {
+      return await executeRawRead(operation, client, payloadValue as Record<string, unknown>);
+    }
+
     const execution = await operation.execution.execute(client, payloadValue as Record<string, unknown>);
     return execution.result;
   } catch (error) {
@@ -215,6 +248,22 @@ async function routeRemnawaveApiRequestUnsafe(input: {
       retryable: false,
     });
   }
+}
+
+function canReturnRaw(operation: OperationRegistration): boolean {
+  return operation.disposition === 'supported' && !operation.write && operation.rawAllowed;
+}
+
+async function executeRawRead(
+  operation: OperationRegistration,
+  client: RemnawaveApiClient,
+  payload: Record<string, unknown>,
+): Promise<unknown> {
+  if (operation.execution.clientMethod === 'getSystemStats') {
+    return client.getSystemStats();
+  }
+
+  throw new Error(`Raw execution is not wired for ${operation.discovery.domain}.${operation.discovery.operation}.`);
 }
 
 function describeOperation(
@@ -263,6 +312,22 @@ function unsupportedOperationError(input: {
   });
 }
 
+function rawModePolicyError(target: string, field: string, message: string): RemnawaveApiCompactErrorResponse {
+  return createRemnawaveApiErrorResponse({
+    code: 'RAW_RESPONSE_NOT_ALLOWED',
+    kind: 'validation',
+    message,
+    retryable: false,
+    issues: [
+      {
+        field,
+        code: 'RAW_RESPONSE_NOT_ALLOWED',
+        message: `responseMode=raw is not allowed for ${target}.`,
+      },
+    ],
+  });
+}
+
 function toOperationSummary(operation: OperationRegistration): Record<string, unknown> {
   return {
     name: operation.discovery.operation,
@@ -294,6 +359,7 @@ function toOperationDetails(
     payloadExample: metadata.payloadExample,
     riskTier: metadata.riskTier,
     sideEffects: metadata.sideEffects,
+    rawAllowed: metadata.rawAllowed,
     execution: metadata.execution,
     supportedOperations: supportedOperations?.map((entry) => entry.discovery.operation),
   };

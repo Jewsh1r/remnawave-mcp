@@ -1,3 +1,8 @@
+import { createRequire } from 'node:module';
+
+import { Ajv, type ErrorObject, type ValidateFunction } from 'ajv/dist/ajv.js';
+
+import { REMNAWAVE_OPENAPI_EXTRACT } from './generated/operations.js';
 import type { ValidationIssue } from './registry.js';
 
 export type SchemaPrimitiveType = 'string' | 'integer' | 'boolean' | 'string_array' | 'record' | 'record_array';
@@ -28,6 +33,29 @@ export interface OperationSchemaDefinition {
   readonly validatePayload: (payload: unknown) => readonly ValidationIssue[];
 }
 
+const FREE_FORM_OVERLAY_BYTE_CAP = 16_384;
+const FORBIDDEN_OVERLAY_KEYS = new Set(['__proto__', 'prototype', 'constructor']);
+const require = createRequire(import.meta.url);
+const addFormats = require('ajv-formats') as (validator: Ajv) => Ajv;
+
+type JsonSchema = Record<string, unknown>;
+
+interface ExtractedPayloadValidator {
+  readonly validate: ValidateFunction;
+}
+
+const ajv = new Ajv({
+  allErrors: true,
+  strict: true,
+  strictSchema: true,
+  strictTypes: true,
+  strictRequired: true,
+});
+
+addFormats(ajv);
+
+const extractedPayloadValidators = new Map<string, ExtractedPayloadValidator | null>();
+
 const EMPTY_OBJECT_SCHEMA: OperationValidationSchema = {
   type: 'object',
   additionalProperties: false,
@@ -38,17 +66,17 @@ const EMPTY_OBJECT_SCHEMA: OperationValidationSchema = {
 const CREATE_USER_SCHEMA: OperationValidationSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['username', 'telegramId', 'expireAt'],
+  required: ['username', 'expireAt'],
   properties: {
     username: {
       type: 'string',
       required: true,
-      minLength: 1,
-      maxLength: 64,
+      minLength: 3,
+      maxLength: 36,
     },
     telegramId: {
       type: 'integer',
-      required: true,
+      required: false,
       minimum: 1,
       maximum: 2147483647,
     },
@@ -259,7 +287,7 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     validationSchema: EMPTY_OBJECT_SCHEMA,
   }),
   'users.create_user': createSchemaDefinition({
-    schemaSummary: 'payload requires username:string, telegramId:integer, and expireAt:string',
+    schemaSummary: 'payload requires username:string and expireAt:date-time string',
     payloadExample: {
       username: 'new-user',
       telegramId: 123456,
@@ -1339,11 +1367,17 @@ function createSchemaDefinition(input: {
   readonly payloadExample: Record<string, unknown>;
   readonly validationSchema: OperationValidationSchema;
 }): OperationSchemaDefinition {
+  const operationKey = findOperationKeyBySchema(input.validationSchema);
+  const extracted = operationKey === null ? null : getExtractedPayloadValidator(operationKey);
+
   return {
     schemaSummary: input.schemaSummary,
     payloadExample: input.payloadExample,
     validationSchema: input.validationSchema,
-    validatePayload: (payload) => validateObjectPayload(payload, input.schemaSummary, input.validationSchema),
+    validatePayload: (payload) => {
+      const extractedIssues = extracted === null ? null : validateWithExtractedSchema(payload, extracted.validate);
+      return extractedIssues ?? validateObjectPayload(payload, input.schemaSummary, input.validationSchema);
+    },
   };
 }
 
@@ -1531,6 +1565,8 @@ function validateObjectPayload(
           code: 'INVALID_TYPE',
           message: `${fieldPath} must be an object.`,
         });
+      } else {
+        issues.push(...validateFreeFormObjectOverlay(value, fieldPath));
       }
       continue;
     }
@@ -1561,6 +1597,8 @@ function validateObjectPayload(
             code: 'INVALID_TYPE',
             message: `${itemPath} must be an object.`,
           });
+        } else {
+          issues.push(...validateFreeFormObjectOverlay(entry, itemPath));
         }
       }
 
@@ -1581,6 +1619,269 @@ function validateObjectPayload(
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+export function validateFreeFormObjectOverlay(value: unknown, fieldPath = 'payload'): readonly ValidationIssue[] {
+  if (!isRecord(value)) {
+    return [{
+      field: fieldPath,
+      code: 'INVALID_TYPE',
+      message: `${fieldPath} must be an object.`,
+    }];
+  }
+
+  if (Object.getPrototypeOf(value) !== Object.prototype) {
+    return [{
+      field: fieldPath,
+      code: 'INVALID_OBJECT',
+      message: `${fieldPath} must be a plain JSON object.`,
+    }];
+  }
+
+  const issues: ValidationIssue[] = [];
+  collectForbiddenOverlayKeys(value, fieldPath, issues);
+
+  const encoded = JSON.stringify(value);
+  if (encoded === undefined) {
+    issues.push({
+      field: fieldPath,
+      code: 'INVALID_JSON',
+      message: `${fieldPath} must be JSON-serializable.`,
+    });
+  } else if (Buffer.byteLength(encoded, 'utf8') > FREE_FORM_OVERLAY_BYTE_CAP) {
+    issues.push({
+      field: fieldPath,
+      code: 'BYTE_CAP_EXCEEDED',
+      message: `${fieldPath} must be at most ${FREE_FORM_OVERLAY_BYTE_CAP} bytes when encoded as JSON.`,
+    });
+  }
+
+  return issues;
+}
+
+function collectForbiddenOverlayKeys(value: unknown, fieldPath: string, issues: ValidationIssue[]): void {
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) => collectForbiddenOverlayKeys(entry, `${fieldPath}[${index}]`, issues));
+    return;
+  }
+
+  if (!isRecord(value)) {
+    return;
+  }
+
+  for (const key of Object.keys(value)) {
+    const keyPath = `${fieldPath}.${key}`;
+    if (FORBIDDEN_OVERLAY_KEYS.has(key)) {
+      issues.push({
+        field: keyPath,
+        code: 'FORBIDDEN_KEY',
+        message: `${keyPath} is not allowed in free-form object overlays.`,
+      });
+      continue;
+    }
+
+    collectForbiddenOverlayKeys(value[key], keyPath, issues);
+  }
+}
+
+function findOperationKeyBySchema(schema: OperationValidationSchema): string | null {
+  if (schema === CREATE_USER_SCHEMA) {
+    return 'users.create_user';
+  }
+  if (schema === OPTIONAL_PAGINATION_SCHEMA) {
+    return 'users.list';
+  }
+  if (schema === UUID_ONLY_SCHEMA) {
+    return null;
+  }
+  if (schema === EMPTY_OBJECT_SCHEMA) {
+    return null;
+  }
+
+  return null;
+}
+
+function getExtractedPayloadValidator(operationKey: string): ExtractedPayloadValidator | null {
+  if (extractedPayloadValidators.has(operationKey)) {
+    return extractedPayloadValidators.get(operationKey) ?? null;
+  }
+
+  const schema = getExtractedPayloadSchema(operationKey);
+  const validator = schema === null ? null : { validate: ajv.compile(schema) };
+  extractedPayloadValidators.set(operationKey, validator);
+  return validator;
+}
+
+function getExtractedPayloadSchema(operationKey: string): JsonSchema | null {
+  const operation = REMNAWAVE_OPENAPI_EXTRACT.operations.find((entry) => entry.key === operationKey);
+  if (operation === undefined) {
+    return null;
+  }
+
+  if ('requestBody' in operation && operation.requestBody !== undefined) {
+    return normalizeOpenApiSchema(operation.requestBody.schema as JsonSchema);
+  }
+
+  if (operation.parameters.length === 0) {
+    return {
+      type: 'object',
+      additionalProperties: false,
+      properties: {},
+      required: [],
+    };
+  }
+
+  const properties: Record<string, unknown> = {};
+  const required: string[] = [];
+  for (const parameter of operation.parameters) {
+    properties[parameter.name] = normalizeOpenApiSchema(parameter.schema as JsonSchema);
+    if (parameter.required) {
+      required.push(parameter.name);
+    }
+  }
+
+  return {
+    type: 'object',
+    additionalProperties: false,
+    properties,
+    required,
+  };
+}
+
+function normalizeOpenApiSchema(schema: JsonSchema): JsonSchema {
+  const normalized: JsonSchema = {};
+  for (const [key, value] of Object.entries(schema)) {
+    if (key === 'exclusiveMinimum' && value === false) {
+      continue;
+    }
+    if (key === 'exclusiveMaximum' && value === false) {
+      continue;
+    }
+
+    if (Array.isArray(value)) {
+      normalized[key] = value.map((entry) => isRecord(entry) ? normalizeOpenApiSchema(entry) : entry);
+      continue;
+    }
+
+    normalized[key] = isRecord(value) ? normalizeOpenApiSchema(value) : value;
+  }
+
+  return normalized;
+}
+
+function validateWithExtractedSchema(payload: unknown, validate: ValidateFunction): readonly ValidationIssue[] | null {
+  if (payload === undefined) {
+    return [{
+      field: 'payload',
+      code: 'PAYLOAD_REQUIRED',
+      message: 'payload is required.',
+    }];
+  }
+
+  if (!validate(payload)) {
+    return compactAjvErrors(validate.errors ?? []).map(toValidationIssue);
+  }
+
+  return [];
+}
+
+function compactAjvErrors(errors: readonly ErrorObject[]): readonly ErrorObject[] {
+  const nonComposite = errors.filter((error) => error.keyword !== 'anyOf' && error.keyword !== 'oneOf' && error.keyword !== 'allOf');
+  const hasNonNullTypeError = new Set(
+    nonComposite
+      .filter((error) => error.keyword === 'type' && 'type' in error.params && error.params.type !== 'null')
+      .map((error) => error.instancePath),
+  );
+
+  return nonComposite.filter((error) => {
+    if (error.keyword !== 'type' || !('type' in error.params)) {
+      return true;
+    }
+
+    return error.params.type !== 'null' || !hasNonNullTypeError.has(error.instancePath);
+  });
+}
+
+function toValidationIssue(error: ErrorObject): ValidationIssue {
+  const field = toPayloadField(error);
+  const code = toValidationCode(error.keyword);
+
+  return {
+    field,
+    code,
+    message: toValidationMessage(error, field),
+  };
+}
+
+function toPayloadField(error: ErrorObject): string {
+  if (error.keyword === 'required' && 'missingProperty' in error.params) {
+    return `payload.${String(error.params.missingProperty)}`;
+  }
+
+  if (error.keyword === 'additionalProperties' && 'additionalProperty' in error.params) {
+    return `payload.${String(error.params.additionalProperty)}`;
+  }
+
+  const path = error.instancePath
+    .split('/')
+    .filter((part) => part !== '')
+    .map((part) => part.replace(/~1/gu, '/').replace(/~0/gu, '~'));
+
+  return path.length === 0 ? 'payload' : `payload.${path.join('.')}`;
+}
+
+function toValidationCode(keyword: string): string {
+  const codes: Readonly<Record<string, string>> = {
+    required: 'REQUIRED',
+    type: 'INVALID_TYPE',
+    minLength: 'MIN_LENGTH',
+    maxLength: 'MAX_LENGTH',
+    minimum: 'MIN_VALUE',
+    maximum: 'MAX_VALUE',
+    pattern: 'INVALID_FORMAT',
+    format: 'INVALID_FORMAT',
+    enum: 'INVALID_VALUE',
+    additionalProperties: 'UNEXPECTED_FIELD',
+    minItems: 'MIN_ITEMS',
+    maxItems: 'MAX_ITEMS',
+  };
+
+  return codes[keyword] ?? 'INVALID_VALUE';
+}
+
+function toValidationMessage(error: ErrorObject, field: string): string {
+  if (error.keyword === 'required') {
+    return `${field} is required.`;
+  }
+  if (error.keyword === 'additionalProperties') {
+    return `${field} is not supported for this operation.`;
+  }
+  if (error.keyword === 'type' && 'type' in error.params) {
+    return `${field} must be ${String(error.params.type)}.`;
+  }
+  if (error.keyword === 'minLength' && 'limit' in error.params) {
+    return `${field} must be at least ${String(error.params.limit)} characters long.`;
+  }
+  if (error.keyword === 'maxLength' && 'limit' in error.params) {
+    return `${field} must be at most ${String(error.params.limit)} characters long.`;
+  }
+  if (error.keyword === 'minimum' && 'limit' in error.params) {
+    return `${field} must be greater than or equal to ${String(error.params.limit)}.`;
+  }
+  if (error.keyword === 'maximum' && 'limit' in error.params) {
+    return `${field} must be less than or equal to ${String(error.params.limit)}.`;
+  }
+  if (error.keyword === 'format' && 'format' in error.params) {
+    return `${field} must match ${String(error.params.format)} format.`;
+  }
+  if (error.keyword === 'pattern') {
+    return `${field} has an invalid format.`;
+  }
+  if (error.keyword === 'enum') {
+    return `${field} has an unsupported value.`;
+  }
+
+  return `${field} is invalid.`;
 }
 
 function validateSelectorPayload(payload: unknown): readonly ValidationIssue[] {

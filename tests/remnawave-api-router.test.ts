@@ -98,10 +98,67 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     expectNoLegacyFields(result);
   });
 
+  test('responseMode raw returns upstream output for allowlisted safe system reads', async () => {
+    const rawStats = { raw: true, cpu: { cores: 4 } };
+    const getSystemStats = vi.fn(async () => rawStats);
+
+    const result = await routeRemnawaveApiRequest(
+      { domain: 'system', operation: 'get_stats', payload: {}, responseMode: 'raw' },
+      createClient({ getSystemStats }),
+    );
+
+    expect(result).toBe(rawStats);
+    expect(getSystemStats).toHaveBeenCalledTimes(1);
+    expectNoLegacyFields(result);
+  });
+
+  test('responseMode raw is rejected for writes before execution', async () => {
+    const createUser = vi.fn(async (payload: Record<string, unknown>) => ({ uuid: 'user-1', ...payload }));
+
+    const result = await routeRemnawaveApiRequest(
+      {
+        domain: 'users',
+        operation: 'create_user',
+        payload: { username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
+        responseMode: 'raw',
+      },
+      createClient({ createUser }),
+    );
+
+    expect(result).toMatchObject({
+      error: {
+        code: 'RAW_RESPONSE_NOT_ALLOWED',
+        kind: 'validation',
+        issues: [expect.objectContaining({ field: 'responseMode' })],
+      },
+    });
+    expect(createUser).not.toHaveBeenCalled();
+    expectNoLegacyFields(result);
+  });
+
+  test('responseMode raw is rejected for user-sensitive reads', async () => {
+    const resolveUser = vi.fn(async (uuid: string) => ({ uuid }));
+
+    const result = await routeRemnawaveApiRequest(
+      { domain: 'users', operation: 'get_by_uuid', payload: { uuid: 'user-1' }, responseMode: 'raw' },
+      createClient({ resolveUser }),
+    );
+
+    expect(result).toMatchObject({
+      error: {
+        code: 'RAW_RESPONSE_NOT_ALLOWED',
+        kind: 'validation',
+        issues: [expect.objectContaining({ field: 'responseMode' })],
+      },
+    });
+    expect(resolveUser).not.toHaveBeenCalled();
+    expectNoLegacyFields(result);
+  });
+
   test('invalid payload returns canonical compact validation error with stable issues', async () => {
     const createUser = vi.fn(async (payload: Record<string, unknown>) => ({ uuid: 'user-1', ...payload }));
     const result = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'create_user', payload: { username: '' } },
+      { domain: 'users', operation: 'create_user', payload: { username: 'ab' } },
       createClient({ createUser }),
     );
 
@@ -113,12 +170,14 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         retryable: false,
         issues: expect.arrayContaining([
           expect.objectContaining({ field: 'payload.username' }),
-          expect.objectContaining({ field: 'payload.telegramId' }),
           expect.objectContaining({ field: 'payload.expireAt' }),
         ]),
       },
     });
     expect(createUser).not.toHaveBeenCalled();
+    expect(JSON.stringify(result)).not.toContain('minLength');
+    expect(JSON.stringify(result)).not.toContain('schemaPath');
+    expect(JSON.stringify(result)).not.toContain('"username":"ab"');
     expectNoLegacyFields(result);
   });
 

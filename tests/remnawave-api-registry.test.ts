@@ -47,6 +47,7 @@ function createRegistration(overrides: Partial<OperationRegistration> = {}): Ope
     },
     disposition: 'supported',
     write: false,
+    rawAllowed: false,
     ...overrides,
   };
 }
@@ -135,6 +136,7 @@ describe('OperationRegistry', () => {
       },
       disposition: 'supported',
       write: true,
+      rawAllowed: false,
     }));
 
     registry.register('system', 'get_stats', createRegistration());
@@ -262,6 +264,7 @@ describe('OperationRegistry', () => {
       description: 'Create a user when the payload is complete and valid.',
       helpText: 'Provide username and telegramId; execution creates one user.',
       write: true,
+      rawAllowed: false,
       riskTier: 'tier_2_bounded_mutation',
       deferred: false,
       schemaSummary: 'payload requires username:string and telegramId:integer',

@@ -42,6 +42,7 @@ import type {
 } from '../client/index.js';
 import { applySensitiveReadPolicy, type SensitiveReadRevealMode } from '../runtime/errors.js';
 import { registerRuntimeDomainOperations } from './domains/index.js';
+import { REMNAWAVE_OPERATION_INVENTORY } from './generated/operation-inventory.js';
 import { getSupportedOperationRisk } from './risk.js';
 import {
   getSupportedOperationSchema,
@@ -172,6 +173,7 @@ export interface DescribeOperationMetadata {
   readonly validationRulesSummary: readonly string[];
   readonly payloadExample: Record<string, unknown>;
   readonly sideEffects: OperationRegistration['sideEffects'];
+  readonly rawAllowed: boolean;
   readonly execution: {
     readonly clientMethod: string;
   };
@@ -205,6 +207,7 @@ export interface OperationRegistration {
   };
   readonly disposition: ScopeDisposition;
   readonly write: boolean;
+  readonly rawAllowed: boolean;
 }
 
 export interface RemnawaveApiScopeMap {
@@ -383,11 +386,12 @@ export class OperationRegistry {
       schemaSummary: registration.validation.schemaSummary,
       validationRulesSummary: summarizeValidationRules(registration.validation.validationSchema),
       payloadExample: registration.validation.payloadExample,
-      sideEffects: registration.sideEffects,
-      execution: {
-        clientMethod: registration.execution.clientMethod,
-      },
-    };
+    sideEffects: registration.sideEffects,
+    execution: {
+      clientMethod: registration.execution.clientMethod,
+    },
+    rawAllowed: registration.rawAllowed,
+  };
   }
 
   getScopeMap(): RemnawaveApiScopeMap {
@@ -480,6 +484,7 @@ function supportedReadOperation(
   execute: (client: RemnawaveApiClient, payload: Record<string, unknown>) => Promise<OperationExecutionResult>,
 ): OperationRegistration {
   const schema = getSupportedOperationSchema(domain, operation);
+  const rawAllowed = isRawAllowedByInventory(domain, operation);
 
   return {
     discovery: {
@@ -509,6 +514,7 @@ function supportedReadOperation(
     },
     disposition: 'supported',
     write: false,
+    rawAllowed,
   };
 }
 
@@ -525,6 +531,7 @@ function supportedWriteOperation(
   execute: (client: RemnawaveApiClient, payload: Record<string, unknown>) => Promise<OperationExecutionResult>,
 ): OperationRegistration {
   const schema = getSupportedOperationSchema(domain, operation);
+  const rawAllowed = isRawAllowedByInventory(domain, operation);
 
   return {
     discovery: {
@@ -554,6 +561,7 @@ function supportedWriteOperation(
     },
     disposition: 'supported',
     write: true,
+    rawAllowed,
   };
 }
 
@@ -719,7 +727,15 @@ function unsupportedOperation(
     },
     disposition,
     write,
+    rawAllowed: false,
   };
+}
+
+function isRawAllowedByInventory(domain: string, operation: string): boolean {
+  const key = `${domain}.${operation}`;
+  const contract = REMNAWAVE_OPERATION_INVENTORY.operations.find((entry) => entry.key === key);
+
+  return contract?.status === 'supported' && contract.rawAllowed === true && contract.write === false;
 }
 
 async function unsupportedExecution(): Promise<OperationExecutionResult> {
