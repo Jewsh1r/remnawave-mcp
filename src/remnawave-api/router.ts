@@ -94,15 +94,14 @@ async function routeRemnawaveApiRequestUnsafe(input: {
   }
 
   if (!DEFAULT_OPERATION_REGISTRY.hasDomain(domainValue)) {
-    return validationError({
+    return unsupportedOperationError({
+      code: 'UNSUPPORTED_DOMAIN',
       message: `Unsupported domain: ${domainValue}.`,
-      validationIssues: [
-        {
-          field: 'domain',
-          code: 'UNSUPPORTED_DOMAIN',
-          message: `Supported domains: ${DEFAULT_OPERATION_REGISTRY.listDomains().join(', ')}.`,
-        },
-      ],
+      issue: {
+        field: 'domain',
+        code: 'UNSUPPORTED_DOMAIN',
+        message: `Supported domains: ${DEFAULT_OPERATION_REGISTRY.listDomains().join(', ')}.`,
+      },
     });
   }
 

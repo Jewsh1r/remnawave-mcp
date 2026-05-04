@@ -64,4 +64,17 @@ describe('MCP single-tool compact boundary', () => {
     });
     expectCompact(result);
   });
+
+  test('excluded surfaces return compact unsupported errors', async () => {
+    const authResult = await routeRemnawaveApiRequest({ domain: 'auth', operation: 'login', payload: {} }, createClient());
+    const keygenResult = await routeRemnawaveApiRequest({ domain: 'keygen', operation: 'generate', payload: {} }, createClient());
+    const legacyResult = await routeRemnawaveApiRequest({ domain: 'users', operation: 'manage_lifecycle', payload: {} }, createClient());
+
+    expect(authResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
+    expect(keygenResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
+    expect(legacyResult).toMatchObject({ error: { code: 'UNSUPPORTED_OPERATION', kind: 'unsupported_operation' } });
+    expectCompact(authResult);
+    expectCompact(keygenResult);
+    expectCompact(legacyResult);
+  });
 });

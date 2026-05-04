@@ -682,8 +682,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_bulk_actions_controller_set_port_to_hosts_hosts_bulk_set_port",
+      "key": "hosts.bulk_set_port",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsBulkActionsController_setPortToHosts",
@@ -695,8 +695,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsBulkActionsController_setPortToHosts.responses.500"
         ]
       },
-      "operation": "post_hosts_bulk_actions_controller_set_port_to_hosts_hosts_bulk_set_port",
-      "status": "excluded"
+      "operation": "bulk_set_port",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Sets the port for a bounded host set."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
@@ -1892,8 +1901,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_restart_node_nodes_uuid_actions_restart",
+      "key": "nodes.restart",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_restartNode",
@@ -1905,8 +1914,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_restartNode.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_restart_node_nodes_uuid_actions_restart",
-      "status": "excluded"
+      "operation": "restart",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "restart",
+        "summary": "Restarts one node."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "passkeys",
@@ -3291,8 +3309,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_controller_disable_user_users_uuid_actions_disable",
+      "key": "users.disable",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersController_disableUser",
@@ -3304,13 +3322,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_disableUser.responses.500"
         ]
       },
-      "operation": "post_users_controller_disable_user_users_uuid_actions_disable",
-      "status": "excluded"
+      "operation": "disable",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Disables one user account."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_controller_enable_user_users_uuid_actions_enable",
+      "key": "users.enable",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersController_enableUser",
@@ -3322,8 +3349,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_enableUser.responses.500"
         ]
       },
-      "operation": "post_users_controller_enable_user_users_uuid_actions_enable",
-      "status": "excluded"
+      "operation": "enable",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Enables one user account."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",

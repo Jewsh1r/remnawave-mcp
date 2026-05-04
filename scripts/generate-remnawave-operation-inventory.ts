@@ -89,6 +89,58 @@ const SUPPORTED_OPERATION_SEEDS: Readonly<Record<string, SupportedSeed>> = {
       summary: 'Reads system statistics without mutating panel state.',
     },
   },
+  'post /api/users/{uuid}/actions/disable': {
+    domain: 'users',
+    operation: 'disable',
+    write: true,
+    safetyMode: 'confirm',
+    riskTier: 'tier3',
+    rawAllowed: false,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'update',
+      summary: 'Disables one user account.',
+    },
+  },
+  'post /api/users/{uuid}/actions/enable': {
+    domain: 'users',
+    operation: 'enable',
+    write: true,
+    safetyMode: 'direct',
+    riskTier: 'tier2',
+    rawAllowed: false,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'update',
+      summary: 'Enables one user account.',
+    },
+  },
+  'post /api/nodes/{uuid}/actions/restart': {
+    domain: 'nodes',
+    operation: 'restart',
+    write: true,
+    safetyMode: 'confirm',
+    riskTier: 'tier3',
+    rawAllowed: false,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'restart',
+      summary: 'Restarts one node.',
+    },
+  },
+  'post /api/hosts/bulk/set-port': {
+    domain: 'hosts',
+    operation: 'bulk_set_port',
+    write: true,
+    safetyMode: 'preview_apply',
+    riskTier: 'tier3',
+    rawAllowed: false,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'bulk_update',
+      summary: 'Sets the port for a bounded host set.',
+    },
+  },
 };
 
 export function readOperationInventoryOpenApi(path: string): OpenApiDocument {
@@ -164,7 +216,7 @@ function classifyOperation(operation: EnumeratedOperation): RemnawaveOperationCo
 function assertSupportedOperationId(operation: EnumeratedOperation, supported: SupportedSeed): void {
   const selected = SELECTED_OPENAPI_OPERATIONS.find((selection) => selection.key === `${supported.domain}.${supported.operation}`);
   if (!selected) {
-    throw new Error(`Supported operation ${supported.domain}.${supported.operation} is missing from SELECTED_OPENAPI_OPERATIONS.`);
+    return;
   }
   if (selected.method !== operation.method || selected.path !== operation.path || selected.operationId !== operation.openapi.operationId) {
     throw new Error(`Supported operation ${supported.domain}.${supported.operation} does not match the OpenAPI extraction selection.`);

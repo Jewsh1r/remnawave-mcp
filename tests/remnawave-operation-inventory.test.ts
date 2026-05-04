@@ -63,8 +63,12 @@ describe('Remnawave operation inventory', () => {
     const supported = REMNAWAVE_OPERATION_INVENTORY.operations.filter((operation) => operation.status === 'supported');
 
     expect(supported.map((operation) => operation.key).sort()).toEqual([
+      'hosts.bulk_set_port',
+      'nodes.restart',
       'system.get_stats',
       'users.create_user',
+      'users.disable',
+      'users.enable',
       'users.get_by_uuid',
       'users.list',
     ]);
@@ -155,6 +159,13 @@ describe('Remnawave operation inventory', () => {
     expect(supportedKeys.every((key) => !key.split('.')[1]?.startsWith('manage_'))).toBe(true);
     expect(supportedKeys).not.toContain('users.manage_lifecycle');
     expect(supportedKeys).not.toContain('hosts.manage_routing');
+    expect(supportedKeys).not.toContain('nodes.manage_maintenance');
     expect(supportedKeys).not.toContain('profiles.manage_lifecycle');
+    expect(supportedKeys).toEqual(expect.arrayContaining([
+      'users.disable',
+      'users.enable',
+      'nodes.restart',
+      'hosts.bulk_set_port',
+    ]));
   });
 });
