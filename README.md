@@ -5,7 +5,7 @@
 ## Current status
 
 - Package name: `remnawave-mcp`
-- Server version: `0.2.0`
+- Server version: `0.2.1`
 - MCP protocol version: `2025-06-18`
 - Runtime model: local stdio server only
 - Built entrypoint: `dist/index.js`

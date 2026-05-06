@@ -23,13 +23,13 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
   const workflowContract = readRepoFile('docs/contracts/priority-workflow-contract.md');
   const packageJson = JSON.parse(readRepoFile('package.json')) as { version: string };
 
-  test('package version is 0.2.0', () => {
-    expect(packageJson.version).toBe('0.2.0');
+  test('package version is 0.2.1', () => {
+    expect(packageJson.version).toBe('0.2.1');
   });
 
-  test('README and release docs contain version 0.2.0', () => {
-    expect(readme).toContain('0.2.0');
-    expect(readiness).toContain('0.2.0');
+  test('README and release docs contain version 0.2.1', () => {
+    expect(readme).toContain('0.2.1');
+    expect(readiness).toContain('0.2.1');
   });
 
   test('README documents compact v2 contract elements', () => {
@@ -78,7 +78,7 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
   });
 
   test('release readiness aligns with compact v2 and version gate', () => {
-    expect(readiness).toContain('0.2.0');
+    expect(readiness).toContain('0.2.1');
     expect(readiness).toContain('2.7.0');
     expect(readiness).toContain('2.7.4');
     expect(readiness).toContain('compact v2');

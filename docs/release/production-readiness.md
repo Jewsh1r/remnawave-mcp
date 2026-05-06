@@ -7,7 +7,7 @@ The publication boundary described here is based on the current audited repo sta
 ## Release metadata summary
 
 - Package name: `remnawave-mcp`
-- Server version: `0.2.0`
+- Server version: `0.2.1`
 - Runtime model: local stdio MCP server only
 - Built entrypoint: `dist/index.js`
 - CLI command: `remnawave-mcp`
@@ -142,7 +142,7 @@ The following checklist must be satisfied before publishing or tagging the v1 si
 
 ### Version gates
 
-- [ ] package version in `package.json` matches the intended release artifact (`0.2.0`)
+- [ ] package version in `package.json` matches the intended release artifact (`0.2.1`)
 - [ ] supported Remnawave version gate is `2.7.0` through `2.7.4`
 - [ ] startup still fails closed for unsupported versions with `REMNAWAVE_VERSION_UNSUPPORTED`
 - [ ] startup still fails closed for unknown or missing versions with `REMNAWAVE_VERSION_UNKNOWN`

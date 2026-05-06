@@ -1,6 +1,6 @@
 {
   "name": "remnawave-mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Publishable stdio MCP server for verified Remnawave diagnostics, inventory reads, and guarded mutation flows.",
   "type": "module",
   "bin": {

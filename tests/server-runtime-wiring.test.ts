@@ -100,7 +100,7 @@ function createRuntimeConfig() {
       },
       server: {
         name: 'remnawave-mcp',
-        version: '0.2.0',
+        version: '0.2.1',
         protocolVersion: '2024-11-05',
       },
     },
