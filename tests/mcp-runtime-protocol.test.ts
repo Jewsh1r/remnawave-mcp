@@ -75,7 +75,8 @@ describe('mcp runtime protocol', () => {
 
     const remnawaveApi = tools.tools.find((tool) => tool.name === 'remnawave_api');
 
-    expect(remnawaveApi?.description).toContain('Primary interface');
+    expect(remnawaveApi?.description).toContain('domain only to discover operations');
+    expect(remnawaveApi?.description).not.toContain('system.get_stats');
     expect(remnawaveApi?.inputSchema).toMatchObject({
       type: 'object',
       required: ['domain'],
@@ -101,6 +102,7 @@ describe('mcp runtime protocol', () => {
 
     expect(remnawaveApi).toBeDefined();
     expect(remnawaveApi?.name).toBe('remnawave_api');
-    expect(remnawaveApi?.description).toContain('Primary interface');
+    expect(remnawaveApi?.description).toContain('domain only to discover operations');
+    expect(remnawaveApi?.description).not.toContain('system.get_stats');
   });
 });

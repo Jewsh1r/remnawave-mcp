@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { loadRuntimeConfig } from './runtime/config.js';
 import { RuntimeConfigError, redactSecrets } from './runtime/errors.js';
 import { createStderrLogger } from './runtime/logger.js';

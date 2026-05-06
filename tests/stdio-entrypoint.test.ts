@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { once } from 'node:events';
 import path from 'node:path';
 import { afterEach, describe, expect, test } from 'vitest';
@@ -76,6 +77,10 @@ async function waitForStderrContains(
 }
 
 describe('stdio entrypoint', () => {
+  test('has a node shebang for npm bin execution', () => {
+    expect(readFileSync(entrypoint, 'utf8').startsWith('#!/usr/bin/env node\n')).toBe(true);
+  });
+
   test('starts with required env, emits diagnostics to stderr, and keeps stdout clean', async () => {
     const child = startEntrypoint({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
