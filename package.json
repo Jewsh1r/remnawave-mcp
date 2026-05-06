@@ -1,11 +1,10 @@
 {
-  "name": "@indiebrothers/mcp-remnawave",
+  "name": "remnawave-mcp",
   "version": "0.2.0",
-  "private": true,
-  "description": "Stdio-only MCP server for verified Remnawave 2.7.4 diagnostics, inventory reads, and guarded mutation flows.",
+  "description": "Publishable stdio MCP server for verified Remnawave diagnostics, inventory reads, and guarded mutation flows.",
   "type": "module",
   "bin": {
-    "mcp-remnawave": "./dist/index.js"
+    "remnawave-mcp": "./dist/index.js"
   },
   "engines": {
     "node": ">=20.11.0",
@@ -19,27 +18,32 @@
   ],
   "packageManager": "npm@10.9.2",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE.md"
   ],
   "scripts": {
     "build": "tsup",
     "check": "tsc --noEmit",
     "test": "vitest run",
+    "prepack": "npm run build",
     "extract:remnawave-openapi": "tsx scripts/extract-remnawave-openapi.ts",
     "generate:remnawave-operation-inventory": "tsx scripts/generate-remnawave-operation-inventory.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",
-    "@remnawave/backend-contract": "^2.7.2",
+    "@remnawave/backend-contract": "2.7.3",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/node": "^24.7.2",
+    "@types/node": "^25.6.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
-  }
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  },
+  "license": "MIT"
 }
