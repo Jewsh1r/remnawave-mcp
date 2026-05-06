@@ -96,7 +96,7 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
     expect(matrix).not.toContain('visible in discovery');
     expect(matrix).not.toContain('visible through discovery');
     expect(matrix).not.toContain('runtime-discoverable');
-    expect(matrix).not.toContain('system.generate_x25519');
+    expect(matrix).toContain('system.generate_x25519_keypairs');
     expect(matrix).not.toContain('hosts.manage_routing');
     expect(matrix).not.toContain('2.7.4 only');
   });
@@ -105,7 +105,7 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
     expect(scopeDoc).not.toContain('visible in discovery');
     expect(scopeDoc).not.toContain('visible through discovery');
     expect(scopeDoc).not.toContain('runtime-discoverable');
-    expect(scopeDoc).not.toContain('system.generate_x25519');
+    expect(scopeDoc).toContain('system.generate_x25519_keypairs');
     expect(scopeDoc).not.toContain('hosts.manage_routing');
     expect(scopeDoc).not.toContain('nodes.manage_lifecycle');
     expect(scopeDoc).not.toContain('nodes.manage_maintenance');

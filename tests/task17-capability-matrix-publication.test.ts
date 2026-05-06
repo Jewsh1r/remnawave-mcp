@@ -136,22 +136,24 @@ describe('task 17 published capability matrix and support boundary', () => {
     expect(readme).toContain('system.get_metadata');
     expect(readme).toContain('system.get_bandwidth_stats');
     expect(readme).toContain('system.get_node_statistics');
-    expect(readme).not.toContain('system.generate_x25519');
+    expect(readme).toContain('keygen.generate_node_secret');
+    expect(readme).toContain('system.generate_x25519_keypairs');
     expect(readme).not.toContain('system.debug_srr_matcher');
 
     for (const publishedText of [scopeDoc]) {
       expect(publishedText).toContain('system.get_bandwidth_stats');
       expect(publishedText).toContain('system.get_node_statistics');
-      expect(publishedText).not.toContain('system.generate_x25519');
+      expect(publishedText).toContain('keygen.generate_node_secret');
+      expect(publishedText).toContain('system.generate_x25519_keypairs');
       expect(publishedText).not.toContain('system.debug_srr_matcher');
     }
     const readinessBeforeDenied = readiness.split('## Deferred and excluded surfaces')[0] ?? readiness;
-    expect(readinessBeforeDenied).not.toContain('system.generate_x25519');
+    expect(readinessBeforeDenied).toContain('system.generate_x25519_keypairs');
     expect(readinessBeforeDenied).not.toContain('system.debug_srr_matcher');
 
-    expect(matrix).toContain('| system observability | `system` | partially supported | `get_stats`, `get_metadata`, `get_health`, `get_nodes_metrics`, `get_recap`, and `get_node_statistics` are supported; debug endpoints and key-generation helpers are denied. |');
+    expect(matrix).toContain('| system observability | `system` | partially supported | `get_stats`, `get_metadata`, `get_health`, `get_nodes_metrics`, `get_recap`, and `get_node_statistics` are supported; debug endpoints are denied, while `system.generate_x25519_keypairs` is published as a sensitive key-generation workflow. |');
     expect(matrix).toContain('| bandwidth stats | `system` | supported | `get_bandwidth_stats` operation provides aggregate bandwidth statistics. |');
-    expect(matrix).not.toContain('generate_x25519');
+    expect(matrix).toContain('keygen.generate_node_secret');
     expect(matrix).not.toContain('get_request_history');
   });
 
