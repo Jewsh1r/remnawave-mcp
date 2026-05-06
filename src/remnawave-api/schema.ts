@@ -351,7 +351,12 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,
   }),
-  'system.generate_x25519': createSchemaDefinition({
+  'system.generate_x25519_keypairs': createSchemaDefinition({
+    schemaSummary: 'payload must be an empty object',
+    payloadExample: {},
+    validationSchema: EMPTY_OBJECT_SCHEMA,
+  }),
+  'keygen.generate_node_secret': createSchemaDefinition({
     schemaSummary: 'payload must be an empty object',
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,

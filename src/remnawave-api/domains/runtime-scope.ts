@@ -4,7 +4,6 @@ import type { RemnawaveOperationContract, RemnawaveSupportedOperationContract } 
 const EXCLUDED_RUNTIME_DOMAINS = new Set([
   'auth',
   'ip_control',
-  'keygen',
   'node_plugins',
   'remnawave_settings',
   'tokens',
@@ -30,9 +29,7 @@ export function isExcludedRuntimeSurface(operation: RemnawaveOperationContract):
     || operation.openapi.path.startsWith('/api/auth')
     || operation.openapi.path.startsWith('/api/ip-control')
     || operation.openapi.path.startsWith('/api/node-plugins')
-    || operation.openapi.path === '/api/keygen'
     || operation.openapi.path === '/api/remnawave-settings'
-    || operation.openapi.path === '/api/system/tools/x25519/generate'
     || operation.openapi.path === '/api/system/tools/happ/encrypt'
     || operation.openapi.path === '/api/system/testers/srr-matcher';
 }

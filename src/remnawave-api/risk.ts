@@ -112,13 +112,21 @@ export const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProf
     confirmationRequired: false,
     rationale: 'Reads aggregate node statistics without mutating remote state.',
   },
-  'system.generate_x25519': {
+  'system.generate_x25519_keypairs': {
     tier: 'tier1',
     effect: 'read',
     scope: 'single_response',
     blastRadius: 'single_response',
     confirmationRequired: false,
-    rationale: 'Generates one x25519 keypair without mutating panel data.',
+    rationale: 'Generates X25519 keypair material without mutating panel data; callers must store private keys securely.',
+  },
+  'keygen.generate_node_secret': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Generates Remnawave node secret material without mutating panel data; callers must store the secret securely.',
   },
   // Creation is a write, but it is still bounded: one new user record, no destructive fleet-wide side effect.
   'users.create': {
