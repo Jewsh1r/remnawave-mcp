@@ -1,10 +1,10 @@
-# mcp-remnawave
+# remnawave-mcp
 
-`mcp-remnawave` is a private MCP server that exposes the Remnawave panel surface through a single unified tool interface. The published support promise is narrow and explicit: one MCP tool, strict version gating, and only the registry-backed operations marked `supported` are executable.
+`remnawave-mcp` is a publishable MCP server that exposes the Remnawave panel surface through a single unified tool interface. The published support promise is narrow and explicit: one MCP tool, strict version gating, and only the registry-backed operations marked `supported` are executable.
 
 ## Current status
 
-- Package name: `@indiebrothers/mcp-remnawave`
+- Package name: `remnawave-mcp`
 - Server version: `0.2.0`
 - MCP protocol version: `2025-06-18`
 - Runtime model: local stdio server only
@@ -291,12 +291,20 @@ Read current system stats:
 
 ## Installation
 
+Install globally from npm after publication:
+
+```bash
+npm install -g remnawave-mcp
+```
+
+For local development from a checkout:
+
 ```bash
 npm install
 npm run build
 ```
 
-The package `bin` entry maps `mcp-remnawave` to `dist/index.js`.
+The package `bin` entry maps `remnawave-mcp` to `dist/index.js`.
 
 ## Runtime model and compatibility policy
 
@@ -332,7 +340,7 @@ export LOG_LEVEL="info"
 REMNAWAVE_BASE_URL="https://panel.example.test" \
 REMNAWAVE_API_TOKEN="replace-with-real-token" \
 REMNAWAVE_VERSION="2.7.4" \
-node dist/index.js
+remnawave-mcp
 ```
 
 Important runtime behavior:

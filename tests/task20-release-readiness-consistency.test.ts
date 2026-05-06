@@ -15,12 +15,22 @@ describe('task 20 release-readiness consistency', () => {
       name: string;
       version: string;
       description: string;
+      private?: boolean;
+      bin: Record<string, string>;
+      files: string[];
+      license: string;
+      scripts: Record<string, string>;
       engines: { node: string; npm: string };
     };
     const readme = readRepoFile('README.md');
     const readiness = readRepoFile('docs/release/production-readiness.md');
 
-    expect(packageJson.name).toBe('@indiebrothers/mcp-remnawave');
+    expect(packageJson.name).toBe('remnawave-mcp');
+    expect(packageJson.private).toBeUndefined();
+    expect(packageJson.bin).toEqual({ 'remnawave-mcp': './dist/index.js' });
+    expect(packageJson.files).toEqual(['dist', 'README.md', 'LICENSE', 'NOTICE.md']);
+    expect(packageJson.license).toBe('MIT');
+    expect(packageJson.scripts.prepack).toBe('npm run build');
     expect(packageJson.version).toBe('0.2.0');
     expect(packageJson.engines).toEqual({
       node: '>=20.11.0',
@@ -34,7 +44,9 @@ describe('task 20 release-readiness consistency', () => {
 
     expect(readme).toContain('local stdio server only');
     expect(readiness).toContain('local stdio MCP server only');
-    expect(readme).toContain('- Package name: `@indiebrothers/mcp-remnawave`');
+    expect(readme).toContain('- Package name: `remnawave-mcp`');
+    expect(readme).toContain('npm install -g remnawave-mcp');
+    expect(readme).toContain('The package `bin` entry maps `remnawave-mcp` to `dist/index.js`.');
     expect(readme).toContain('- Server version: `0.2.0`');
     expect(readme).toContain('These operations are currently `supported` and executable');
     expect(readme).toContain('system.get_stats');

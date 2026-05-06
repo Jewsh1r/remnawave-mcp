@@ -2,7 +2,7 @@
 
 ## This Repository
 
-**Name:** mcp-remnawave  
+**Name:** remnawave-mcp  
 **Organization:** Инди Братья  
 **Type:** Independent repository, not a fork
 
@@ -17,7 +17,7 @@ This repository was created from scratch as an independent project. It was not d
 **Upstream license:** MIT License  
 **Upstream copyright:** Copyright (c) TrackLine contributors
 
-`mcp-remnawave` by Инди Братья draws conceptual inspiration from the above upstream project. The upstream project informed the intended scope and approach of this implementation.
+`remnawave-mcp` by Инди Братья draws conceptual inspiration from the above upstream project. The upstream project informed the intended scope and approach of this implementation.
 
 ### What was and was not taken from upstream
 
