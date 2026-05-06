@@ -214,6 +214,8 @@ describe('remnawave_api compact v2 contract matrix', () => {
     expect(byKey.get('users.revoke_subscription')).toMatchObject({ safetyMode: 'confirm' });
     expect(byKey.get('metadata.upsert_node')).toMatchObject({ safetyMode: 'direct' });
     expect(byKey.get('public_subscriptions.get')).toMatchObject({ safetyMode: 'direct', write: false });
+    expect(byKey.get('keygen.generate_node_secret')).toMatchObject({ status: 'supported', rawAllowed: false, rawPolicy: 'raw_denied', safetyMode: 'direct', write: false });
+    expect(byKey.get('system.generate_x25519_keypairs')).toMatchObject({ status: 'supported', rawAllowed: false, rawPolicy: 'raw_denied', safetyMode: 'direct', write: false });
   });
 
   test('raw policy allows system reads and rejects public subscription raw before execution', async () => {
@@ -303,8 +305,6 @@ describe('remnawave_api compact v2 contract matrix', () => {
       { domain: 'ip_control', operation: 'submit_user_fetch_job', payload: { uuid: 'user-1' } },
       { domain: 'node_plugins', operation: 'execute_plugin_executor', payload: { pluginUuid: 'plugin-1' } },
       { domain: 'remnawave_settings', operation: 'update', payload: {} },
-      { domain: 'keygen', operation: 'generate', payload: {} },
-      { domain: 'system', operation: 'generate_x25519', payload: {} },
       { domain: 'system', operation: 'encrypt_happ_payload', payload: {} },
       { domain: 'system', operation: 'debug_srr_matcher', payload: {} },
       ...groupedOperationKeys.map((key) => {
@@ -314,7 +314,8 @@ describe('remnawave_api compact v2 contract matrix', () => {
     ];
     const allDiscovery = stringifyStable(DEFAULT_OPERATION_REGISTRY.getScopeMap());
 
-    expect(DEFAULT_OPERATION_REGISTRY.listDomains()).not.toEqual(expect.arrayContaining(['auth', 'tokens', 'ip_control', 'node_plugins', 'remnawave_settings', 'keygen']));
+    expect(DEFAULT_OPERATION_REGISTRY.listDomains()).toEqual(expect.arrayContaining(['keygen']));
+    expect(DEFAULT_OPERATION_REGISTRY.listDomains()).not.toEqual(expect.arrayContaining(['auth', 'tokens', 'ip_control', 'node_plugins', 'remnawave_settings']));
     for (const key of groupedOperationKeys) {
       expect(allDiscovery).not.toContain(key);
     }

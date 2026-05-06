@@ -136,6 +136,18 @@ describe('Remnawave operation inventory', () => {
     expect(supported.find((operation) => operation.key === 'templates.delete')).toMatchObject({ safetyMode: 'confirm', write: true });
     expect(supported.find((operation) => operation.key === 'snippets.delete')).toMatchObject({ safetyMode: 'confirm', write: true });
     expect(supported.find((operation) => operation.key === 'public_subscriptions.get_info')).toMatchObject({ rawAllowed: false, write: false });
+    expect(supported.find((operation) => operation.key === 'keygen.generate_node_secret')).toMatchObject({
+      openapi: { method: 'get', path: '/api/keygen', operationId: 'KeygenController_generateKey' },
+      rawAllowed: false,
+      safetyMode: 'direct',
+      write: false,
+    });
+    expect(supported.find((operation) => operation.key === 'system.generate_x25519_keypairs')).toMatchObject({
+      openapi: { method: 'get', path: '/api/system/tools/x25519/generate', operationId: 'SystemController_getX25519Keypairs' },
+      rawAllowed: false,
+      safetyMode: 'direct',
+      write: false,
+    });
   });
 
   test('preserves machine-readable exclusion reasons without making excluded entries supported', () => {
@@ -171,14 +183,9 @@ describe('Remnawave operation inventory', () => {
       exclusionReason: 'excluded_remnawave_settings',
       status: 'excluded',
     });
-    expect(excluded.find((operation) => operation.openapi.path === '/api/keygen')).toMatchObject({
-      exclusionReason: 'excluded_keygen',
-      status: 'excluded',
-    });
-    expect(excluded.find((operation) => operation.openapi.path === '/api/system/tools/x25519/generate')).toMatchObject({
-      exclusionReason: 'excluded_system_dangerous',
-      status: 'excluded',
-    });
+    const excludedPaths = new Set(excluded.map((operation) => operation.openapi.path as string));
+    expect(excludedPaths.has('/api/keygen')).toBe(false);
+    expect(excludedPaths.has('/api/system/tools/x25519/generate')).toBe(false);
   });
 
   test('does not classify old grouped manage operations as supported inventory capabilities', () => {

@@ -14,6 +14,7 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
       online: { now: 2, lastDay: 4, lastWeek: 6, never: 0 },
       nodes: { totalOnlineUsers: 3, lifetimeBytes: 0n },
     }),
+    executeOpenApiOperation: async (_operation, payload) => ({ response: payload }),
     createUser: async (payload) => ({ uuid: 'user-1', ...payload }),
     deleteNode: async (nodeUuid: string) => ({ uuid: nodeUuid, deleted: true }),
     ...overrides,
@@ -71,15 +72,15 @@ describe('MCP single-tool compact boundary', () => {
     expectCompact(result);
   });
 
-  test('excluded surfaces return compact unsupported errors', async () => {
+  test('supported keygen and excluded surfaces keep compact boundaries', async () => {
     const authResult = await routeRemnawaveApiRequest({ domain: 'auth', operation: 'login', payload: {} }, createClient());
-    const keygenResult = await routeRemnawaveApiRequest({ domain: 'keygen', operation: 'generate', payload: {} }, createClient());
+    const keygenResult = await routeRemnawaveApiRequest({ domain: 'keygen', operation: 'generate_node_secret', payload: {} }, createClient());
     const legacyResult = await routeRemnawaveApiRequest({ domain: 'users', operation: 'manage_lifecycle', payload: {} }, createClient());
     const nodePluginExecutorResult = await routeRemnawaveApiRequest({ domain: 'node_plugins', operation: 'execute_plugin_executor', payload: {} }, createClient());
     const hostRoutingResult = await routeRemnawaveApiRequest({ domain: 'hosts', operation: 'manage_routing', payload: {} }, createClient());
 
     expect(authResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
-    expect(keygenResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
+    expect(keygenResult).toEqual({});
     expect(legacyResult).toMatchObject({ error: { code: 'UNSUPPORTED_OPERATION', kind: 'unsupported_operation' } });
     expect(nodePluginExecutorResult).toMatchObject({ error: { code: 'UNSUPPORTED_DOMAIN', kind: 'unsupported_operation' } });
     expect(hostRoutingResult).toMatchObject({ error: { code: 'UNSUPPORTED_OPERATION', kind: 'unsupported_operation' } });

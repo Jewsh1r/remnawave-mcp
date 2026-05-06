@@ -74,8 +74,6 @@ function createPanelClient() {
     listApiTokens: vi.fn(async () => ({ tokens: [] })),
     fetchIpsForUser: vi.fn(async () => ({ jobId: 'job-1' })),
     createNodePlugin: vi.fn(async () => ({ plugin: true })),
-    getKeygenMaterial: vi.fn(async () => ({ key: true })),
-    generateX25519: vi.fn(async () => ({ publicKey: 'public' })),
     encryptHappPayload: vi.fn(async () => ({ encrypted: true })),
     executePluginExecutor: vi.fn(async () => ({ executed: true })),
     executeOpenApiOperation: vi.fn(async (_operation, payload: Record<string, unknown>) => ({ resolved: payload })),
@@ -201,6 +199,8 @@ const supportedOperationCases = [
   { name: 'external_squads.add_users', request: { domain: 'external_squads', operation: 'add_users', payload: { uuid: 'squad-1', userUuids: ['user-1'] } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.bulkAddUsersToExternalSquad).toHaveBeenCalledWith('squad-1', ['user-1']); } },
   { name: 'external_squads.remove_users', request: { domain: 'external_squads', operation: 'remove_users', payload: { uuid: 'squad-1', userUuids: ['user-1'] } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.bulkRemoveUsersFromExternalSquad).toHaveBeenCalledWith('squad-1', ['user-1']); } },
   { name: 'profiles.get', request: { domain: 'profiles', operation: 'get', payload: { uuid: 'profile-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getProfile).toHaveBeenCalledWith('profile-1'); } },
+  { name: 'keygen.generate_node_secret', request: { domain: 'keygen', operation: 'generate_node_secret', payload: {} }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'keygen.generate_node_secret' }), {}); } },
+  { name: 'system.generate_x25519_keypairs', request: { domain: 'system', operation: 'generate_x25519_keypairs', payload: {} }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'system.generate_x25519_keypairs' }), {}); } },
   { name: 'users.revoke_subscription', request: { domain: 'users', operation: 'revoke_subscription', payload: { uuid: 'user-1' } }, requiresConfirmation: true, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.revokeUserSubscription).toHaveBeenCalledWith('user-1'); } },
   {
     name: 'nodes.restart',
@@ -300,8 +300,6 @@ describe('Remnawave API client adapter', () => {
       { domain: 'tokens', operation: 'list', payload: {} },
       { domain: 'ip_control', operation: 'submit_user_fetch_job', payload: { uuid: 'user-1' } },
       { domain: 'node_plugins', operation: 'execute_plugin_executor', payload: { command: 'block' } },
-      { domain: 'keygen', operation: 'generate', payload: {} },
-      { domain: 'system', operation: 'generate_x25519', payload: {} },
       { domain: 'system', operation: 'encrypt_happ_payload', payload: {} },
       { domain: 'system', operation: 'debug_srr_matcher', payload: {} },
       { domain: 'users', operation: 'manage_lifecycle', payload: { action: 'disable', uuid: 'user-1' } },
@@ -317,8 +315,6 @@ describe('Remnawave API client adapter', () => {
     expect(panelClient.listApiTokens).not.toHaveBeenCalled();
     expect(panelClient.fetchIpsForUser).not.toHaveBeenCalled();
     expect(panelClient.createNodePlugin).not.toHaveBeenCalled();
-    expect(panelClient.getKeygenMaterial).not.toHaveBeenCalled();
-    expect(panelClient.generateX25519).not.toHaveBeenCalled();
     expect(panelClient.encryptHappPayload).not.toHaveBeenCalled();
     expect(panelClient.executePluginExecutor).not.toHaveBeenCalled();
   });

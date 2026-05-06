@@ -24,6 +24,8 @@ describe('remnawave_api scope sync', () => {
       'system.get_node_statistics',
       'system.get_nodes_metrics',
       'system.get_recap',
+      'keygen.generate_node_secret',
+      'system.generate_x25519_keypairs',
       'users.disable',
       'users.enable',
       'nodes.restart',
@@ -38,9 +40,10 @@ describe('remnawave_api scope sync', () => {
     const implementation = getRemnawaveApiScopeMap();
     const serialized = JSON.stringify(implementation);
 
+    expect(Object.keys(implementation.domains)).toEqual(expect.arrayContaining(['keygen']));
     expect(Object.keys(implementation.domains)).not.toEqual(expect.arrayContaining(['auth', 'ip_control', 'node_plugins']));
-    expect(serialized).not.toContain('keygen');
     expect(serialized).not.toContain('remnawave-settings');
-    expect(serialized).not.toContain('x25519');
+    expect(serialized).not.toContain('encrypt_happ_payload');
+    expect(serialized).not.toContain('debug_srr_matcher');
   });
 });
