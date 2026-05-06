@@ -38,7 +38,7 @@ describe('MCP single-tool compact boundary', () => {
     expect(result).toMatchObject({
       domain: 'users',
       operations: expect.arrayContaining([
-        expect.objectContaining({ name: 'create_user', write: true, riskTier: 'tier_2_bounded_mutation' }),
+        expect.objectContaining({ name: 'create', write: true, riskTier: 'tier_2_bounded_mutation' }),
       ]),
     });
     expect(JSON.stringify(result)).not.toContain('manage_lifecycle');

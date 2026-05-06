@@ -17,6 +17,7 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
       nodes: { totalOnlineUsers: 3, lifetimeBytes: 0n },
     }),
     createUser: async (payload) => ({ uuid: 'user-1', ...payload }),
+    getMetadata: async () => ({ panel: 'rw', version: '2.7.4' }),
     ...overrides,
   };
 }
@@ -67,7 +68,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     expect(usersResult).toMatchObject({
       domain: 'users',
       operations: expect.arrayContaining([
-        expect.objectContaining({ name: 'create_user', disposition: 'supported', write: true, riskTier: 'tier_2_bounded_mutation' }),
+        expect.objectContaining({ name: 'create', disposition: 'supported', write: true, riskTier: 'tier_2_bounded_mutation' }),
       ]),
     });
     expect(JSON.stringify(systemResult)).not.toContain('riskTier');
@@ -110,16 +111,25 @@ describe('routeRemnawaveApiRequest compact contract', () => {
 
   test('responseMode raw returns upstream output for allowlisted safe system reads', async () => {
     const rawStats = { raw: true, cpu: { cores: 4 } };
+    const rawMetadata = { panel: 'rw', version: '2.7.4' };
     const getSystemStats = vi.fn(async () => rawStats);
+    const getMetadata = vi.fn(async () => rawMetadata);
 
-    const result = await routeRemnawaveApiRequest(
+    const statsResult = await routeRemnawaveApiRequest(
       { domain: 'system', operation: 'get_stats', payload: {}, responseMode: 'raw' },
       createClient({ getSystemStats }),
     );
+    const metadataResult = await routeRemnawaveApiRequest(
+      { domain: 'system', operation: 'get_metadata', payload: {}, responseMode: 'raw' },
+      createClient({ getMetadata }),
+    );
 
-    expect(result).toBe(rawStats);
+    expect(statsResult).toBe(rawStats);
+    expect(metadataResult).toBe(rawMetadata);
     expect(getSystemStats).toHaveBeenCalledTimes(1);
-    expectNoLegacyFields(result);
+    expect(getMetadata).toHaveBeenCalledTimes(1);
+    expectNoLegacyFields(statsResult);
+    expectNoLegacyFields(metadataResult);
   });
 
   test('responseMode raw is rejected for writes before execution', async () => {
@@ -128,7 +138,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     const result = await routeRemnawaveApiRequest(
       {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         payload: { username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
         responseMode: 'raw',
       },
@@ -150,7 +160,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     const resolveUser = vi.fn(async (uuid: string) => ({ uuid }));
 
     const result = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'get_by_uuid', payload: { uuid: 'user-1' }, responseMode: 'raw' },
+      { domain: 'users', operation: 'get', payload: { uuid: 'user-1' }, responseMode: 'raw' },
       createClient({ resolveUser }),
     );
 
@@ -168,7 +178,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
   test('invalid payload returns canonical compact validation error with stable issues', async () => {
     const createUser = vi.fn(async (payload: Record<string, unknown>) => ({ uuid: 'user-1', ...payload }));
     const result = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'create_user', payload: { username: 'ab' } },
+      { domain: 'users', operation: 'create', payload: { username: 'ab' } },
       createClient({ createUser }),
     );
 
@@ -176,7 +186,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
       error: {
         code: 'INVALID_PAYLOAD',
         kind: 'validation',
-        message: 'Payload is missing or invalid for users.create_user.',
+        message: 'Payload is missing or invalid for users.create.',
         retryable: false,
         issues: expect.arrayContaining([
           expect.objectContaining({ field: 'payload.username' }),
@@ -229,13 +239,13 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     const createdUser = await routeRemnawaveApiRequest(
       {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         payload: { username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
       },
       createClient({ createUser: async (payload) => ({ response: { uuid: 'user-2', ...payload }, upstreamTrace: 'ignored' }) }),
     );
     const resolvedUser = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'get_by_uuid', payload: { uuid: 'user-1' } },
+      { domain: 'users', operation: 'get', payload: { uuid: 'user-1' } },
       createClient({ resolveUser: async () => ({ response: { uuid: 'user-1', shortUuid: 'short-1', username: 'alice', extra: true } }) }),
     );
 
@@ -251,9 +261,65 @@ describe('routeRemnawaveApiRequest compact contract', () => {
     expectNoLegacyFields(resolvedUser);
   });
 
-  test('public subscription reads are not runtime supported or raw-executable in the current inventory', async () => {
+
+  test('executes Task 11 accepted capability examples with compact results and raw exclusions', async () => {
+    const upsertNodeMetadata = vi.fn(async (uuid: string, metadata: Record<string, unknown>) => ({ uuid, metadata }));
+    const createSubscriptionTemplate = vi.fn(async (payload: Record<string, unknown>) => ({ response: { uuid: 'template-1', ...payload } }));
+    const updateSubscriptionTemplate = vi.fn(async (uuid: string, patch: Record<string, unknown>) => ({ response: { uuid, ...patch } }));
+    const deleteSubscriptionTemplate = vi.fn(async (uuid: string) => ({ uuid, deleted: true }));
+    const createSnippet = vi.fn(async (payload: Record<string, unknown>) => ({ response: payload }));
+    const updateSnippet = vi.fn(async (name: string, patch: Record<string, unknown>) => ({ response: { name, ...patch } }));
+    const deleteSnippet = vi.fn(async (name: string) => ({ name, deleted: true }));
+    const getPublicSubscriptionInfo = vi.fn(async (shortUuid: string) => ({ shortUuid, status: 'active' }));
+    const getProfile = vi.fn(async (uuid: string) => ({ uuid, name: 'profile' }));
+    const client = createClient({
+      upsertNodeMetadata,
+      createSubscriptionTemplate,
+      updateSubscriptionTemplate,
+      deleteSubscriptionTemplate,
+      createSnippet,
+      updateSnippet,
+      deleteSnippet,
+      getPublicSubscriptionInfo,
+      getProfile,
+    });
+
+    const metadata = await routeRemnawaveApiRequest({ domain: 'metadata', operation: 'upsert_node', payload: { uuid: 'node-1', metadata: { zone: 'edge' } } }, client);
+    const templateCreate = await routeRemnawaveApiRequest({ domain: 'templates', operation: 'create', payload: { name: 'Default XRAY', templateType: 'XRAY_JSON' } }, client);
+    const templateUpdate = await routeRemnawaveApiRequest({ domain: 'templates', operation: 'update', payload: { uuid: 'template-1', name: 'Updated XRAY' } }, client);
+    const templateDeletePreview = await routeRemnawaveApiRequest({ domain: 'templates', operation: 'delete', payload: { uuid: 'template-1' } }, client);
+    const templateDelete = isConfirmationRequired(templateDeletePreview)
+      ? await routeRemnawaveApiRequest({ domain: 'templates', operation: 'delete', payload: { uuid: 'template-1' }, confirmToken: templateDeletePreview.error.token }, client)
+      : templateDeletePreview;
+    const snippetCreate = await routeRemnawaveApiRequest({ domain: 'snippets', operation: 'create', payload: { name: 'headers', snippet: [{ key: 'value' }] } }, client);
+    const snippetUpdate = await routeRemnawaveApiRequest({ domain: 'snippets', operation: 'update', payload: { name: 'headers', snippet: [{ key: 'updated' }] } }, client);
+    const snippetDeletePreview = await routeRemnawaveApiRequest({ domain: 'snippets', operation: 'delete', payload: { name: 'headers' } }, client);
+    const snippetDelete = isConfirmationRequired(snippetDeletePreview)
+      ? await routeRemnawaveApiRequest({ domain: 'snippets', operation: 'delete', payload: { name: 'headers' }, confirmToken: snippetDeletePreview.error.token }, client)
+      : snippetDeletePreview;
+    const publicInfo = await routeRemnawaveApiRequest({ domain: 'public_subscriptions', operation: 'get_info', payload: { shortUuid: 'short-1' } }, client);
+    const publicRawDenied = await routeRemnawaveApiRequest({ domain: 'public_subscriptions', operation: 'get_info', payload: { shortUuid: 'short-1' }, responseMode: 'raw' }, client);
+    const profile = await routeRemnawaveApiRequest({ domain: 'profiles', operation: 'get', payload: { uuid: 'profile-1' } }, client);
+    const profileWritePreview = await routeRemnawaveApiRequest({ domain: 'profiles', operation: 'update', payload: { uuid: '11111111-1111-4111-8111-111111111111', name: 'next' } }, client);
+
+    expect(metadata).toEqual({ updated: { uuid: 'node-1', metadata: { metadata: { zone: 'edge' } } } });
+    expect(templateCreate).toEqual({ updated: { uuid: 'template-1', name: 'Default XRAY', templateType: 'XRAY_JSON' } });
+    expect(templateUpdate).toEqual({ updated: { uuid: 'template-1', name: 'Updated XRAY' } });
+    expect(templateDelete).toEqual({ updated: { uuid: 'template-1', deleted: true } });
+    expect(snippetCreate).toEqual({ updated: { name: 'headers', snippet: [{ key: 'value' }] } });
+    expect(snippetUpdate).toEqual({ updated: { name: 'headers', snippet: [{ key: 'updated' }] } });
+    expect(snippetDelete).toEqual({ updated: { name: 'headers', deleted: true } });
+    expect(publicInfo).toEqual({ shortUuid: 'short-1', status: 'active' });
+    expect(publicRawDenied).toMatchObject({ error: { code: 'RAW_RESPONSE_NOT_ALLOWED', kind: 'validation' } });
+    expect(profile).toEqual({ uuid: 'profile-1', name: 'profile' });
+    expect(profileWritePreview).toMatchObject({ applyToken: expect.any(String) });
+    expectNoLegacyFields(metadata);
+    expectNoLegacyFields(publicRawDenied);
+  });
+
+  test('legacy public subscription placeholder operation remains unsupported', async () => {
     const result = await routeRemnawaveApiRequest(
-      { domain: 'public_subscriptions', operation: 'read', payload: { shortUuid: 'short-1' }, responseMode: 'raw' },
+      { domain: 'public_subscriptions', operation: 'read', payload: { shortUuid: 'short-1' } },
       createClient(),
     );
 
@@ -262,3 +328,14 @@ describe('routeRemnawaveApiRequest compact contract', () => {
   });
 
 });
+
+function isConfirmationRequired(value: unknown): value is { readonly error: { readonly kind: 'confirmation_required'; readonly token: string } } {
+  return isRecord(value)
+    && isRecord(value.error)
+    && value.error.kind === 'confirmation_required'
+    && typeof value.error.token === 'string';
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}

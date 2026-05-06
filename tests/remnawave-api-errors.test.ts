@@ -62,7 +62,7 @@ describe('Remnawave API compact errors', () => {
     const result = await routeRemnawaveApiRequest(
       {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         payload: { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
       },
       createClient({ createUser }),
@@ -88,7 +88,7 @@ describe('Remnawave API compact errors', () => {
     const result = await routeRemnawaveApiRequest(
       {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         payload: { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
       },
       createClient({ createUser }),

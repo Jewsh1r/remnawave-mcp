@@ -4,12 +4,12 @@ import { DEFAULT_OPERATION_REGISTRY } from '../src/remnawave-api/registry.js';
 import { validateFreeFormObjectOverlay } from '../src/remnawave-api/schema.js';
 
 describe('remnawave_api schema metadata and validation', () => {
-  test('describeOperation exposes curated schema metadata for users.create_user', () => {
-    const operation = DEFAULT_OPERATION_REGISTRY.describeOperation('users', 'create_user');
+  test('describeOperation exposes curated schema metadata for users.create', () => {
+    const operation = DEFAULT_OPERATION_REGISTRY.describeOperation('users', 'create');
 
     expect(operation).toMatchObject({
       domain: 'users',
-      operation: 'create_user',
+      operation: 'create',
       schemaSummary: 'payload requires username:string and expireAt:date-time string',
       validationRulesSummary: [
         'payload must be an object',
@@ -42,7 +42,7 @@ describe('remnawave_api schema metadata and validation', () => {
   });
 
   test('rejects missing required fields with field-specific codes', () => {
-    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create_user')?.validation.validatePayload({});
+    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create')?.validation.validatePayload({});
 
     expect(issues).toEqual(expect.arrayContaining([
       { field: 'payload.username', code: 'REQUIRED', message: 'payload.username is required.' },
@@ -52,21 +52,21 @@ describe('remnawave_api schema metadata and validation', () => {
   });
 
   test('rejects type mismatches with field-specific codes', () => {
-    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create_user')?.validation.validatePayload({
+    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create')?.validation.validatePayload({
       username: 42,
       telegramId: 'abc',
       expireAt: 123,
     });
 
     expect(issues).toEqual(expect.arrayContaining([
-      { field: 'payload.username', code: 'INVALID_TYPE', message: 'payload.username must be string.' },
-      { field: 'payload.expireAt', code: 'INVALID_TYPE', message: 'payload.expireAt must be string.' },
+      { field: 'payload.username', code: 'MIN_LENGTH', message: 'payload.username must be at least 3 characters long.' },
+      { field: 'payload.expireAt', code: 'INVALID_FORMAT', message: 'payload.expireAt must match date-time format.' },
       { field: 'payload.telegramId', code: 'INVALID_TYPE', message: 'payload.telegramId must be integer.' },
     ]));
   });
 
   test('rejects bounds violations precisely', () => {
-    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create_user')?.validation.validatePayload({
+    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create')?.validation.validatePayload({
       username: 'ab',
       telegramId: 0,
     });
@@ -78,8 +78,8 @@ describe('remnawave_api schema metadata and validation', () => {
     expect(issues).toHaveLength(2);
   });
 
-  test('rejects invalid OpenAPI create_user payloads before execution', () => {
-    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create_user')?.validation.validatePayload({
+  test('rejects invalid OpenAPI create payloads before execution', () => {
+    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create')?.validation.validatePayload({
       username: 'ab',
     });
 
@@ -90,8 +90,20 @@ describe('remnawave_api schema metadata and validation', () => {
     expect(issues).toHaveLength(2);
   });
 
+  test('rejects strict-schema fields inherited from Object.prototype', () => {
+    const issues = DEFAULT_OPERATION_REGISTRY.get('users', 'create')?.validation.validatePayload({
+      username: 'bridge-operator',
+      expireAt: '2026-05-01T00:00:00.000Z',
+      constructor: 1,
+    });
+
+    expect(issues).toEqual(expect.arrayContaining([
+      { field: 'payload.constructor', code: 'UNEXPECTED_FIELD', message: 'payload.constructor is not supported for this operation.' },
+    ]));
+  });
+
   test('accepts valid inventory-backed runtime payloads', () => {
-    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'create_user')?.validation.validatePayload({
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'create')?.validation.validatePayload({
       username: 'bridge-operator',
       telegramId: 123456,
       expireAt: '2026-05-01T00:00:00.000Z',
@@ -104,6 +116,16 @@ describe('remnawave_api schema metadata and validation', () => {
       hostUuids: ['host-1'],
       port: 8443,
     })).toEqual([]);
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ uuid: 'user-1' })).toEqual([]);
+  });
+
+  test('rejects malformed users.resolve selector payloads', () => {
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ selector: { uuid: 'user-1' } })).toEqual([
+      { field: 'payload.selector', code: 'UNEXPECTED_FIELD', message: 'payload.selector is not supported for this operation.' },
+    ]);
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ uuid: 'user-1', username: 'alice' })).toEqual([
+      { field: 'payload', code: 'INVALID_SELECTOR', message: 'payload must include exactly one of id, uuid, shortUuid, or username.' },
+    ]);
   });
 
   test('rejects malformed atomic bulk host port payloads', () => {

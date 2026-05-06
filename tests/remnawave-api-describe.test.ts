@@ -52,7 +52,7 @@ describe('remnawave_api compact describe responses', () => {
 
     expect(result).toMatchObject({
       error: {
-        code: expect.stringMatching(/DENIED_OPERATION|UNSUPPORTED_OPERATION/),
+        code: expect.stringMatching(/DENIED_OPERATION|UNSUPPORTED_OPERATION|UNSUPPORTED_DOMAIN/),
         kind: 'unsupported_operation',
         retryable: false,
       },

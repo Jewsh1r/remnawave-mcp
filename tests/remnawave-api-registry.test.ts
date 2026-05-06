@@ -113,10 +113,10 @@ describe('OperationRegistry', () => {
   test('lists domains and operations in deterministic order', () => {
     const registry = new OperationRegistry();
 
-    registry.register('users', 'create_user', createRegistration({
+    registry.register('users', 'create', createRegistration({
       discovery: {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         description: 'Create a new panel user.',
         helpText: 'Provide username and telegramId.',
       },
@@ -176,7 +176,7 @@ describe('OperationRegistry', () => {
       'get_stats',
     ]);
     expect(registry.listOperations('users').map((entry) => entry.discovery.operation)).toEqual([
-      'create_user',
+      'create',
     ]);
   });
 
@@ -232,10 +232,10 @@ describe('OperationRegistry', () => {
 
   test('produces compact describe-operation output without giant inline schemas', () => {
     const registry = new OperationRegistry();
-    registry.register('users', 'create_user', createRegistration({
+    registry.register('users', 'create', createRegistration({
       discovery: {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         description: 'Create a user when the payload is complete and valid.',
         helpText: 'Provide username and telegramId; execution creates one user.',
       },
@@ -267,9 +267,9 @@ describe('OperationRegistry', () => {
       write: true,
     }));
 
-    expect(registry.describeOperation('users', 'create_user')).toEqual({
+    expect(registry.describeOperation('users', 'create')).toEqual({
       domain: 'users',
-      operation: 'create_user',
+      operation: 'create',
       disposition: 'supported',
       description: 'Create a user when the payload is complete and valid.',
       helpText: 'Provide username and telegramId; execution creates one user.',

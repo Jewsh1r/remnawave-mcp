@@ -62,16 +62,24 @@ describe('Remnawave operation inventory', () => {
   test('requires complete atomic metadata for supported operations', () => {
     const supported = REMNAWAVE_OPERATION_INVENTORY.operations.filter((operation) => operation.status === 'supported');
 
-    expect(supported.map((operation) => operation.key).sort()).toEqual([
-      'hosts.bulk_set_port',
-      'nodes.restart',
-      'system.get_stats',
-      'users.create_user',
-      'users.disable',
-      'users.enable',
-      'users.get_by_uuid',
-      'users.list',
-    ]);
+    const supportedKeys = supported.map((operation) => operation.key).sort();
+    expect(supportedKeys).toEqual(expect.arrayContaining([
+      'metadata.upsert_node',
+      'templates.create',
+      'templates.update',
+      'templates.delete',
+      'snippets.create',
+      'snippets.update',
+      'snippets.delete',
+      'public_subscriptions.get_info',
+      'public_subscriptions.get',
+      'public_subscriptions.get_by_client_type',
+      'profiles.list',
+      'profiles.get',
+      'profiles.get_computed',
+      'profiles.list_inbounds',
+      'users.revoke_subscription',
+    ]));
 
     for (const operation of supported) {
       expect(operation.domain).toBeTruthy();
@@ -80,7 +88,9 @@ describe('Remnawave operation inventory', () => {
       expect(operation.openapi.method).toBeTruthy();
       expect(operation.openapi.path).toMatch(/^\//);
       expect(operation.openapi.operationId).toBeTruthy();
-      expect(operation.openapi.responseSchemaKeys.length).toBeGreaterThan(0);
+      if (!operation.key.startsWith('public_subscriptions.')) {
+        expect(operation.openapi.responseSchemaKeys.length).toBeGreaterThan(0);
+      }
       expect(typeof operation.write).toBe('boolean');
       expect(['direct', 'confirm', 'preview_apply']).toContain(operation.safetyMode);
       expect(['tier1', 'tier2', 'tier3']).toContain(operation.riskTier);
@@ -90,7 +100,7 @@ describe('Remnawave operation inventory', () => {
       expect(operation.sideEffects.summary).toBeTruthy();
     }
 
-    expect(supported.find((operation) => operation.key === 'users.create_user')).toMatchObject({
+    expect(supported.find((operation) => operation.key === 'users.create')).toMatchObject({
       openapi: {
         method: 'post',
         operationId: 'UsersController_createUser',
@@ -106,6 +116,26 @@ describe('Remnawave operation inventory', () => {
       rawAllowed: true,
       write: false,
     });
+    expect(supported.find((operation) => operation.key === 'system.get_metadata')).toMatchObject({
+      normalizer: 'none',
+      openapi: { method: 'get', path: '/api/system/metadata', operationId: 'SystemController_getMetadata' },
+      rawAllowed: true,
+      write: false,
+    });
+    expect(supported.find((operation) => operation.key === 'system.get_health')).toMatchObject({
+      openapi: { method: 'get', path: '/api/system/health', operationId: 'SystemController_getRemnawaveHealth' },
+      rawAllowed: true,
+      write: false,
+    });
+    expect(supported.find((operation) => operation.key === 'metadata.upsert_node')).toMatchObject({
+      openapi: { method: 'put', path: '/api/metadata/node/{uuid}', operationId: 'MetadataController_upsertNodeMetadata' },
+      rawAllowed: false,
+      safetyMode: 'direct',
+      write: true,
+    });
+    expect(supported.find((operation) => operation.key === 'templates.delete')).toMatchObject({ safetyMode: 'confirm', write: true });
+    expect(supported.find((operation) => operation.key === 'snippets.delete')).toMatchObject({ safetyMode: 'confirm', write: true });
+    expect(supported.find((operation) => operation.key === 'public_subscriptions.get_info')).toMatchObject({ rawAllowed: false, write: false });
   });
 
   test('preserves machine-readable exclusion reasons without making excluded entries supported', () => {

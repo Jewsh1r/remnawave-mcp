@@ -18,6 +18,12 @@ describe('remnawave_api scope sync', () => {
     const implementation = getRemnawaveApiScopeMap();
 
     expect(implementation.supported).toEqual(expect.arrayContaining([
+      'system.get_metadata',
+      'system.get_health',
+      'system.get_bandwidth_stats',
+      'system.get_node_statistics',
+      'system.get_nodes_metrics',
+      'system.get_recap',
       'users.disable',
       'users.enable',
       'nodes.restart',

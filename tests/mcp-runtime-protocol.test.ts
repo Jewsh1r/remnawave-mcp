@@ -4,6 +4,11 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { afterEach, describe, expect, test } from 'vitest';
 
+import { loadRuntimeConfig } from '../src/runtime/config.js';
+import {
+  buildDiscoveryManifest,
+} from '../src/server/discovery.js';
+
 const repoRoot = path.resolve(import.meta.dirname, '..');
 const entrypoint = path.join(repoRoot, 'src', 'index.ts');
 
@@ -36,7 +41,7 @@ function createProtocolClient(): { client: Client; transport: StdioClientTranspo
       ...process.env,
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.3',
+      REMNAWAVE_VERSION: '2.7.4',
       LOG_LEVEL: 'error',
     } as Record<string, string>,
   });
@@ -50,72 +55,52 @@ function createProtocolClient(): { client: Client; transport: StdioClientTranspo
 }
 
 describe('mcp runtime protocol', () => {
-  test('initializes over stdio and serves discovery from protocol handlers', async () => {
+  test('initializes over stdio and serves single-tool discovery', async () => {
     const { client, transport } = createProtocolClient();
-    await client.connect(transport, { timeout: 1500 });
+    await client.connect(transport, { timeout: 5000 });
+
+    const discoveryManifest = buildDiscoveryManifest(loadRuntimeConfig({
+      REMNAWAVE_BASE_URL: 'https://panel.example.test',
+      REMNAWAVE_API_TOKEN: 'token-value',
+      REMNAWAVE_VERSION: '2.7.4',
+    }));
 
     const tools = await client.listTools();
-    const resources = await client.listResources();
-    const prompts = await client.listPrompts();
+    const toolNames = tools.tools.map((tool) => tool.name);
+    const [primaryTool] = tools.tools;
 
-    expect(tools.tools.map((tool) => tool.name)).toEqual([
-      'users_list',
-      'users_resolve',
-      'nodes_list',
-      'system_get_stats',
-      'system_get_health',
-      'subscriptions_list',
-      'users_mutate_subscription',
-      'users_mutate_squads',
-      'advanced_get_metadata',
-      'advanced_list_node_plugins',
-      'advanced_get_bandwidth_stats',
-      'advanced_get_hwid_inspection',
-    ]);
-    expect(resources.resources.map((resource) => resource.uri)).toEqual([
-      'remnawave://panel/statistics',
-      'remnawave://nodes/status',
-      'remnawave://system/health',
-    ]);
-    expect(prompts.prompts.map((prompt) => prompt.name)).toEqual([
-      'operator_diagnostics',
-      'user_resolution',
-      'node_investigation',
-      'traffic_interpretation',
-      'plugin_investigation',
-    ]);
+    expect(primaryTool?.name).toBe('remnawave_api');
+    expect(toolNames).toEqual(['remnawave_api']);
+    expect(toolNames).toEqual(expect.arrayContaining(discoveryManifest.tools.map((tool) => tool.name)));
+
+    const remnawaveApi = tools.tools.find((tool) => tool.name === 'remnawave_api');
+
+    expect(remnawaveApi?.description).toContain('Primary interface');
+    expect(remnawaveApi?.inputSchema).toMatchObject({
+      type: 'object',
+      required: ['domain'],
+      properties: {
+        domain: {
+          type: 'string',
+          minLength: 1,
+        },
+        operation: {
+          type: 'string',
+          minLength: 1,
+        },
+      },
+    });
   });
 
-  test('executes representative tool and prompt over MCP protocol', async () => {
+  test('exposes remnawave_api discovery and describe-operation states over MCP protocol', async () => {
     const { client, transport } = createProtocolClient();
-    await client.connect(transport, { timeout: 1500 });
+    await client.connect(transport, { timeout: 5000 });
 
-    const previewResult = await client.callTool({
-      name: 'users_mutate_subscription',
-      arguments: {
-        mode: 'preview',
-        operations: [
-          {
-            userUuid: 'user-1',
-            status: 'ACTIVE',
-          },
-        ],
-      },
-    });
+    const tools = await client.listTools();
+    const remnawaveApi = tools.tools.find((tool) => tool.name === 'remnawave_api');
 
-    expect(previewResult.isError).toBeFalsy();
-    expect(previewResult.structuredContent).toMatchObject({
-      mode: 'preview',
-      success: true,
-      summary: {
-        planned: 1,
-        applied: 0,
-        failed: 0,
-      },
-    });
-
-    const promptResult = await client.getPrompt({ name: 'operator_diagnostics', arguments: {} });
-    expect(promptResult.messages).toHaveLength(1);
-    expect(promptResult.messages[0]?.content.type).toBe('text');
+    expect(remnawaveApi).toBeDefined();
+    expect(remnawaveApi?.name).toBe('remnawave_api');
+    expect(remnawaveApi?.description).toContain('Primary interface');
   });
 });

@@ -81,7 +81,7 @@ describe('stdio entrypoint', () => {
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
       LOG_LEVEL: 'debug',
-      REMNAWAVE_VERSION: '2.7.3',
+      REMNAWAVE_VERSION: '2.7.4',
     });
 
     const stderrStream = child.stderr;
@@ -103,10 +103,7 @@ describe('stdio entrypoint', () => {
     expect(stderr).toContain('startup');
     expect(stderr).toContain('stdio');
     expect(stderr).toContain('supported');
-    expect(stderr).toContain('users_list');
-    expect(stderr).toContain('remnawave://panel/statistics');
-    expect(stderr).toContain('operator_diagnostics');
-    expect(stderr).toContain('traffic_interpretation');
+    expect(stderr).toContain('remnawave_api');
   });
 
   test('fails non-zero on missing token with structured redacted stderr and no stdout contamination', async () => {

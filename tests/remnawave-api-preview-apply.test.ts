@@ -66,6 +66,32 @@ describe('remnawave_api preview/apply safety mode', () => {
     expect(bulkSetHostPort).not.toHaveBeenCalled();
   });
 
+  test('preview rejects missing requested hosts before token creation or upstream write', async () => {
+    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const result = await routeRemnawaveApiRequest(
+      { domain: 'hosts', operation: 'bulk_set_port', payload: { hostUuids: ['host-1', 'missing-host'], port: 443 } },
+      createClient({ bulkSetHostPort }),
+    );
+
+    expect(result).toMatchObject({
+      error: {
+        code: 'HOST_NOT_FOUND',
+        kind: 'validation',
+        issues: [{ field: 'payload.hostUuids', code: 'HOST_NOT_FOUND', message: 'Host UUID not found: missing-host.' }],
+      },
+    });
+    expect(result).not.toHaveProperty('applyToken');
+    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expectCompact(result);
+
+    const applyAttempt = await routeRemnawaveApiRequest(
+      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken: 'missing-host-token' } },
+      createClient({ bulkSetHostPort }),
+    );
+    expect(applyAttempt).toMatchObject({ error: { code: 'APPLY_TOKEN_NOT_FOUND', kind: 'preview_invalid' } });
+    expect(bulkSetHostPort).not.toHaveBeenCalled();
+  });
+
   test('apply rejects missing token before upstream write', async () => {
     const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
     const result = await routeRemnawaveApiRequest(
@@ -110,6 +136,27 @@ describe('remnawave_api preview/apply safety mode', () => {
 
     expect(first).toEqual({ updated: { hostUuids: ['host-1'], port: 443, updated: true } });
     expect(second).toMatchObject({ error: { code: 'APPLY_TOKEN_REUSED', kind: 'preview_invalid' } });
+    expect(bulkSetHostPort).toHaveBeenCalledTimes(1);
+  });
+
+  test('apply consumes token before upstream write so failed attempts cannot be retried', async () => {
+    const { applyToken } = await preview();
+    const bulkSetHostPort = vi.fn(async () => {
+      throw new Error('network failure after upstream accepted request');
+    });
+    const client = createClient({ bulkSetHostPort });
+
+    const first = await routeRemnawaveApiRequest(
+      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      client,
+    );
+    const retry = await routeRemnawaveApiRequest(
+      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      client,
+    );
+
+    expect(first).toMatchObject({ error: { code: 'INTERNAL_ERROR', kind: 'internal' } });
+    expect(retry).toMatchObject({ error: { code: 'APPLY_TOKEN_REUSED', kind: 'preview_invalid' } });
     expect(bulkSetHostPort).toHaveBeenCalledTimes(1);
   });
 
@@ -178,5 +225,33 @@ describe('remnawave_api preview/apply safety mode', () => {
 
     expect(result).toMatchObject({ error: { code: 'APPLY_TOKEN_STALE_STATE', kind: 'preview_invalid' } });
     expect(bulkSetHostPort).not.toHaveBeenCalled();
+  });
+
+  test('generated preview/apply reads real collection pre-state and rejects stale apply before upstream write', async () => {
+    const getProfiles = vi.fn(async () => ({ items: [{ uuid: 'profile-1', name: 'before', revision: 1 }] }));
+    const executeOpenApiOperation = vi.fn(async () => ({ uuid: 'profile-1', name: 'after' }));
+    const first = await routeRemnawaveApiRequest(
+      { domain: 'profiles', operation: 'reorder', payload: { items: [{ uuid: '11111111-1111-4111-8111-111111111111', viewPosition: 1 }] } },
+      createClient({ getProfiles, executeOpenApiOperation }),
+    );
+
+    expect(first).toMatchObject({
+      applyToken: expect.any(String),
+      target: { type: 'profiles', target: 'operation' },
+      changes: [{ target: 'operation', before: { state: { items: [{ uuid: 'profile-1', name: 'before', revision: 1 }] } } }],
+    });
+    expect(getProfiles).toHaveBeenCalledTimes(1);
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
+
+    const stale = await routeRemnawaveApiRequest(
+      { domain: 'profiles', operation: 'reorder', payload: { applyToken: (first as { readonly applyToken: string }).applyToken } },
+      createClient({
+        getProfiles: vi.fn(async () => ({ items: [{ uuid: 'profile-1', name: 'changed', revision: 2 }] })),
+        executeOpenApiOperation,
+      }),
+    );
+
+    expect(stale).toMatchObject({ error: { code: 'APPLY_TOKEN_STALE_STATE', kind: 'preview_invalid' } });
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 });

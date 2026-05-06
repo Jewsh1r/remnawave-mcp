@@ -1,7 +1,8 @@
-import { describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { routeRemnawaveApiRequest } from '../src/remnawave-api/router.js';
 import type { RemnawaveApiClient } from '../src/remnawave-api/registry.js';
+import { clearTier3ConfirmationTokensForTests } from '../src/remnawave-api/risk.js';
 
 function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApiClient {
   return {
@@ -31,6 +32,14 @@ function expectCompact(value: unknown): void {
 }
 
 describe('remnawave_api compact risk behavior', () => {
+  beforeEach(() => {
+    clearTier3ConfirmationTokensForTests();
+  });
+
+  afterEach(() => {
+    clearTier3ConfirmationTokensForTests();
+  });
+
   test('tier1 reads execute directly and return normalized payloads', async () => {
     const result = await routeRemnawaveApiRequest(
       { domain: 'system', operation: 'get_stats', payload: {} },
@@ -46,7 +55,7 @@ describe('remnawave_api compact risk behavior', () => {
     const result = await routeRemnawaveApiRequest(
       {
         domain: 'users',
-        operation: 'create_user',
+        operation: 'create',
         payload: { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
       },
       createClient({ createUser }),
@@ -70,7 +79,7 @@ describe('remnawave_api compact risk behavior', () => {
         kind: 'confirmation_required',
         message: 'Confirmation token required before executing nodes.restart.',
         retryable: false,
-        token: expect.stringMatching(/^sha256:/),
+        token: expect.any(String),
       },
     });
     expect(restartNode).not.toHaveBeenCalled();
@@ -94,5 +103,33 @@ describe('remnawave_api compact risk behavior', () => {
     expect(result).toEqual({ updated: { uuid: 'node-1', restarted: true } });
     expect(restartNode).toHaveBeenCalledTimes(1);
     expectCompact(result);
+  });
+
+  test('confirm tokens are single-use and payload-bound', async () => {
+    const restartNode = vi.fn(async (nodeUuid: string) => ({ uuid: nodeUuid, restarted: true }));
+    const client = createClient({ restartNode });
+    const first = await routeRemnawaveApiRequest(
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' } },
+      client,
+    );
+    const token = (first as { error: { token: string } }).error.token;
+
+    const wrongPayload = await routeRemnawaveApiRequest(
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-2' }, confirmToken: token },
+      client,
+    );
+    const confirmed = await routeRemnawaveApiRequest(
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' }, confirmToken: token },
+      client,
+    );
+    const replay = await routeRemnawaveApiRequest(
+      { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' }, confirmToken: token },
+      client,
+    );
+
+    expect(wrongPayload).toMatchObject({ error: { code: 'CONFIRMATION_REQUIRED', kind: 'confirmation_required', token: expect.any(String) } });
+    expect(confirmed).toEqual({ updated: { uuid: 'node-1', restarted: true } });
+    expect(replay).toMatchObject({ error: { code: 'CONFIRMATION_REQUIRED', kind: 'confirmation_required', token: expect.any(String) } });
+    expect(restartNode).toHaveBeenCalledTimes(1);
   });
 });
