@@ -1,6 +1,6 @@
 This matrix is the published capability-level support boundary for the current repository state. It is intentionally aligned to the single-tool `remnawave_api` contract, the runtime discovery surface, and the registry-backed scope map.
 
-Do not read this matrix as endpoint coverage or as a claim that all OpenAPI paths are supported. The current runtime publishes 148 supported operations across 18 domains.
+Do not read this matrix as endpoint coverage or as a claim that all OpenAPI paths are supported. The current runtime publishes 150 supported operations across 19 domains.
 
 ## Capability classes
 
@@ -36,7 +36,7 @@ See the [migration guide](../migration/flat-to-single-tool.md) for details on tr
 
 | Capability area | Published class | Supported now | Notes / boundary |
 |---|---|---|---|
-| system | `supported` | `system.get_stats`, `system.get_metadata`, `system.get_health`, `system.get_bandwidth_stats`, `system.get_node_statistics`, `system.get_nodes_metrics`, `system.get_recap` | Runtime-discoverable through `remnawave_api`. |
+| system | `supported` | `system.get_stats`, `system.get_metadata`, `system.get_health`, `system.get_bandwidth_stats`, `system.get_node_statistics`, `system.get_nodes_metrics`, `system.get_recap`, `system.generate_x25519_keypairs` | Runtime-discoverable through `remnawave_api`. |
 | users | `supported` | `users.list`, `users.create`, `users.get`, `users.get_subscription_request_history`, `users.revoke_subscription`, `users.disable`, `users.enable`, `users.update`, `users.bulk_all_extend_expiration_date`, `users.bulk_all_reset_traffic`, `users.bulk_all_update`, `users.bulk_delete`, `users.bulk_delete_by_status`, `users.bulk_extend_expiration_date`, `users.bulk_reset_traffic`, `users.bulk_revoke_subscription`, `users.bulk_update`, `users.bulk_update_squads`, `users.get_by_email`, `users.get_by_id`, `users.get_by_short_uuid`, `users.get_by_tag`, `users.get_by_telegram_id`, `users.get_by_username`, `users.resolve`, `users.list_tags`, `users.delete`, `users.get_accessible_nodes`, `users.reset_traffic` | Runtime-discoverable through `remnawave_api`. |
 | hosts | `supported` | `hosts.bulk_set_port`, `hosts.list`, `hosts.update`, `hosts.create`, `hosts.reorder`, `hosts.bulk_delete`, `hosts.bulk_disable`, `hosts.bulk_enable`, `hosts.bulk_set_inbound`, `hosts.list_tags`, `hosts.delete`, `hosts.get` | Runtime-discoverable through `remnawave_api`. |
 | nodes | `supported` | `nodes.restart`, `nodes.list`, `nodes.update`, `nodes.create`, `nodes.reorder`, `nodes.restart_all`, `nodes.bulk_actions`, `nodes.profile_modification`, `nodes.bulk_update`, `nodes.list_tags`, `nodes.delete`, `nodes.get`, `nodes.disable`, `nodes.enable`, `nodes.reset_traffic` | Runtime-discoverable through `remnawave_api`. |
@@ -56,7 +56,8 @@ See the [migration guide](../migration/flat-to-single-tool.md) for details on tr
 | internal_squads | `supported` | `internal_squads.list`, `internal_squads.update`, `internal_squads.create`, `internal_squads.reorder`, `internal_squads.delete`, `internal_squads.get`, `internal_squads.get_accessible_nodes`, `internal_squads.add_users`, `internal_squads.remove_users` | Runtime-discoverable through `remnawave_api`. |
 | subscription_page_configs | `supported` | `subscription_page_configs.list`, `subscription_page_configs.update`, `subscription_page_configs.create`, `subscription_page_configs.clone`, `subscription_page_configs.reorder`, `subscription_page_configs.delete`, `subscription_page_configs.get` | Runtime-discoverable through `remnawave_api`. |
 | subscription_settings | `supported` | `subscription_settings.get`, `subscription_settings.update` | Runtime-discoverable through `remnawave_api`. |
-| Explicitly excluded domains | `dropped` | `auth.*`, `tokens.*`, `ip_control.*`, `node_plugins.*`, `keygen`, `remnawave_settings`, dangerous/internal system helpers | Intentionally outside the published v1 support promise. |
+| keygen | `supported` | `keygen.generate_node_secret` | Supported sensitive node onboarding secret generation with an empty payload. |
+| Explicitly excluded domains | `dropped` | `auth.*`, `tokens.*`, `ip_control.*`, `node_plugins.*`, `remnawave_settings`, HAPP encryption, SRR matcher | Intentionally outside the published v1 support promise. |
 | Routing / control-plane rule management | `deferred` | No standalone executable seam | No routing-rule or response-rule management seam is currently exposed through the model-facing MCP runtime; generic topology/control-plane orchestration remains deferred. |
 
 ## Guardrails implied by this matrix
@@ -86,10 +87,11 @@ This matrix maps every PRD-defined domain (section 6.2) to its final implementat
 | snippets | `snippets` | supported | Snippet CRUD is supported. |
 | metadata | `metadata` | supported | User and node metadata reads/upserts are supported. |
 | bandwidth stats | `bandwidth_stats` | supported | Node/user bandwidth stat reads are supported. |
-| system observability | `system` | partially supported | Diagnostics are supported; debug and key-generation helpers are denied. |
-| system observability | `system` | partially supported | Diagnostics supported; debug endpoints and key-generation helpers are denied. |
-| system observability | `system` | partially supported | `get_stats`, `get_metadata`, `get_health`, `get_nodes_metrics`, `get_recap`, and `get_node_statistics` are supported; debug endpoints and key-generation helpers are denied. |
+| system observability | `system` | partially supported | Diagnostics and `system.generate_x25519_keypairs` are supported; debug helpers are denied. |
+| system observability | `system` | partially supported | Diagnostics supported; debug endpoints are denied, while key-generation helpers are explicitly limited to `system.generate_x25519_keypairs`. |
+| system observability | `system` | partially supported | `get_stats`, `get_metadata`, `get_health`, `get_nodes_metrics`, `get_recap`, and `get_node_statistics` are supported; debug endpoints are denied, while `system.generate_x25519_keypairs` is published as a sensitive key-generation workflow. |
 | bandwidth stats | `system` | supported | `get_bandwidth_stats` operation provides aggregate bandwidth statistics. |
+| key generation | `keygen` | supported | `keygen.generate_node_secret` is supported for Remnawave Node secret material. |
 | infra billing | `infra_billing` | supported | Billing provider, node, and history reads/mutations are supported. |
 | hwid | `hwid` | supported | HWID reads, stats, create, and guarded delete workflows are supported. |
 | ip control | `ip_control` | dropped | IP-control async fetch jobs and connection drops remain excluded. |
@@ -102,7 +104,7 @@ This matrix maps every PRD-defined domain (section 6.2) to its final implementat
 
 | State | Count | Domains |
 |---|---|---|
-| Fully supported | 14 | users, nodes, hosts, config profiles, internal squads, external squads, subscription settings, subscription templates, subscription page configs, snippets, metadata, bandwidth stats, infra billing, hwid, subscription request history |
+| Fully supported | 15 | users, nodes, hosts, config profiles, internal squads, external squads, subscription settings, subscription templates, subscription page configs, snippets, metadata, bandwidth stats, infra billing, hwid, subscription request history, keygen |
 | Partially supported | 1 | system observability |
 | Dropped | 2 | ip control, node plugins |
 | Denied | 0 | N/A |
@@ -131,7 +133,7 @@ The following PRD-explicit exclusions (section 6.2) are correctly denied:
 | snippets | `supported` | Snippet CRUD is supported. |
 | metadata | `supported` | User and node metadata reads/upserts are supported. |
 | bandwidth stats | `supported` | Bandwidth statistics are supported. |
-| system observability | `partially supported` | Diagnostics are supported; debug endpoints and key-generation helpers are denied. |
+| system observability | `partially supported` | Diagnostics and `system.generate_x25519_keypairs` are supported; debug endpoints are denied. |
 | infra billing | `supported` | Billing provider, node, and history workflows are supported. |
 | hwid | `supported` | HWID reads/stats and guarded actions are supported. |
 | ip control | `dropped` | IP-control operations remain excluded. |

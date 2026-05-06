@@ -105,7 +105,7 @@ Returns the panel statistics directly:
 
 Runtime discovery is supported-only. It lists only operations that are registered, validated, safety-classified, OpenAPI-bound, and executable through the runtime adapter. Excluded and not-yet-implemented OpenAPI surfaces are not discoverable at runtime, and direct calls to them return compact unsupported-operation errors.
 
-These operations are currently `supported` and executable. The runtime exposes 148 supported operations across 18 domains. Use domain-only discovery to retrieve the authoritative operation list for a domain. Representative supported operations include:
+These operations are currently `supported` and executable. The runtime exposes 150 supported operations across 19 domains. Use domain-only discovery to retrieve the authoritative operation list for a domain. Representative supported operations include:
 
 - `system.get_metadata`, `system.get_stats`, `system.get_health`, `system.get_nodes_metrics`, `system.get_recap`, `system.get_bandwidth_stats`, `system.get_node_statistics`
 - `users.list`, `users.create`, `users.get`, `users.update`, lookup reads such as `users.get_by_username`, single-user lifecycle actions, and bulk preview/apply actions such as `users.bulk_update`
@@ -115,6 +115,7 @@ These operations are currently `supported` and executable. The runtime exposes 1
 - `metadata.get_node`, `metadata.upsert_node`, `metadata.get_user`, `metadata.upsert_user`
 - `templates.list`, `templates.get`, `templates.create`, `templates.update`, `templates.delete`, `templates.reorder`
 - `snippets.list`, `snippets.create`, `snippets.update`, `snippets.delete`
+- `keygen.generate_node_secret` and `system.generate_x25519_keypairs` for supported sensitive key generation workflows with empty payloads
 - public and protected subscription reads, subscription page configs/settings, bandwidth stats, HWID reads/actions, infra billing, internal squads, and external squads
 
 ### Supported domains for discovery
@@ -133,6 +134,7 @@ The runtime discovery surface includes only domains that currently contain suppo
 - `subscription_request_history`
 - `profiles`
 - `bandwidth_stats`
+- `keygen`
 - `external_squads`
 - `hwid`
 - `infra_billing`
@@ -140,7 +142,7 @@ The runtime discovery surface includes only domains that currently contain suppo
 - `subscription_page_configs`
 - `subscription_settings`
 
-Excluded surfaces are intentionally absent from discovery, including `auth`, `tokens`, `ip_control`, `node_plugins`, `remnawave_settings`, `keygen`, and dangerous/internal system helpers such as x25519, HAPP encryption, and SRR matcher endpoints.
+Excluded surfaces are intentionally absent from discovery, including `auth`, `tokens`, `ip_control`, `node_plugins`, and `remnawave_settings`. Sensitive key generation is supported through `keygen.generate_node_secret` and `system.generate_x25519_keypairs`, while HAPP encryption and SRR matcher endpoints remain excluded.
 
 ### Response mode and raw policy
 

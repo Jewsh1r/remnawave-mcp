@@ -35,7 +35,7 @@ See the [migration guide](../migration/flat-to-single-tool.md) for detailed migr
 
 ## Compact v2 scope summary
 
-The v1 discovery surface publishes the registry-backed compact v2 runtime surface. It currently exposes 148 supported operations across 18 domains.
+The v1 discovery surface publishes the registry-backed compact v2 runtime surface. It currently exposes 150 supported operations across 19 domains.
 
 Accepted baseline for this audited repo state:
 
@@ -54,6 +54,8 @@ These operations are currently `supported` and executable through the v1 single-
 - `system.get_node_statistics`
 - `system.get_nodes_metrics`
 - `system.get_recap`
+- `system.generate_x25519_keypairs`
+- `keygen.generate_node_secret`
 - `users.list`
 - `users.create`
 - `users.get`
@@ -226,8 +228,10 @@ The single-tool discovery inventory currently includes these domains:
 - `internal_squads`
 - `subscription_page_configs`
 - `subscription_settings`
+- `keygen`
 
-The runtime excludes auth/bootstrap, token, node-plugin, IP-control, Remnawave-settings, keygen, and dangerous/internal system-helper surfaces such as x25519, HAPP encryption, and SRR matcher endpoints.
+The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawave-settings surfaces, plus dangerous/internal system-helper surfaces such as HAPP encryption and SRR matcher endpoints. Sensitive key generation is published through `keygen.generate_node_secret` and `system.generate_x25519_keypairs`.
+
 
 ## Registry-aligned scope snapshot
 
@@ -241,6 +245,8 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, Remnawave-s
     "system.get_node_statistics",
     "system.get_nodes_metrics",
     "system.get_recap",
+    "system.generate_x25519_keypairs",
+    "keygen.generate_node_secret",
     "users.list",
     "users.create",
     "users.get",
@@ -737,7 +743,8 @@ This section maps the PRD-defined target domains to their final disposition in t
 | snippets | `snippets` | supported | Snippet CRUD is supported. |
 | metadata | `metadata` | supported | User and node metadata reads/upserts are supported. |
 | bandwidth stats | `bandwidth_stats` | supported | Node/user bandwidth stat reads are supported. |
-| system observability/admin-safe utilities | `system` | partially supported | Diagnostics are supported; debug and key-generation helpers are denied. |
+| system observability/admin-safe utilities | `system` | partially supported | Diagnostics and `system.generate_x25519_keypairs` are supported; debug helpers are denied. |
+| key generation | `keygen` | supported | `keygen.generate_node_secret` is supported for node onboarding secret material. |
 | infra billing | `infra_billing` | supported | Billing provider, node, and history reads/mutations are supported. |
 | hwid | `hwid` | supported | HWID reads/stats and guarded actions are supported. |
 | ip control | `ip_control` | dropped | IP-control operations remain excluded. |
@@ -750,7 +757,7 @@ This section maps the PRD-defined target domains to their final disposition in t
 | Domain category | PRD domains | Final state |
 |---|---|---|
 | **Fully supported** | users, nodes, hosts, config profiles, internal squads, external squads, subscription settings, subscription templates, subscription page configs, snippets, metadata, bandwidth stats, infra billing, hwid, subscription request history | Targeted compact v2 operations are supported through registry-backed runtime execution. |
-| **Partially supported** | system observability | Diagnostics are supported; debug and key-generation helpers are denied. |
+| **Partially supported** | system observability | Diagnostics and `system.generate_x25519_keypairs` are supported; debug helpers are denied. |
 | **Deferred** | routing / standalone control-plane rule management | No standalone routing domain is published. |
 | **Denied per PRD** | auth flows, token/bootstrap flows, ip control, node plugins, debug/internal actions | Explicitly excluded from runtime discovery. |
 

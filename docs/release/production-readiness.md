@@ -67,20 +67,20 @@ The capability classes should be interpreted literally in release decisions:
 
 ## Published supported boundary
 
-The shipped boundary for this release is registry-backed and intentionally explicit. It currently publishes 148 supported operations across 18 runtime domains:
+The shipped boundary for this release is registry-backed and intentionally explicit. It currently publishes 150 supported operations across 19 runtime domains:
 
 - one published tool: `remnawave_api`
 - executable behavior only for operations marked `supported` in the scope map
 - excluded and deferred operations are absent from runtime discovery; direct calls return compact unsupported-operation errors
 - runtime outputs do not emit legacy `ok`, `result`, `details`, coaching, or execution-eligibility fields
 
-The currently supported atomic operations include safe system reads, user lookup/create/update/lifecycle/bulk workflows, node and host reads/writes plus guarded bulk workflows, profile lifecycle/reorder operations, metadata get/upsert, template CRUD/reorder, snippet CRUD, public and protected subscription reads, subscription request-history reads, subscription settings/page-config workflows, squad lifecycle and membership operations, HWID workflows, bandwidth stats, and infra-billing provider/node/history workflows.
+The currently supported atomic operations include safe system reads, user lookup/create/update/lifecycle/bulk workflows, node and host reads/writes plus guarded bulk workflows, profile lifecycle/reorder operations, metadata get/upsert, template CRUD/reorder, snippet CRUD, supported sensitive key generation, public and protected subscription reads, subscription request-history reads, subscription settings/page-config workflows, squad lifecycle and membership operations, HWID workflows, bandwidth stats, and infra-billing provider/node/history workflows.
 
 Important supported examples include `nodes.restart` through the shared tier3 confirmation gate and Infra-billing provider, node, mutation, and history workflows through the generated runtime adapter. `hosts.bulk_set_port` covers bounded host port changes only; broader host changes use their specific atomic or guarded bulk operations rather than a legacy grouped routing operation.
 
 - migration guidance remains single-tool-only: callers should use `remnawave_api` with `domain`, `operation`, and `payload`; legacy multi-tool or `tool_name` public surfaces are not part of the published contract
 
-Dangerous node actions remain supported only through the shared tier3 confirmation gate; publication of these operations does not bypass the confirmation-required runtime path.
+Dangerous node actions remain supported only through the shared tier3 confirmation gate; publication of these operations does not bypass the confirmation-required runtime path. Sensitive key generation is supported through dedicated `keygen.generate_node_secret` and `system.generate_x25519_keypairs` operations with empty payloads, while HAPP encryption and SRR matcher remain excluded.
 
 ## Source-precedence and version-sensitive boundaries
 
@@ -93,8 +93,8 @@ Dangerous node actions remain supported only through the shared tier3 confirmati
 
 Deferred capabilities and explicitly excluded surfaces are intentionally absent from runtime discovery. Direct calls to unsupported domains or operations return compact unsupported-operation errors.
 
-- Auth/bootstrap, tokens, keygen, Remnawave-settings, node-plugin, and IP-control surfaces
-- Dangerous/internal system helpers such as x25519 generation, HAPP encryption, and SRR matcher endpoints
+- Auth/bootstrap, tokens, Remnawave-settings, node-plugin, and IP-control surfaces
+- Dangerous/internal system helpers such as HAPP encryption and SRR matcher endpoints
 - Standalone routing or response-rule control-plane seams outside the supported profile/host endpoints
 
 No standalone routing or response-rule control-plane seam is published as executable in this release.
