@@ -208,6 +208,14 @@ const LEGACY_SUPPORTED_OPERATION_SEEDS: Readonly<Record<string, SupportedSeed>> 
       summary: 'Reads system recap statistics without mutating panel state.',
     },
   },
+  'get /api/system/tools/x25519/generate': {
+    domain: 'system', operation: 'generate_x25519_keypairs', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Generates X25519 keypair material without mutating panel state.' },
+  },
+  'get /api/keygen': {
+    domain: 'keygen', operation: 'generate_node_secret', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Generates Remnawave node secret material without mutating panel state.' },
+  },
 
   'get /api/metadata/node/{uuid}': {
     domain: 'metadata', operation: 'get_node', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
@@ -418,6 +426,9 @@ function classifyOperation(operation: EnumeratedOperation): RemnawaveOperationCo
 
 function getSupportedSeed(operation: EnumeratedOperation): SupportedSeed | undefined {
   const legacy = LEGACY_SUPPORTED_OPERATION_SEEDS[`${operation.method} ${operation.path}`];
+  if (legacy !== undefined) {
+    return legacy;
+  }
 
   const extracted = extractOpenApiSnapshot({
     openapi: '3.0.0',
@@ -436,9 +447,9 @@ function getSupportedSeed(operation: EnumeratedOperation): SupportedSeed | undef
     operation: op,
     write,
     safetyMode,
-    riskTier: legacy?.riskTier ?? (safetyMode === 'direct' ? (write ? 'tier2' : 'tier1') : 'tier3'),
-    rawAllowed: legacy?.rawAllowed ?? isRawAllowed(domain, op),
-    normalizer: legacy?.normalizer ?? inferNormalizer(domain, op),
+    riskTier: safetyMode === 'direct' ? (write ? 'tier2' : 'tier1') : 'tier3',
+    rawAllowed: isRawAllowed(domain, op),
+    normalizer: inferNormalizer(domain, op),
     sideEffects: {
       kind: inferSideEffectKind(write, safetyMode, op),
       summary: write ? `Executes ${domain}.${op} through its OpenAPI endpoint.` : `Reads ${domain}.${op} without mutating panel state.`,
@@ -568,10 +579,7 @@ function exclusionReasonForPath(path: string): RemnawaveExclusionReason {
   if (path === '/api/remnawave-settings') {
     return 'excluded_remnawave_settings';
   }
-  if (path === '/api/keygen') {
-    return 'excluded_keygen';
-  }
-  if (path === '/api/system/tools/x25519/generate' || path === '/api/system/tools/happ/encrypt' || path === '/api/system/testers/srr-matcher') {
+  if (path === '/api/system/tools/happ/encrypt' || path === '/api/system/testers/srr-matcher') {
     return 'excluded_system_dangerous';
   }
   return 'not_selected_initial_inventory';

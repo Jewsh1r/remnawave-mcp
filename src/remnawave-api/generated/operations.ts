@@ -14679,6 +14679,101 @@ export const REMNAWAVE_OPENAPI_EXTRACT = ({
       "summary": "Delete users from internal squad"
     },
     {
+      "key": "keygen.generate_node_secret",
+      "method": "get",
+      "operationId": "KeygenController_generateKey",
+      "parameters": [],
+      "path": "/api/keygen",
+      "responses": {
+        "200": {
+          "description": "Get SECRET_KEY for Remnawave Node",
+          "schema": {
+            "properties": {
+              "response": {
+                "properties": {
+                  "pubKey": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pubKey"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "response"
+            ],
+            "type": "object"
+          }
+        },
+        "400": {
+          "description": "Validation error",
+          "schema": {
+            "properties": {
+              "errors": {
+                "items": {
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "validation": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "path",
+                    "validation"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "message": {
+                "type": "string"
+              },
+              "statusCode": {
+                "type": "number"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "500": {
+          "description": "Server error",
+          "schema": {
+            "properties": {
+              "errorCode": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        }
+      },
+      "summary": "Get SECRET_KEY for Remnawave Node"
+    },
+    {
       "key": "metadata.get_node",
       "method": "get",
       "operationId": "MetadataController_getNodeMetadata",
@@ -27922,6 +28017,116 @@ export const REMNAWAVE_OPENAPI_EXTRACT = ({
         }
       },
       "summary": "Get Recap"
+    },
+    {
+      "key": "system.generate_x25519_keypairs",
+      "method": "get",
+      "operationId": "SystemController_getX25519Keypairs",
+      "parameters": [],
+      "path": "/api/system/tools/x25519/generate",
+      "responses": {
+        "200": {
+          "description": "Returns x25519 keypairs",
+          "schema": {
+            "properties": {
+              "response": {
+                "properties": {
+                  "keypairs": {
+                    "items": {
+                      "properties": {
+                        "privateKey": {
+                          "type": "string"
+                        },
+                        "publicKey": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "privateKey",
+                        "publicKey"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "keypairs"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "response"
+            ],
+            "type": "object"
+          }
+        },
+        "400": {
+          "description": "Validation error",
+          "schema": {
+            "properties": {
+              "errors": {
+                "items": {
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "validation": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "path",
+                    "validation"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "message": {
+                "type": "string"
+              },
+              "statusCode": {
+                "type": "number"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "500": {
+          "description": "Server error",
+          "schema": {
+            "properties": {
+              "errorCode": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        }
+      },
+      "summary": "Generate 30 X25519 keypairs"
     },
     {
       "key": "users.list",

@@ -311,6 +311,18 @@ export const SELECTED_OPENAPI_OPERATIONS = [
     operationId: 'SystemController_getRecap',
   },
   {
+    key: 'system.generate_x25519_keypairs',
+    method: 'get',
+    path: '/api/system/tools/x25519/generate',
+    operationId: 'SystemController_getX25519Keypairs',
+  },
+  {
+    key: 'keygen.generate_node_secret',
+    method: 'get',
+    path: '/api/keygen',
+    operationId: 'KeygenController_generateKey',
+  },
+  {
     key: 'users.disable',
     method: 'post',
     path: '/api/users/{uuid}/actions/disable',
@@ -447,6 +459,8 @@ function classifySupportedOperation(operation: OpenApiEnumeration): { readonly k
     'get /api/system/stats/nodes': 'system.get_node_statistics',
     'get /api/system/nodes/metrics': 'system.get_nodes_metrics',
     'get /api/system/stats/recap': 'system.get_recap',
+    'get /api/system/tools/x25519/generate': 'system.generate_x25519_keypairs',
+    'get /api/keygen': 'keygen.generate_node_secret',
     'get /api/metadata/node/{uuid}': 'metadata.get_node',
     'put /api/metadata/node/{uuid}': 'metadata.upsert_node',
     'get /api/metadata/user/{uuid}': 'metadata.get_user',

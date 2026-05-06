@@ -297,7 +297,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads profiles.list without mutating panel state."
+        "summary": "Lists config profiles without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -459,7 +459,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads profiles.get without mutating panel state."
+        "summary": "Reads one config profile without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -486,7 +486,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads profiles.get_computed without mutating panel state."
+        "summary": "Reads one computed config profile without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -513,7 +513,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads profiles.list_inbounds without mutating panel state."
+        "summary": "Lists inbounds for one config profile without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -972,7 +972,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "preview_apply",
       "sideEffects": {
         "kind": "bulk_update",
-        "summary": "Executes hosts.bulk_set_port through its OpenAPI endpoint."
+        "summary": "Sets the port for a bounded host set."
       },
       "status": "supported",
       "write": true
@@ -1906,8 +1906,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "keygen",
-      "exclusionReason": "excluded_keygen",
-      "key": "keygen.get_keygen_controller_generate_key_keygen",
+      "key": "keygen.generate_node_secret",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "KeygenController_generateKey",
@@ -1919,8 +1919,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:KeygenController_generateKey.responses.500"
         ]
       },
-      "operation": "get_keygen_controller_generate_key_keygen",
-      "status": "excluded"
+      "operation": "generate_node_secret",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Generates Remnawave node secret material without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "metadata",
@@ -1945,7 +1954,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads metadata.get_node without mutating panel state."
+        "summary": "Reads one node metadata document without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -1973,7 +1982,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes metadata.upsert_node through its OpenAPI endpoint."
+        "summary": "Upserts one node metadata document."
       },
       "status": "supported",
       "write": true
@@ -2001,7 +2010,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads metadata.get_user without mutating panel state."
+        "summary": "Reads one user metadata document without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -2029,7 +2038,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes metadata.upsert_user through its OpenAPI endpoint."
+        "summary": "Upserts one user metadata document."
       },
       "status": "supported",
       "write": true
@@ -2632,7 +2641,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "restart",
-        "summary": "Executes nodes.restart through its OpenAPI endpoint."
+        "summary": "Restarts one node."
       },
       "status": "supported",
       "write": true
@@ -2785,7 +2794,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "delete",
-        "summary": "Executes snippets.delete through its OpenAPI endpoint."
+        "summary": "Deletes one snippet."
       },
       "status": "supported",
       "write": true
@@ -2812,7 +2821,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads snippets.list without mutating panel state."
+        "summary": "Lists snippets without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -2839,7 +2848,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes snippets.update through its OpenAPI endpoint."
+        "summary": "Updates one snippet."
       },
       "status": "supported",
       "write": true
@@ -2866,7 +2875,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "create",
-        "summary": "Executes snippets.create through its OpenAPI endpoint."
+        "summary": "Creates one snippet."
       },
       "status": "supported",
       "write": true
@@ -2889,7 +2898,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads public_subscriptions.get without mutating panel state."
+        "summary": "Reads one public subscription response without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -2916,7 +2925,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads public_subscriptions.get_info without mutating panel state."
+        "summary": "Reads one public subscription info document without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -2939,7 +2948,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads public_subscriptions.get_by_client_type without mutating panel state."
+        "summary": "Reads one client-specific public subscription response without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3155,7 +3164,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscription_request_history.list without mutating panel state."
+        "summary": "Lists subscription request history without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3182,7 +3191,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscription_request_history.get_stats without mutating panel state."
+        "summary": "Reads subscription request-history stats without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3263,7 +3272,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads templates.list without mutating panel state."
+        "summary": "Lists subscription templates without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3290,7 +3299,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes templates.update through its OpenAPI endpoint."
+        "summary": "Updates one subscription template."
       },
       "status": "supported",
       "write": true
@@ -3317,7 +3326,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "create",
-        "summary": "Executes templates.create through its OpenAPI endpoint."
+        "summary": "Creates one subscription template."
       },
       "status": "supported",
       "write": true
@@ -3371,7 +3380,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "delete",
-        "summary": "Executes templates.delete through its OpenAPI endpoint."
+        "summary": "Deletes one subscription template."
       },
       "status": "supported",
       "write": true
@@ -3398,7 +3407,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads templates.get without mutating panel state."
+        "summary": "Reads one subscription template without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3425,7 +3434,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.list without mutating panel state."
+        "summary": "Lists protected subscriptions without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3453,7 +3462,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.get_by_short_uuid without mutating panel state."
+        "summary": "Reads one protected subscription by short UUID without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3480,7 +3489,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.get_raw_by_short_uuid without mutating panel state."
+        "summary": "Reads one protected raw subscription payload by short UUID without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3508,7 +3517,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.get_by_username without mutating panel state."
+        "summary": "Reads one protected subscription by username without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3536,7 +3545,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.get_by_uuid without mutating panel state."
+        "summary": "Reads one protected subscription by UUID without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3563,7 +3572,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.get_connection_keys_by_uuid without mutating panel state."
+        "summary": "Reads protected subscription connection keys without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3590,7 +3599,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads subscriptions.get_subpage_config_by_short_uuid without mutating panel state."
+        "summary": "Reads one protected subscription subpage config without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3617,7 +3626,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_health without mutating panel state."
+        "summary": "Reads system health without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3644,7 +3653,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_metadata without mutating panel state."
+        "summary": "Reads system metadata without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3671,7 +3680,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_nodes_metrics without mutating panel state."
+        "summary": "Reads node metrics without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3698,7 +3707,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_stats without mutating panel state."
+        "summary": "Reads system statistics without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3725,7 +3734,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_bandwidth_stats without mutating panel state."
+        "summary": "Reads aggregate bandwidth statistics without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3752,7 +3761,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_node_statistics without mutating panel state."
+        "summary": "Reads aggregate node statistics without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3779,7 +3788,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system.get_recap without mutating panel state."
+        "summary": "Reads system recap statistics without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3822,8 +3831,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "system",
-      "exclusionReason": "excluded_system_dangerous",
-      "key": "system.get_system_controller_get_x25519_keypairs_system_tools_x25519_generate",
+      "key": "system.generate_x25519_keypairs",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getX25519Keypairs",
@@ -3835,8 +3844,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getX25519Keypairs.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_x25519_keypairs_system_tools_x25519_generate",
-      "status": "excluded"
+      "operation": "generate_x25519_keypairs",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Generates X25519 keypair material without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "tokens",
@@ -3914,7 +3932,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads users.list without mutating panel state."
+        "summary": "Reads user inventory without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -3968,7 +3986,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "create",
-        "summary": "Executes users.create through its OpenAPI endpoint."
+        "summary": "Creates one user account."
       },
       "status": "supported",
       "write": true
@@ -4508,7 +4526,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads users.get without mutating panel state."
+        "summary": "Reads one user by UUID without mutating panel state."
       },
       "status": "supported",
       "write": false
@@ -4562,7 +4580,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes users.disable through its OpenAPI endpoint."
+        "summary": "Disables one user account."
       },
       "status": "supported",
       "write": true
@@ -4589,7 +4607,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes users.enable through its OpenAPI endpoint."
+        "summary": "Enables one user account."
       },
       "status": "supported",
       "write": true
@@ -4643,7 +4661,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "update",
-        "summary": "Executes users.revoke_subscription through its OpenAPI endpoint."
+        "summary": "Revokes one user subscription credentials."
       },
       "status": "supported",
       "write": true
@@ -4670,7 +4688,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads users.get_subscription_request_history without mutating panel state."
+        "summary": "Reads one user subscription request-history trail without mutating panel state."
       },
       "status": "supported",
       "write": false
