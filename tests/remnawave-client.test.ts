@@ -38,7 +38,7 @@ describe('normalization layer', () => {
     expect(normalized.items.length).toBeGreaterThan(0);
     expect(normalized.items[0]).toMatchObject({
       name: 'nl-1',
-      endpoint: 'nl-1.nodes.redivo.ru:2222',
+      endpoint: 'nl-1.nodes.example.test:2222',
       connection: {
         state: 'connected',
       },

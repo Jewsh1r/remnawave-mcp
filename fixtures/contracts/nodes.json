@@ -14,7 +14,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "nl-1",
-          "address": "nl-1.nodes.redivo.ru",
+          "address": "nl-1.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -76,7 +76,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "nl-1.nodes.redivo.ru"
+                        "nl-1.nodes.example.test"
                       ]
                     }
                   }
@@ -119,7 +119,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "nl-1.nodes.redivo.ru"
+                        "nl-1.nodes.example.test"
                       ]
                     }
                   }
@@ -182,7 +182,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "de-2",
-          "address": "de-2.nodes.redivo.ru",
+          "address": "de-2.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -240,7 +240,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de-2.nodes.redivo.ru"
+                        "de-2.nodes.example.test"
                       ]
                     }
                   }
@@ -283,7 +283,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de-2.nodes.redivo.ru"
+                        "de-2.nodes.example.test"
                       ]
                     }
                   }
@@ -326,7 +326,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de-2.nodes.redivo.ru"
+                        "de-2.nodes.example.test"
                       ]
                     }
                   }
@@ -369,7 +369,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de-2.nodes.redivo.ru"
+                        "de-2.nodes.example.test"
                       ]
                     }
                   }
@@ -412,7 +412,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de-2.nodes.redivo.ru"
+                        "de-2.nodes.example.test"
                       ]
                     }
                   }
@@ -476,7 +476,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "bridge-v2",
-          "address": "bridge-v2.redivo.ru",
+          "address": "bridge-v2.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -537,7 +537,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -580,7 +580,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -623,7 +623,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -666,7 +666,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -709,7 +709,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -752,7 +752,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -795,7 +795,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -838,7 +838,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -881,7 +881,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -924,7 +924,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -967,7 +967,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -1010,7 +1010,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -1053,7 +1053,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "bridge-v2.redivo.ru"
+                        "bridge-v2.example.test"
                       ]
                     }
                   }
@@ -1172,7 +1172,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "fi-1.nodes.redivo.ru"
+                        "fi-1.nodes.example.test"
                       ]
                     }
                   }
@@ -1234,7 +1234,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "lv-1",
-          "address": "lv-1.nodes.redivo.ru",
+          "address": "lv-1.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -1292,7 +1292,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "lv-1.nodes.redivo.ru"
+                        "lv-1.nodes.example.test"
                       ]
                     }
                   }
@@ -1421,7 +1421,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "us-2.nodes.redivo.ru"
+                        "us-2.nodes.example.test"
                       ]
                     }
                   }
@@ -1477,7 +1477,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "pl-1",
-          "address": "pl.nodes.redivo.ru",
+          "address": "pl.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -1535,7 +1535,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "pl.nodes.redivo.ru"
+                        "pl.nodes.example.test"
                       ]
                     }
                   }
@@ -1582,7 +1582,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "pl.nodes.redivo.ru"
+                        "pl.nodes.example.test"
                       ]
                     }
                   }
@@ -1676,7 +1676,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "norway-1",
-          "address": "no-1.nodes.redivo.ru",
+          "address": "no-1.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -1734,7 +1734,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "no-1.nodes.redivo.ru"
+                        "no-1.nodes.example.test"
                       ]
                     }
                   }
@@ -1795,8 +1795,8 @@
         },
         {
           "uuid": "<REDACTED>",
-          "name": "al.nodes.redivo.ru",
-          "address": "al.nodes.redivo.ru",
+          "name": "al.nodes.example.test",
+          "address": "al.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -1854,7 +1854,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "al.nodes.redivo.ru"
+                        "al.nodes.example.test"
                       ]
                     }
                   }
@@ -1897,7 +1897,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "al.nodes.redivo.ru"
+                        "al.nodes.example.test"
                       ]
                     }
                   }
@@ -1958,8 +1958,8 @@
         },
         {
           "uuid": "<REDACTED>",
-          "name": "se.nodes.redivo.ru",
-          "address": "se.nodes.redivo.ru",
+          "name": "se.nodes.example.test",
+          "address": "se.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -2017,7 +2017,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "se.nodes.redivo.ru"
+                        "se.nodes.example.test"
                       ]
                     }
                   }
@@ -2116,8 +2116,8 @@
         },
         {
           "uuid": "<REDACTED>",
-          "name": "tr.nodes.redivo.ru",
-          "address": "tr.nodes.redivo.ru",
+          "name": "tr.nodes.example.test",
+          "address": "tr.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -2175,7 +2175,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "tr.nodes.redivo.ru"
+                        "tr.nodes.example.test"
                       ]
                     }
                   }
@@ -2218,7 +2218,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "tr.nodes.redivo.ru"
+                        "tr.nodes.example.test"
                       ]
                     }
                   }
@@ -2281,7 +2281,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "hk-1",
-          "address": "hk-1.nodes.redivo.ru",
+          "address": "hk-1.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -2339,7 +2339,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "hk-1.nodes.redivo.ru"
+                        "hk-1.nodes.example.test"
                       ]
                     }
                   }
@@ -2382,7 +2382,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "hk-1.nodes.redivo.ru"
+                        "hk-1.nodes.example.test"
                       ]
                     }
                   }
@@ -2445,7 +2445,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "vietnam-router",
-          "address": "vn.nodes.redivo.ru",
+          "address": "vn.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": true,
@@ -2503,7 +2503,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "vn.nodes.redivo.ru"
+                        "vn.nodes.example.test"
                       ]
                     }
                   }
@@ -2529,7 +2529,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "japan-1",
-          "address": "jp-1.nodes.redivo.ru",
+          "address": "jp-1.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -2587,7 +2587,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "jp-1.nodes.redivo.ru"
+                        "jp-1.nodes.example.test"
                       ]
                     }
                   }
@@ -2649,7 +2649,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "kr-1",
-          "address": "kr-1.nodes.redivo.ru",
+          "address": "kr-1.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": false,
@@ -2707,7 +2707,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "kr-1.nodes.redivo.ru"
+                        "kr-1.nodes.example.test"
                       ]
                     }
                   }
@@ -2762,8 +2762,8 @@
         },
         {
           "uuid": "<REDACTED>",
-          "name": "de.nodes.redivo.ru",
-          "address": "de.nodes.redivo.ru",
+          "name": "de.nodes.example.test",
+          "address": "de.nodes.example.test",
           "port": 2222,
           "isConnected": true,
           "isConnecting": true,
@@ -2821,7 +2821,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de.nodes.redivo.ru"
+                        "de.nodes.example.test"
                       ]
                     }
                   }
@@ -2864,7 +2864,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "de.nodes.redivo.ru"
+                        "de.nodes.example.test"
                       ]
                     }
                   }
@@ -2890,7 +2890,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "ny-1",
-          "address": "ny-1.nodes.redivo.ru",
+          "address": "ny-1.nodes.example.test",
           "port": 2222,
           "isConnected": false,
           "isConnecting": false,
@@ -2948,7 +2948,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ny-1.nodes.redivo.ru"
+                        "ny-1.nodes.example.test"
                       ]
                     }
                   }
@@ -2974,7 +2974,7 @@
         {
           "uuid": "<REDACTED>",
           "name": "ru-bridge",
-          "address": "ru-bridge.redivo.ru",
+          "address": "ru-bridge.example.test",
           "port": 2222,
           "isConnected": false,
           "isConnecting": false,
@@ -3033,7 +3033,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3076,7 +3076,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3119,7 +3119,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3162,7 +3162,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3205,7 +3205,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3248,7 +3248,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3291,7 +3291,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3334,7 +3334,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3377,7 +3377,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3420,7 +3420,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3463,7 +3463,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3506,7 +3506,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3549,7 +3549,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3592,7 +3592,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
@@ -3635,7 +3635,7 @@
                       ],
                       "privateKey": "<REDACTED_VALUE>",
                       "serverNames": [
-                        "ru-bridge.redivo.ru"
+                        "ru-bridge.example.test"
                       ]
                     }
                   }
