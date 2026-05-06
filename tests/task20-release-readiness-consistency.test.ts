@@ -27,7 +27,7 @@ describe('task 20 release-readiness consistency', () => {
 
     expect(packageJson.name).toBe('remnawave-mcp');
     expect(packageJson.private).toBeUndefined();
-    expect(packageJson.bin).toEqual({ 'remnawave-mcp': './dist/index.js' });
+    expect(packageJson.bin).toEqual({ 'remnawave-mcp': 'dist/index.js' });
     expect(packageJson.files).toEqual(['dist', 'README.md', 'LICENSE', 'NOTICE.md']);
     expect(packageJson.license).toBe('MIT');
     expect(packageJson.scripts.prepack).toBe('npm run build');

@@ -4,7 +4,7 @@
   "description": "Publishable stdio MCP server for verified Remnawave diagnostics, inventory reads, and guarded mutation flows.",
   "type": "module",
   "bin": {
-    "remnawave-mcp": "./dist/index.js"
+    "remnawave-mcp": "dist/index.js"
   },
   "engines": {
     "node": ">=20.11.0",
@@ -16,6 +16,14 @@
     "remnawave",
     "stdio"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nggurbanov/remnawave-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nggurbanov/remnawave-mcp/issues"
+  },
+  "homepage": "https://github.com/nggurbanov/remnawave-mcp#readme",
   "packageManager": "npm@10.9.2",
   "files": [
     "dist",
