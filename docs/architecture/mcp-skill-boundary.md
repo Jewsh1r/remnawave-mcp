@@ -139,9 +139,9 @@ The boundary is verified by these tests:
 ## References
 
 - Canonical contract: `src/remnawave-api/contract.ts`
-- Decision memo: `.sisyphus/drafts/remnawave-mcp-decision-memo.md` (section 8: Skill Scope)
-- Implementation plan: `.sisyphus/plans/remnawave-mcp-redesign.md` (Task 5)
-- Operator skill: `/Users/tyrell/.agents/skills/remnawave-mcp-operator/SKILL.md`
+- Design decision: MCP execution behavior is defined in-repo, not by an external operator skill
+- Implementation scope: compact v2 runtime contract and registry-backed operation support
+- Operator guidance: supplementary only; it must not contain execution-critical details absent from MCP
 
 ---
 

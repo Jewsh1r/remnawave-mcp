@@ -6,14 +6,15 @@ The publication boundary described here is based on the current audited repo sta
 
 ## Release metadata summary
 
-- Package name: `@indiebrothers/mcp-remnawave`
+- Package name: `remnawave-mcp`
 - Server version: `0.2.0`
 - Runtime model: local stdio MCP server only
 - Built entrypoint: `dist/index.js`
+- CLI command: `remnawave-mcp`
 - Required runtimes: Node.js `>=20.11.0`, npm `>=10.0.0`
 - Supported Remnawave version policy: `2.7.0` through `2.7.4`
 
-The package is intentionally conservative. It does not claim Docker packaging, remote transport hosting, or compatibility with unknown Remnawave panel versions.
+The publishable npm package is intentionally conservative. It does not claim Docker packaging, remote transport hosting, or compatibility with unknown Remnawave panel versions.
 
 ## Remnawave MCP v1 release target
 
@@ -135,6 +136,7 @@ The following checklist must be satisfied before publishing or tagging the v1 si
 - [ ] `npm run check` passes
 - [ ] `npm test` passes
 - [ ] `npm run build` passes
+- [ ] `npm pack --dry-run` includes `dist/index.js`, `README.md`, `LICENSE`, and `NOTICE.md`
 - [ ] any scope-sync or contract tests that validate the registry-backed scope snapshot pass
 - [ ] documentation examples are manually reviewed against the current `contract.ts` and `registry.ts` behavior
 
@@ -179,11 +181,7 @@ This release-readiness report is supported by the following repo artifacts and c
 
 - Contract baseline: [`docs/contracts/remnawave-contract-report.md`](../contracts/remnawave-contract-report.md)
 - Scope baseline: [`docs/scope/capability-matrix.md`](../scope/capability-matrix.md)
-- Prior implementation evidence:
-  - `.sisyphus/evidence/task-8-discovery.txt`
-  - `.sisyphus/evidence/task-13-docs.txt`
-  - `.sisyphus/evidence/task-13-infra-billing.txt`
-  - `.sisyphus/evidence/task-15-release-readiness.txt`
+- Prior implementation evidence captured during the internal task series
 
 For Task 0 baseline freeze, the operative truth is the current in-repo runtime, registry, docs, and command verification rather than prior completion narratives.
 

@@ -7,9 +7,9 @@ Historical note: this document is a planning inventory, not the current runtime 
 
 ## Scope and source precedence
 
-1. Sidebar-domain seed list from `.sisyphus/plans/remnawave-panel-parity-mcp.md`.
+1. Sidebar-domain seed list from the panel-parity planning inventory.
 2. Hosted API docs root: `https://docs.rw/api/`.
-3. Local OpenAPI artifact: `/Users/tyrell/Projects/redivo/redivo-proxy-bot/external_docs/remnawave-opanapi.json`.
+3. Vendored OpenAPI artifact: `src/remnawave-api/openapi/remnawave-openapi-2.7.4.json`.
 4. Overview docs root: `https://docs.rw/docs/overview/introduction/` (+ linked overview/features pages).
 5. Current capability context: `docs/scope/capability-matrix.md`.
 

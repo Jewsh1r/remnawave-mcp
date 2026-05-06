@@ -53,7 +53,7 @@ Our approach:
 
 ### 4. Local-first bootstrap
 
-Remote repository creation (private GitHub repo in Инди Братья) is deferred to a later task. This task bootstraps the local git repository only. No remote is configured.
+Remote repository creation and publication are handled separately from this local bootstrap. This task bootstraps the local git repository only. No remote is configured at initialization.
 
 ---
 

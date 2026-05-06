@@ -24,7 +24,7 @@
 | HWID | `GET /api/hwid/devices/stats` | 200 | `fixtures/contracts/hwid.json` |
 | auth/error path | `GET /api/system/stats` (without auth) | 401 | `fixtures/contracts/auth_error.json` |
 
-## Comparison against bundled OpenAPI (`external_docs/remnawave-opanapi.json`)
+## Comparison against bundled OpenAPI (`src/remnawave-api/openapi/remnawave-openapi-2.7.4.json`)
 
 | Claim | Result | Evidence |
 |---|---|---|
@@ -32,7 +32,7 @@
 | `POST /api/users/resolve` exists and accepts identifier-based body (`uuid`, `id`, `shortUuid`, `username`) | **confirmed** | OpenAPI `ResolveUserRequestBodyDto`; live `users_resolve.json` succeeded with `uuid` |
 | `GET /api/system/stats/recap` is available for baseline | **uncertain** | Route is in OpenAPI/changelog, but not captured in this Task 3 fixture set |
 
-## Comparison against local MCP benchmark (`external_docs/.../mcp-remnawave.md`)
+## Comparison against MCP benchmark notes
 
 | Benchmark claim | Result | Evidence |
 |---|---|---|
