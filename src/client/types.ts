@@ -90,6 +90,30 @@ export interface NormalizedUsersResolveResponse {
   readonly match: NormalizedResolvedUser | null;
 }
 
+export interface NormalizedUserSubscriptionHistoryItem {
+  readonly requestedAt: string | null;
+  readonly source: string | null;
+  readonly outcome: string | null;
+  readonly subscriptionUrl: string | null;
+  readonly clientHints: readonly string[];
+}
+
+export interface NormalizedUserSubscriptionHistoryResponse {
+  readonly items: readonly NormalizedUserSubscriptionHistoryItem[];
+}
+
+export interface NormalizedUserHwidDevice {
+  readonly hwid: string;
+  readonly deviceModel: string | null;
+  readonly platform: string | null;
+  readonly createdAt: string | null;
+  readonly updatedAt: string | null;
+}
+
+export interface NormalizedUserHwidDevicesResponse {
+  readonly items: readonly NormalizedUserHwidDevice[];
+}
+
 export interface NormalizedSubscriptionItem {
   readonly lookupFound: boolean;
   readonly subscriptionUrl: string | null;
@@ -110,6 +134,158 @@ export interface NormalizedSubscriptionItem {
 
 export interface NormalizedSubscriptionsResponse {
   readonly items: readonly NormalizedSubscriptionItem[];
+}
+
+export interface NormalizedSubscriptionPolicySettings {
+  readonly values: Record<string, unknown>;
+}
+
+export interface NormalizedSubscriptionTemplateItem {
+  readonly uuid: string;
+  readonly name: string;
+  readonly templateType: string;
+  readonly order: number | null;
+  readonly body: string | null;
+}
+
+export interface NormalizedSubscriptionTemplatesResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedSubscriptionTemplateItem[];
+}
+
+export interface NormalizedSubscriptionPageConfigItem {
+  readonly uuid: string;
+  readonly name: string;
+  readonly showConnectionKeys: boolean;
+  readonly order: number | null;
+}
+
+export interface NormalizedSubscriptionPageConfigsResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedSubscriptionPageConfigItem[];
+}
+
+export interface NormalizedSquadMemberRef {
+  readonly uuid: string;
+  readonly username: string;
+}
+
+export interface NormalizedInternalSquadItem {
+  readonly uuid: string;
+  readonly name: string;
+  readonly position: number | null;
+  readonly access: {
+    readonly inboundTags: readonly string[];
+  };
+  readonly membership: {
+    readonly totalMembers: number;
+    readonly members: readonly NormalizedSquadMemberRef[];
+  };
+  readonly accessibleNodes: readonly {
+    readonly uuid: string;
+    readonly name: string;
+  }[];
+}
+
+export interface NormalizedInternalSquadsResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedInternalSquadItem[];
+}
+
+export interface NormalizedExternalTemplateOverride {
+  readonly templateType: string;
+  readonly templateName: string;
+}
+
+export interface NormalizedExternalSquadItem {
+  readonly uuid: string;
+  readonly name: string;
+  readonly position: number | null;
+  readonly membership: {
+    readonly totalMembers: number;
+    readonly members: readonly NormalizedSquadMemberRef[];
+  };
+  readonly deliveryPolicy: {
+    readonly templateOverrides: readonly NormalizedExternalTemplateOverride[];
+    readonly settingsOverrides: Record<string, unknown>;
+  };
+}
+
+export interface NormalizedExternalSquadsResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedExternalSquadItem[];
+}
+
+export interface NormalizedHostInboundRef {
+  readonly configProfileUuid: string;
+  readonly configProfileInboundUuid: string;
+  readonly tag: string | null;
+  readonly profileName: string | null;
+}
+
+export interface NormalizedHost {
+  readonly uuid: string;
+  readonly viewPosition: number | null;
+  readonly remark: string;
+  readonly address: string;
+  readonly port: number;
+  readonly enabled: boolean;
+  readonly isHidden: boolean;
+  readonly sni: string | null;
+  readonly securityLayer: string | null;
+  readonly fingerprint: string | null;
+  readonly nodes: readonly {
+    readonly uuid: string;
+    readonly name: string;
+  }[];
+  readonly inbound: NormalizedHostInboundRef;
+}
+
+export interface NormalizedHostsResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedHost[];
+}
+
+export interface NormalizedProfileInboundSquadRef {
+  readonly uuid: string;
+  readonly name: string;
+}
+
+export interface NormalizedProfileInbound {
+  readonly uuid: string;
+  readonly profileUuid: string;
+  readonly tag: string;
+  readonly type: string;
+  readonly network: string | null;
+  readonly security: string | null;
+  readonly port: number | null;
+  readonly activeSquads: readonly NormalizedProfileInboundSquadRef[];
+}
+
+export interface NormalizedProfileNodeRef {
+  readonly uuid: string;
+  readonly name: string;
+}
+
+export interface NormalizedProfile {
+  readonly uuid: string;
+  readonly viewPosition: number | null;
+  readonly name: string;
+  readonly config: Record<string, unknown>;
+  readonly inbounds: readonly NormalizedProfileInbound[];
+  readonly attachedNodes: readonly NormalizedProfileNodeRef[];
+  readonly createdAt: string | null;
+  readonly updatedAt: string | null;
+}
+
+export interface NormalizedProfilesResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedProfile[];
+}
+
+export interface NormalizedProfileInboundsResponse {
+  readonly total: number;
+  readonly items: readonly NormalizedProfileInbound[];
 }
 
 export interface NormalizedSystemStats {
@@ -156,6 +332,93 @@ export interface NormalizedSystemHealth {
     readonly eventLoopDelayMs: number;
     readonly eventLoopP99Ms: number;
   }[];
+}
+
+export interface NormalizedNodeMetric {
+  readonly nodeUuid: string;
+  readonly nodeName: string | null;
+  readonly cpuLoad: number | null;
+  readonly memoryUsageBytes: number | null;
+  readonly collectedAt: string | null;
+  readonly raw: Record<string, unknown>;
+}
+
+export interface NormalizedNodeStatisticsItem {
+  readonly nodeUuid: string;
+  readonly nodeName: string | null;
+  readonly onlineUsers: number | null;
+  readonly trafficUsedBytes: string | null;
+  readonly raw: Record<string, unknown>;
+}
+
+export interface NormalizedSystemRecap {
+  readonly totalUsers: number | null;
+  readonly activeUsers: number | null;
+  readonly inactiveUsers: number | null;
+  readonly expiredUsers: number | null;
+  readonly generatedAt: string | null;
+  readonly raw: Record<string, unknown>;
+}
+
+export interface NormalizedSubscriptionRequestHistoryItem {
+  readonly requestedAt: string | null;
+  readonly source: string | null;
+  readonly outcome: string | null;
+  readonly subscriptionUrl: string | null;
+  readonly clientHints: readonly string[];
+}
+
+export interface NormalizedSubscriptionRequestHistory {
+  readonly items: readonly NormalizedSubscriptionRequestHistoryItem[];
+  readonly stats: Record<string, unknown>;
+}
+
+export type BillingSupportClass = 'local_service_evidence_only';
+
+export interface NormalizedBillingProvider {
+  readonly uuid: string;
+  readonly key: string;
+  readonly name: string;
+  readonly enabled: boolean;
+  readonly isDefault: boolean;
+  readonly support: BillingSupportClass;
+}
+
+export interface NormalizedBillingProvidersResponse {
+  readonly items: readonly NormalizedBillingProvider[];
+}
+
+export interface NormalizedBillingNode {
+  readonly uuid: string;
+  readonly nodeUuid: string;
+  readonly nodeName: string;
+  readonly providerUuid: string | null;
+  readonly providerName: string | null;
+  readonly enabled: boolean;
+  readonly support: BillingSupportClass;
+}
+
+export interface NormalizedBillingNodesResponse {
+  readonly items: readonly NormalizedBillingNode[];
+}
+
+export interface NormalizedBillingHistoryItem {
+  readonly uuid: string;
+  readonly providerUuid: string | null;
+  readonly providerName: string | null;
+  readonly nodeUuid: string | null;
+  readonly nodeName: string | null;
+  readonly amount: number | null;
+  readonly currency: string | null;
+  readonly status: string | null;
+  readonly periodStart: string | null;
+  readonly periodEnd: string | null;
+  readonly createdAt: string | null;
+  readonly support: BillingSupportClass;
+}
+
+export interface NormalizedBillingHistoryResponse {
+  readonly items: readonly NormalizedBillingHistoryItem[];
 }
 
 export interface BandwidthWindow {

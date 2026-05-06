@@ -1,3 +1,4 @@
+import { getSupportedOperationSchema } from '../schema.js';
 import type { OperationRegistry, RuntimeOperationFactoryContext } from '../registry.js';
 
 export function registerUserOperations(
@@ -17,32 +18,65 @@ export function registerUserOperations(
     }),
   ));
 
-  registry.register('users', 'create_user', context.supportedWriteOperation(
+  registry.register('users', 'create', context.supportedWriteOperation(
     'users',
-    'create_user',
+    'create',
     'Create a user when the payload is complete and valid.',
     'Provide username, telegramId, and expireAt to create a single user.',
     'Generated OpenAPI-backed user creation.',
     { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
-    'users_create_user',
+    'users_create',
     'createUser',
     context.validateCreateUserPayload,
     async (client, payload) => ({
-      result: await context.requireClientMethod(client, 'createUser', 'users.create_user')(payload),
+      result: await context.requireClientMethod(client, 'createUser', 'users.create')(payload),
     }),
   ));
 
-  registry.register('users', 'get_by_uuid', context.supportedReadOperation(
+  registry.register('users', 'get', context.supportedReadOperation(
     'users',
-    'get_by_uuid',
+    'get',
     'Read one user by UUID.',
     'Send payload with uuid to read one user by UUID.',
     'Generated OpenAPI-backed user entity read.',
-    'users_get_by_uuid',
+    'users_get',
     'resolveUser',
     async (client, payload) => ({
-      result: await context.requireClientMethod(client, 'resolveUser', 'users.get_by_uuid')(
-        context.readUuidPayload(payload, 'users.get_by_uuid'),
+      result: await context.requireClientMethod(client, 'resolveUser', 'users.get')(
+        context.readUuidPayload(payload, 'users.get'),
+      ),
+    }),
+  ));
+
+
+  registry.register('users', 'get_subscription_request_history', context.supportedReadOperation(
+    'users',
+    'get_subscription_request_history',
+    'Read one user subscription request-history trail.',
+    'Send payload with uuid to read one user subscription request-history trail.',
+    'Generated OpenAPI-backed user subscription request-history read.',
+    'users_get_subscription_request_history',
+    'getUserSubscriptionRequestHistory',
+    async (client, payload) => ({
+      result: await context.requireClientMethod(client, 'getUserSubscriptionRequestHistory', 'users.get_subscription_request_history')(
+        context.readUuidPayload(payload, 'users.get_subscription_request_history'),
+      ),
+    }),
+  ));
+
+  registry.register('users', 'revoke_subscription', context.supportedWriteOperation(
+    'users',
+    'revoke_subscription',
+    'Revoke one user subscription credentials.',
+    'Send payload with uuid to revoke one user subscription credentials after confirmation.',
+    'Atomic OpenAPI-backed user subscription revoke action.',
+    { uuid: 'user-uuid' },
+    'users_revoke_subscription',
+    'revokeUserSubscription',
+    (payload) => getSupportedOperationSchema('users', 'revoke_subscription').validatePayload(payload),
+    async (client, payload) => ({
+      result: await context.requireClientMethod(client, 'revokeUserSubscription', 'users.revoke_subscription')(
+        context.readUuidPayload(payload, 'users.revoke_subscription'),
       ),
     }),
   ));

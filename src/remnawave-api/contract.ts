@@ -96,7 +96,7 @@ export function buildRemnawaveApiToolDiscoveryDescription(): string {
     .map((domain) => `${domain.domain} (${domain.operations.filter((operation) => operation.disposition === 'supported').length} supported)`)
     .join(', ');
 
-  return `Primary interface for the Remnawave MCP v1 contract. Use remnawave_api with domain, optional operation, and optional payload for deterministic discovery/describe/execute branching. domains: ${domainSummary}`;
+  return `Primary interface for the current Remnawave compact v2 single-tool contract. Use remnawave_api with domain, optional operation, and optional payload for deterministic discovery/describe/execute branching. domains: ${domainSummary}`;
 }
 
 export function createRemnawaveApiErrorResponse(input: RemnawaveApiErrorResponseInput): RemnawaveApiCompactErrorResponse {

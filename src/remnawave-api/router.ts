@@ -24,6 +24,19 @@ import {
   type RemnawaveApiResponse,
 } from './contract.js';
 
+interface PreviewApplyPreviewState {
+  readonly targetIdentity: Record<string, unknown>;
+  readonly preStateFingerprint: string;
+  readonly changes: readonly PreviewApplyChange[];
+  readonly missingHostUuids?: readonly string[];
+}
+
+interface PreStatePlan {
+  readonly targetIdentity: Record<string, unknown>;
+  readonly currentState: unknown;
+  readonly missingHostUuids?: readonly string[];
+}
+
 export interface RemnawaveApiRequest {
   readonly domain?: unknown;
   readonly operation?: unknown;
@@ -199,6 +212,15 @@ async function routeRemnawaveApiRequestUnsafe(input: {
       return rawModePolicyError(`${domainValue}.${operation.discovery.operation}`, 'responseMode', 'raw response mode is not allowed for preview/apply writes.');
     }
 
+    if (!hasRealPreviewBuilder(operation)) {
+      return createRemnawaveApiErrorResponse({
+        code: 'INTERNAL_ERROR',
+        kind: 'internal',
+        message: `${domainValue}.${operation.discovery.operation} is classified as preview/apply without a real pre-state preview builder.`,
+        retryable: false,
+      });
+    }
+
     return handlePreviewApplyOperation({
       domainValue,
       operation,
@@ -312,16 +334,18 @@ async function handlePreviewApplyPreview(
   payload: Record<string, unknown>,
   client: RemnawaveApiClient,
 ): Promise<RemnawaveApiResponse> {
-  if (domain !== 'hosts' || operation.discovery.operation !== 'bulk_set_port') {
-    return createRemnawaveApiErrorResponse({
-      code: 'PREVIEW_APPLY_NOT_WIRED',
-      kind: 'internal',
-      message: `Preview/apply is not wired for ${domain}.${operation.discovery.operation}.`,
-      retryable: false,
+  const preview = await buildPreviewApplyPreview(domain, operation, client, payload);
+  if (preview.missingHostUuids !== undefined) {
+    return validationError({
+      message: 'Payload references hosts that do not exist for hosts.bulk_set_port.',
+      validationIssues: preview.missingHostUuids.map((uuid) => ({
+        field: 'payload.hostUuids',
+        code: 'HOST_NOT_FOUND',
+        message: `Host UUID not found: ${uuid}.`,
+      })),
     });
   }
 
-  const preview = await buildHostBulkSetPortPreview(client, payload);
   const entry = createPreviewApplyEntry({
     domain,
     operation: operation.discovery.operation,
@@ -371,30 +395,60 @@ async function handlePreviewApplyApply(
     return previewApplyError({ code: 'APPLY_TOKEN_PAYLOAD_MISMATCHED', message: 'Apply token payload binding does not match.' });
   }
 
-  if (domain === 'hosts' && operation.discovery.operation === 'bulk_set_port') {
-    const preview = await buildHostBulkSetPortPreview(client, entry.originalPayload);
-    if (computeCanonicalPayloadHash(preview.targetIdentity) !== computeCanonicalPayloadHash(entry.targetIdentity)) {
-      return previewApplyError({ code: 'APPLY_TOKEN_TARGET_MISMATCHED', message: 'Apply token target binding does not match.', expiresAt: entry.expiresAt });
-    }
-
-    if (preview.preStateFingerprint !== entry.preStateFingerprint) {
-      return previewApplyError({ code: 'APPLY_TOKEN_STALE_STATE', message: 'Apply token pre-state fingerprint is stale.', expiresAt: entry.expiresAt });
-    }
+  const preview = await buildPreviewApplyPreview(domain, operation, client, entry.originalPayload);
+  if (computeCanonicalPayloadHash(preview.targetIdentity) !== computeCanonicalPayloadHash(entry.targetIdentity)) {
+    return previewApplyError({ code: 'APPLY_TOKEN_TARGET_MISMATCHED', message: 'Apply token target binding does not match.', expiresAt: entry.expiresAt });
   }
 
-  const result = await executeNormalizedOperation(operation, client, entry.originalPayload);
+  if (preview.preStateFingerprint !== entry.preStateFingerprint) {
+    return previewApplyError({ code: 'APPLY_TOKEN_STALE_STATE', message: 'Apply token pre-state fingerprint is stale.', expiresAt: entry.expiresAt });
+  }
+
   markPreviewApplyEntryConsumed(entry.applyToken);
-  return result;
+  return executeNormalizedOperation(operation, client, entry.originalPayload);
+}
+
+function hasRealPreviewBuilder(operation: OperationRegistration): boolean {
+  return operation.discovery.domain === 'hosts' && operation.discovery.operation === 'bulk_set_port'
+    || operation.openapi.method === 'delete' && operation.openapi.path.includes('{uuid}')
+    || operation.openapi.method === 'patch'
+    || operation.openapi.method === 'post' && operation.openapi.path.includes('/actions/reorder')
+    || operation.openapi.method === 'post' && operation.openapi.path.includes('/bulk')
+    || operation.openapi.method === 'post' && operation.openapi.path.endsWith('/delete-all')
+    || operation.discovery.domain === 'subscription_settings'
+    || operation.discovery.domain === 'subscription_page_configs';
+}
+
+async function buildPreviewApplyPreview(
+  domain: string,
+  operation: OperationRegistration,
+  client: RemnawaveApiClient,
+  payload: Record<string, unknown>,
+): Promise<PreviewApplyPreviewState> {
+  if (domain === 'hosts' && operation.discovery.operation === 'bulk_set_port') {
+    return buildHostBulkSetPortPreview(client, payload);
+  }
+
+  const plan = await readPreStatePlan(operation, client, payload);
+  const nextState = omitApplyToken(payload);
+
+  return {
+    targetIdentity: plan.targetIdentity,
+    preStateFingerprint: computeStateFingerprint(plan.currentState),
+    changes: [{
+      target: String(plan.targetIdentity.target ?? operation.discovery.operation),
+      before: { state: plan.currentState },
+      after: { payload: nextState },
+    }],
+    missingHostUuids: plan.missingHostUuids,
+  };
 }
 
 async function buildHostBulkSetPortPreview(
   client: RemnawaveApiClient,
   payload: Record<string, unknown>,
-): Promise<{
-  readonly targetIdentity: Record<string, unknown>;
-  readonly preStateFingerprint: string;
-  readonly changes: readonly PreviewApplyChange[];
-}> {
+): Promise<PreviewApplyPreviewState> {
+
   const getHosts = client.getHosts;
   if (getHosts === undefined) {
     throw new Error('hosts.bulk_set_port preview requires getHosts client method.');
@@ -405,11 +459,13 @@ async function buildHostBulkSetPortPreview(
   const hosts = readHostItems(await getHosts());
   const selectedHosts = hostUuids.map((uuid) => hosts.find((host) => host.uuid === uuid) ?? null);
 
-  if (selectedHosts.some((host) => host === null)) {
+  const missingHostUuids = hostUuids.filter((uuid, index) => selectedHosts[index] === null);
+  if (missingHostUuids.length > 0) {
     return {
-      targetIdentity: { type: 'hosts', hostUuids, missingHostUuids: hostUuids.filter((uuid, index) => selectedHosts[index] === null) },
+      targetIdentity: { type: 'hosts', hostUuids, missingHostUuids },
       preStateFingerprint: computeStateFingerprint({ missing: hostUuids }),
       changes: [],
+      missingHostUuids,
     };
   }
 
@@ -425,6 +481,123 @@ async function buildHostBulkSetPortPreview(
       after: { port: nextPort },
     })),
   };
+}
+
+async function readPreStatePlan(
+  operation: OperationRegistration,
+  client: RemnawaveApiClient,
+  payload: Record<string, unknown>,
+): Promise<PreStatePlan> {
+  const domain = operation.discovery.domain;
+  const op = operation.discovery.operation;
+  const uuid = typeof payload.uuid === 'string' ? payload.uuid : null;
+
+  if (operation.openapi.method === 'delete' && uuid !== null) {
+    return readUuidEntityPreState(domain, operation, client, uuid);
+  }
+
+  if (operation.openapi.method === 'patch') {
+    if (domain === 'profiles' && uuid !== null && client.getProfile !== undefined) {
+      return { targetIdentity: { type: domain, target: uuid }, currentState: await client.getProfile(uuid) };
+    }
+    if (domain === 'subscription_settings' && client.getSubscriptionPolicySettings !== undefined) {
+      return { targetIdentity: { type: domain, target: 'global' }, currentState: await client.getSubscriptionPolicySettings() };
+    }
+    if (domain === 'subscription_page_configs') {
+      return readCollectionPreState(operation, client, payload);
+    }
+    return readCollectionPreState(operation, client, payload);
+  }
+
+  if (operation.openapi.method === 'post' && operation.openapi.path.includes('/actions/reorder')) {
+    return readCollectionPreState(operation, client, payload);
+  }
+
+  if (operation.openapi.method === 'post' && operation.openapi.path.includes('/bulk')) {
+    return readCollectionPreState(operation, client, payload);
+  }
+
+  if (domain === 'hwid' && op === 'delete_all_devices') {
+    return readCollectionPreState(operation, client, payload);
+  }
+
+  if (domain === 'subscription_page_configs') {
+    return readCollectionPreState(operation, client, payload);
+  }
+
+  throw new Error(`${domain}.${op} is classified as preview_apply without a readable pre-state source.`);
+}
+
+async function readUuidEntityPreState(
+  domain: string,
+  operation: OperationRegistration,
+  client: RemnawaveApiClient,
+  uuid: string,
+): Promise<PreStatePlan> {
+  const read = uuidEntityReader(domain, client);
+  if (read !== null) {
+    return { targetIdentity: { type: domain, target: uuid }, currentState: await read(uuid) };
+  }
+
+  return readCollectionPreState(operation, client, { uuid });
+}
+
+function uuidEntityReader(domain: string, client: RemnawaveApiClient): ((uuid: string) => Promise<unknown>) | null {
+  if (domain === 'profiles' && client.getProfile !== undefined) return client.getProfile;
+  if (domain === 'nodes' && client.getNode !== undefined) return client.getNode;
+  if (domain === 'external_squads' && client.getExternalSquadByUuid !== undefined) return client.getExternalSquadByUuid;
+  if (domain === 'subscriptions' && client.getSubscriptionByUuid !== undefined) return client.getSubscriptionByUuid;
+  if (domain === 'metadata' && client.getNodeMetadata !== undefined) return client.getNodeMetadata;
+  return null;
+}
+
+async function readCollectionPreState(
+  operation: OperationRegistration,
+  client: RemnawaveApiClient,
+  payload: Record<string, unknown>,
+): Promise<PreStatePlan> {
+  const read = collectionReader(operation.discovery.domain, client);
+  if (read === null) {
+    throw new Error(`${operation.discovery.domain}.${operation.discovery.operation} is classified as preview_apply without a collection pre-state reader.`);
+  }
+
+  return {
+    targetIdentity: {
+      type: operation.discovery.domain,
+      target: readPreviewTarget(payload),
+    },
+    currentState: await read(),
+  };
+}
+
+function collectionReader(domain: string, client: RemnawaveApiClient): (() => Promise<unknown>) | null {
+  if (domain === 'hosts' && client.getHosts !== undefined) return client.getHosts;
+  if (domain === 'nodes' && client.getNodes !== undefined) return client.getNodes;
+  if (domain === 'profiles' && client.getProfiles !== undefined) return client.getProfiles;
+  if (domain === 'users' && client.getUsers !== undefined) return client.getUsers;
+  if (domain === 'templates' && client.getSubscriptionTemplates !== undefined) return client.getSubscriptionTemplates;
+  if (domain === 'internal_squads' && client.getInternalSquads !== undefined) return client.getInternalSquads;
+  if (domain === 'external_squads' && client.getExternalSquads !== undefined) return client.getExternalSquads;
+  if (domain === 'subscription_settings' && client.getSubscriptionPolicySettings !== undefined) return client.getSubscriptionPolicySettings;
+  if (domain === 'hwid' && client.getUsers !== undefined) return client.getUsers;
+  if (domain === 'infra_billing' && client.getInfraBillingNodes !== undefined) return client.getInfraBillingNodes;
+  if (domain === 'subscription_page_configs' && client.getSubscriptionPageConfigs !== undefined) return client.getSubscriptionPageConfigs;
+  return null;
+}
+
+function readPreviewTarget(payload: Record<string, unknown>): unknown {
+  if (typeof payload.uuid === 'string') return payload.uuid;
+  if (typeof payload.userUuid === 'string') return payload.userUuid;
+  if (typeof payload.name === 'string') return payload.name;
+  if (Array.isArray(payload.uuids)) return payload.uuids;
+  if (Array.isArray(payload.hostUuids)) return payload.hostUuids;
+  if (Array.isArray(payload.userUuids)) return payload.userUuids;
+  return 'operation';
+}
+
+function omitApplyToken(payload: Record<string, unknown>): Record<string, unknown> {
+  const { applyToken: _applyToken, ...rest } = payload;
+  return rest;
 }
 
 async function executeNormalizedOperation(
@@ -476,11 +649,8 @@ async function executeRawRead(
   client: RemnawaveApiClient,
   payload: Record<string, unknown>,
 ): Promise<unknown> {
-  if (operation.execution.clientMethod === 'getSystemStats') {
-    return client.getSystemStats();
-  }
-
-  throw new Error(`Raw execution is not wired for ${operation.discovery.domain}.${operation.discovery.operation}.`);
+  const execution = await operation.execution.execute(client, payload);
+  return execution.result;
 }
 
 function describeOperation(

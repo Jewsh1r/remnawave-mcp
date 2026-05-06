@@ -46,6 +46,7 @@ interface ExtractedPayloadValidator {
 
 const ajv = new Ajv({
   allErrors: true,
+  coerceTypes: true,
   strict: true,
   strictSchema: true,
   strictTypes: true,
@@ -125,6 +126,18 @@ const RESOLVE_SELECTOR_PROPERTIES = {
   },
 } as const satisfies Readonly<Record<string, SchemaFieldDefinition>>;
 
+const USERS_RESOLVE_SCHEMA: OperationValidationSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: [],
+  properties: {
+    id: { type: 'integer', required: false, minimum: 1, maximum: 2147483647 },
+    shortUuid: { type: 'string', required: false, minLength: 1, maxLength: 128 },
+    username: { type: 'string', required: false, minLength: 1, maxLength: 128 },
+    uuid: { type: 'string', required: false, minLength: 1, maxLength: 128 },
+  },
+};
+
 const SUBSCRIPTION_PAGE_PROPERTIES = {
   selector: {
     type: 'string',
@@ -186,6 +199,48 @@ const UUID_ONLY_SCHEMA: OperationValidationSchema = {
   },
 };
 
+
+const METADATA_UPSERT_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['uuid', 'metadata'],
+  properties: { uuid: { type: 'string', required: true, minLength: 1, maxLength: 128 }, metadata: { type: 'record', required: true } },
+};
+const TEMPLATE_CREATE_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['name', 'templateType'],
+  properties: { name: { type: 'string', required: true, minLength: 2, maxLength: 255 }, templateType: { type: 'string', required: true, minLength: 1, maxLength: 64 } },
+};
+const TEMPLATE_UPDATE_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['uuid'],
+  properties: { uuid: { type: 'string', required: true, minLength: 1, maxLength: 128 }, name: { type: 'string', required: false, minLength: 2, maxLength: 255 }, templateJson: { type: 'record', required: false }, encodedTemplateYaml: { type: 'string', required: false, minLength: 1 } },
+};
+const SNIPPET_WRITE_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['name', 'snippet'],
+  properties: { name: { type: 'string', required: true, minLength: 2, maxLength: 255 }, snippet: { type: 'record_array', required: true, minItems: 1 } },
+};
+const NAME_ONLY_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['name'],
+  properties: { name: { type: 'string', required: true, minLength: 2, maxLength: 255 } },
+};
+const SHORT_UUID_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['shortUuid'],
+  properties: { shortUuid: { type: 'string', required: true, minLength: 1, maxLength: 128 } },
+};
+const USERNAME_ONLY_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['username'],
+  properties: { username: { type: 'string', required: true, minLength: 1, maxLength: 128 } },
+};
+const WITH_DISABLED_HOSTS_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['shortUuid'],
+  properties: { shortUuid: { type: 'string', required: true, minLength: 1, maxLength: 128 }, withDisabledHosts: { type: 'boolean', required: false } },
+};
+const SUBPAGE_CONFIG_READ_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: true, required: ['shortUuid'],
+  properties: { shortUuid: { type: 'string', required: true, minLength: 1, maxLength: 128 } },
+};
+const PUBLIC_SUBSCRIPTION_CLIENT_TYPE_SCHEMA: OperationValidationSchema = {
+  type: 'object', additionalProperties: false, required: ['shortUuid', 'clientType'],
+  properties: { shortUuid: { type: 'string', required: true, minLength: 1, maxLength: 128 }, clientType: { type: 'string', required: true, minLength: 1, maxLength: 64 } },
+};
+
 const HOSTS_BULK_SET_PORT_SCHEMA: OperationValidationSchema = {
   type: 'object',
   additionalProperties: false,
@@ -204,6 +259,16 @@ const HOSTS_BULK_SET_PORT_SCHEMA: OperationValidationSchema = {
       minimum: 1,
       maximum: 65535,
     },
+  },
+};
+
+const SQUAD_BULK_USERS_SCHEMA: OperationValidationSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['uuid', 'userUuids'],
+  properties: {
+    uuid: { type: 'string', required: true, minLength: 1, maxLength: 128 },
+    userUuids: { type: 'string_array', required: true, minItems: 1, itemMinLength: 1, itemMaxLength: 128 },
   },
 };
 
@@ -251,12 +316,17 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,
   }),
+  'system.get_metadata': createSchemaDefinition({
+    schemaSummary: 'payload must be an empty object',
+    payloadExample: {},
+    validationSchema: EMPTY_OBJECT_SCHEMA,
+  }),
   'system.get_health': createSchemaDefinition({
     schemaSummary: 'payload must be an empty object',
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,
   }),
-  'system.get_metrics': createSchemaDefinition({
+  'system.get_nodes_metrics': createSchemaDefinition({
     schemaSummary: 'payload must be an empty object',
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,
@@ -286,7 +356,25 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,
   }),
-  'users.create_user': createSchemaDefinition({
+
+  'metadata.get_node': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'node-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'metadata.upsert_node': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string and metadata:object', payloadExample: { uuid: 'node-uuid', metadata: { zone: 'edge' } }, validationSchema: METADATA_UPSERT_SCHEMA }),
+  'metadata.get_user': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'user-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'metadata.upsert_user': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string and metadata:object', payloadExample: { uuid: 'user-uuid', metadata: { segment: 'partner' } }, validationSchema: METADATA_UPSERT_SCHEMA }),
+  'templates.list': createSchemaDefinition({ schemaSummary: 'payload must be an empty object', payloadExample: {}, validationSchema: EMPTY_OBJECT_SCHEMA }),
+  'templates.get': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'template-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'templates.create': createSchemaDefinition({ schemaSummary: 'payload requires name:string and templateType:string', payloadExample: { name: 'Default XRAY', templateType: 'XRAY_JSON' }, validationSchema: TEMPLATE_CREATE_SCHEMA }),
+  'templates.update': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string and optional name/templateJson/encodedTemplateYaml', payloadExample: { uuid: 'template-uuid', name: 'Updated XRAY' }, validationSchema: TEMPLATE_UPDATE_SCHEMA }),
+  'templates.delete': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'template-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'snippets.create': createSchemaDefinition({ schemaSummary: 'payload requires name:string and snippet:object[]', payloadExample: { name: 'headers', snippet: [{ key: 'value' }] }, validationSchema: SNIPPET_WRITE_SCHEMA }),
+  'snippets.update': createSchemaDefinition({ schemaSummary: 'payload requires name:string and snippet:object[]', payloadExample: { name: 'headers', snippet: [{ key: 'updated' }] }, validationSchema: SNIPPET_WRITE_SCHEMA }),
+  'snippets.delete': createSchemaDefinition({ schemaSummary: 'payload requires name:string', payloadExample: { name: 'headers' }, validationSchema: NAME_ONLY_SCHEMA }),
+  'public_subscriptions.get_info': createSchemaDefinition({ schemaSummary: 'payload requires shortUuid:string', payloadExample: { shortUuid: 'abc123' }, validationSchema: SHORT_UUID_SCHEMA }),
+  'public_subscriptions.get': createSchemaDefinition({ schemaSummary: 'payload requires shortUuid:string', payloadExample: { shortUuid: 'abc123' }, validationSchema: SHORT_UUID_SCHEMA }),
+  'public_subscriptions.get_by_client_type': createSchemaDefinition({ schemaSummary: 'payload requires shortUuid:string and clientType:string', payloadExample: { shortUuid: 'abc123', clientType: 'singbox' }, validationSchema: PUBLIC_SUBSCRIPTION_CLIENT_TYPE_SCHEMA }),
+  'profiles.get': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'profile-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'profiles.get_computed': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'profile-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'users.create': createSchemaDefinition({
     schemaSummary: 'payload requires username:string and expireAt:date-time string',
     payloadExample: {
       username: 'new-user',
@@ -300,7 +388,17 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     payloadExample: {},
     validationSchema: EMPTY_OBJECT_SCHEMA,
   }),
-  'users.get_by_uuid': createSchemaDefinition({
+  'users.get': createSchemaDefinition({
+    schemaSummary: 'payload requires uuid:string',
+    payloadExample: { uuid: 'user-uuid' },
+    validationSchema: UUID_ONLY_SCHEMA,
+  }),
+  'users.get_subscription_request_history': createSchemaDefinition({
+    schemaSummary: 'payload requires uuid:string',
+    payloadExample: { uuid: 'user-uuid' },
+    validationSchema: UUID_ONLY_SCHEMA,
+  }),
+  'users.revoke_subscription': createSchemaDefinition({
     schemaSummary: 'payload requires uuid:string',
     payloadExample: { uuid: 'user-uuid' },
     validationSchema: UUID_ONLY_SCHEMA,
@@ -316,36 +414,18 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     validationSchema: UUID_ONLY_SCHEMA,
   }),
   'users.resolve': createCustomSchemaDefinition({
-    schemaSummary: 'payload requires selector with exactly one of uuid, shortUuid, username, or telegramId; optional reveal:"redacted"|"full"',
+    schemaSummary: 'payload requires exactly one of id, uuid, shortUuid, or username',
     payloadExample: {
-      selector: { uuid: 'user-uuid' },
+      uuid: 'user-uuid',
     },
-    validationSchema: {
-      type: 'object',
-      additionalProperties: false,
-      required: ['selector'],
-      properties: RESOLVE_SELECTOR_PROPERTIES,
-    },
-    validatePayload: validateSelectorPayload,
+    validationSchema: USERS_RESOLVE_SCHEMA,
+    validatePayload: validateUsersResolvePayload,
   }),
   'users.inspect': createCustomSchemaDefinition({
     schemaSummary: 'payload requires selector with exactly one of uuid, shortUuid, username, or telegramId; optional reveal:"redacted"|"full"',
     payloadExample: {
       selector: { uuid: 'user-uuid' },
       reveal: 'redacted',
-    },
-    validationSchema: {
-      type: 'object',
-      additionalProperties: false,
-      required: ['selector'],
-      properties: RESOLVE_SELECTOR_PROPERTIES,
-    },
-    validatePayload: validateSelectorPayload,
-  }),
-  'users.get_subscription_history': createCustomSchemaDefinition({
-    schemaSummary: 'payload requires selector with exactly one of uuid, shortUuid, username, or telegramId; optional reveal:"redacted"|"full"',
-    payloadExample: {
-      selector: { uuid: 'user-uuid' },
     },
     validationSchema: {
       type: 'object',
@@ -421,10 +501,22 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     validatePayload: validateUsersManageDevicesPayload,
   }),
   'subscriptions.list': createSchemaDefinition({
-    schemaSummary: 'payload must be an empty object',
+    schemaSummary: 'payload accepts optional size/start pagination',
     payloadExample: {},
-    validationSchema: EMPTY_OBJECT_SCHEMA,
+    validationSchema: OPTIONAL_PAGINATION_SCHEMA,
   }),
+  'subscriptions.get_by_username': createSchemaDefinition({ schemaSummary: 'payload requires username:string', payloadExample: { username: 'alice' }, validationSchema: USERNAME_ONLY_SCHEMA }),
+  'subscriptions.get_by_short_uuid': createSchemaDefinition({ schemaSummary: 'payload requires shortUuid:string', payloadExample: { shortUuid: 'short-uuid' }, validationSchema: SHORT_UUID_SCHEMA }),
+  'subscriptions.get': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'user-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'subscriptions.get_raw_by_short_uuid': createSchemaDefinition({ schemaSummary: 'payload requires shortUuid:string and optional withDisabledHosts:boolean', payloadExample: { shortUuid: 'short-uuid', withDisabledHosts: false }, validationSchema: WITH_DISABLED_HOSTS_SCHEMA }),
+  'subscriptions.get_subpage_config_by_short_uuid': createSchemaDefinition({ schemaSummary: 'payload requires shortUuid:string plus OpenAPI request-body fields when required by panel', payloadExample: { shortUuid: 'short-uuid' }, validationSchema: SUBPAGE_CONFIG_READ_SCHEMA }),
+  'subscriptions.get_connection_keys_by_uuid': createSchemaDefinition({ schemaSummary: 'payload requires uuid:string', payloadExample: { uuid: 'user-uuid' }, validationSchema: UUID_ONLY_SCHEMA }),
+  'subscription_request_history.list': createSchemaDefinition({
+    schemaSummary: 'payload accepts optional size/start pagination',
+    payloadExample: {},
+    validationSchema: OPTIONAL_PAGINATION_SCHEMA,
+  }),
+  'subscription_request_history.get_stats': createSchemaDefinition({ schemaSummary: 'payload must be an empty object', payloadExample: {}, validationSchema: EMPTY_OBJECT_SCHEMA }),
   'subscriptions.inspect_support_context': createCustomSchemaDefinition({
     schemaSummary: 'payload requires selector with exactly one of uuid, shortUuid, username, or telegramId; optional reveal:"redacted"|"full"',
     payloadExample: {
@@ -1356,10 +1448,25 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
 export function getSupportedOperationSchema(domain: string, operation: string): OperationSchemaDefinition {
   const schema = SUPPORTED_OPERATION_SCHEMAS[`${domain}.${operation}` as keyof typeof SUPPORTED_OPERATION_SCHEMAS];
   if (schema === undefined) {
-    throw new Error(`Unsupported schema lookup for ${domain}.${operation}.`);
+    return createGeneratedOperationSchemaDefinition(domain, operation);
   }
 
   return schema;
+}
+
+function createGeneratedOperationSchemaDefinition(domain: string, operation: string): OperationSchemaDefinition {
+  const operationKey = `${domain}.${operation}`;
+  const extracted = getExtractedPayloadValidator(operationKey);
+  if (extracted === null) {
+    throw new Error(`Unsupported schema lookup for ${operationKey}.`);
+  }
+
+  return {
+    schemaSummary: 'payload is validated against the extracted OpenAPI operation contract',
+    payloadExample: {},
+    validationSchema: EMPTY_OBJECT_SCHEMA,
+    validatePayload: (payload) => validateWithExtractedSchema(payload, extracted.validate) ?? [],
+  };
 }
 
 function createSchemaDefinition(input: {
@@ -1424,7 +1531,7 @@ function validateObjectPayload(
 
   if (!validationSchema.additionalProperties) {
     for (const key of Object.keys(payload)) {
-      if (!(key in validationSchema.properties)) {
+      if (!Object.hasOwn(validationSchema.properties, key)) {
         issues.push({
           field: `payload.${key}`,
           code: 'UNEXPECTED_FIELD',
@@ -1686,7 +1793,7 @@ function collectForbiddenOverlayKeys(value: unknown, fieldPath: string, issues: 
 
 function findOperationKeyBySchema(schema: OperationValidationSchema): string | null {
   if (schema === CREATE_USER_SCHEMA) {
-    return 'users.create_user';
+    return 'users.create';
   }
   if (schema === OPTIONAL_PAGINATION_SCHEMA) {
     return 'users.list';
@@ -1699,6 +1806,10 @@ function findOperationKeyBySchema(schema: OperationValidationSchema): string | n
   }
 
   return null;
+}
+
+export function validateSquadBulkUsersPayload(payload: unknown): readonly ValidationIssue[] {
+  return validateObjectPayload(payload, 'payload requires a squad uuid and one or more user UUIDs', SQUAD_BULK_USERS_SCHEMA);
 }
 
 function getExtractedPayloadValidator(operationKey: string): ExtractedPayloadValidator | null {
@@ -1776,6 +1887,19 @@ function validateWithExtractedSchema(payload: unknown, validate: ValidateFunctio
       code: 'PAYLOAD_REQUIRED',
       message: 'payload is required.',
     }];
+  }
+
+  if (isRecord(payload)) {
+    const forbiddenTopLevelKeyIssues = Object.keys(payload)
+      .filter((key) => FORBIDDEN_OVERLAY_KEYS.has(key))
+      .map((key) => ({
+        field: `payload.${key}`,
+        code: 'UNEXPECTED_FIELD',
+        message: `payload.${key} is not supported for this operation.`,
+      }));
+    if (forbiddenTopLevelKeyIssues.length > 0) {
+      return forbiddenTopLevelKeyIssues;
+    }
   }
 
   if (!validate(payload)) {
@@ -1886,6 +2010,24 @@ function toValidationMessage(error: ErrorObject, field: string): string {
 
 function validateSelectorPayload(payload: unknown): readonly ValidationIssue[] {
   return validateSelectorBasedPayload(payload, false);
+}
+
+function validateUsersResolvePayload(payload: unknown): readonly ValidationIssue[] {
+  const issues = validateObjectPayload(payload, 'payload requires exactly one of id, uuid, shortUuid, or username', USERS_RESOLVE_SCHEMA);
+  if (issues.length > 0 || !isRecord(payload)) {
+    return issues;
+  }
+
+  const selectors = ['id', 'uuid', 'shortUuid', 'username'].filter((key) => payload[key] !== undefined);
+  if (selectors.length !== 1) {
+    return [{
+      field: 'payload',
+      code: 'INVALID_SELECTOR',
+      message: 'payload must include exactly one of id, uuid, shortUuid, or username.',
+    }];
+  }
+
+  return [];
 }
 
 function validateLooseObjectPayload(payload: unknown): readonly ValidationIssue[] {

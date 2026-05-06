@@ -30,11 +30,47 @@ export class RuntimeConfigError extends Error {
   }
 }
 
-const SECRET_KEY_PATTERN = /(token|secret|authorization|api[-_]?key|password)/i;
+const SECRET_KEY_PATTERN = /(token|secret|authorization|api[-_]?key|password|private[-_]?key|public[-_]?key)/i;
 const REDACTED_SECRET = '<REDACTED_SECRET>';
 
 export function redactSecrets<T>(value: T): T {
   return redactValue(value, false) as T;
+}
+
+export type SensitiveReadRevealMode = 'redacted' | 'full';
+
+export interface SensitiveReadPolicyResult<T> {
+  readonly policy: {
+    readonly mode: 'redacted' | 'revealed';
+    readonly revealRequested: boolean;
+  };
+  readonly data: T;
+}
+
+export function applySensitiveReadPolicy<T>(
+  value: T,
+  options: {
+    readonly reveal?: SensitiveReadRevealMode;
+  },
+): SensitiveReadPolicyResult<T> {
+  const revealRequested = options.reveal === 'full';
+  if (revealRequested) {
+    return {
+      policy: {
+        mode: 'revealed',
+        revealRequested: true,
+      },
+      data: value,
+    };
+  }
+
+  return {
+    policy: {
+      mode: 'redacted',
+      revealRequested: false,
+    },
+    data: redactSecrets(value),
+  };
 }
 
 function redactValue(value: unknown, forceRedaction: boolean): unknown {

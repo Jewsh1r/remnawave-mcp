@@ -1,3 +1,5 @@
+import { randomBytes } from 'node:crypto';
+
 import { computePreviewBindingHash } from '../safety/contract.js';
 
 export type RiskTier = 'tier1' | 'tier2' | 'tier3';
@@ -31,10 +33,20 @@ export interface Tier3ConfirmationResult {
   readonly confirmationRequired: true;
   readonly token: string;
   readonly impactSummary: string;
-  readonly suggestedNextStep: string | null;
 }
 
-const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> = {
+const CONFIRMATION_TOKEN_TTL_MS = 10 * 60 * 1000;
+
+interface ConfirmationTokenEntry {
+  readonly token: string;
+  readonly bindingHash: string;
+  readonly expiresAtMs: number;
+  consumed: boolean;
+}
+
+const confirmationTokens = new Map<string, ConfirmationTokenEntry>();
+
+export const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> = {
   // Tiering is based on operator impact: this is a pure read with response-only scope.
   'system.get_stats': {
     tier: 'tier1',
@@ -44,6 +56,14 @@ const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> =
     confirmationRequired: false,
     rationale: 'Reads diagnostics only; it does not mutate remote state and its blast radius is limited to one response payload.',
   },
+  'system.get_metadata': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads system metadata diagnostics without mutating remote state.',
+  },
   'system.get_health': {
     tier: 'tier1',
     effect: 'read',
@@ -52,7 +72,7 @@ const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> =
     confirmationRequired: false,
     rationale: 'Reads current service health diagnostics without mutating remote state.',
   },
-  'system.get_metrics': {
+  'system.get_nodes_metrics': {
     tier: 'tier1',
     effect: 'read',
     scope: 'single_response',
@@ -101,7 +121,7 @@ const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> =
     rationale: 'Generates one x25519 keypair without mutating panel data.',
   },
   // Creation is a write, but it is still bounded: one new user record, no destructive fleet-wide side effect.
-  'users.create_user': {
+  'users.create': {
     tier: 'tier2',
     effect: 'create',
     scope: 'single_entity',
@@ -117,7 +137,7 @@ const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> =
     confirmationRequired: false,
     rationale: 'Lists users as a read-only response without mutating remote state.',
   },
-  'users.get_by_uuid': {
+  'users.get': {
     tier: 'tier1',
     effect: 'read',
     scope: 'single_response',
@@ -157,13 +177,13 @@ const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> =
     confirmationRequired: false,
     rationale: 'Inspects support context for a single user without mutating upstream state.',
   },
-  'users.get_subscription_history': {
+  'users.get_subscription_request_history': {
     tier: 'tier1',
     effect: 'read',
     scope: 'single_response',
     blastRadius: 'single_response',
     confirmationRequired: false,
-    rationale: 'Reads one user subscription-history trail without changing remote state.',
+    rationale: 'Reads one user subscription request-history trail without mutating remote state.',
   },
   'users.manage_lifecycle': {
     tier: 'tier2',
@@ -188,6 +208,70 @@ const SUPPORTED_OPERATION_RISK: Readonly<Record<string, OperationRiskProfile>> =
     blastRadius: 'single_response',
     confirmationRequired: false,
     rationale: 'Lists subscriptions as a read-only inspection response.',
+  },
+  'subscriptions.get_by_username': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads one protected subscription by username without mutating remote state.',
+  },
+  'subscriptions.get_by_short_uuid': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads one protected subscription by short UUID without mutating remote state.',
+  },
+  'subscriptions.get': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads one protected subscription by UUID without mutating remote state.',
+  },
+  'subscriptions.get_raw_by_short_uuid': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads one protected raw subscription endpoint with MCP raw response mode disabled and no mutation.',
+  },
+  'subscriptions.get_subpage_config_by_short_uuid': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads one protected subscription subpage config without mutating remote state.',
+  },
+  'subscriptions.get_connection_keys_by_uuid': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads protected subscription connection-key data without mutating remote state.',
+  },
+  'subscription_request_history.list': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Lists subscription request history without mutating remote state.',
+  },
+  'subscription_request_history.get_stats': {
+    tier: 'tier1',
+    effect: 'read',
+    scope: 'single_response',
+    blastRadius: 'single_response',
+    confirmationRequired: false,
+    rationale: 'Reads subscription request-history stats without mutating remote state.',
   },
   'subscriptions.inspect_support_context': {
     tier: 'tier1',
@@ -619,14 +703,41 @@ export function getSupportedOperationRisk(domain: string, operation: string): Op
   const key = `${domain}.${operation}`;
   const profile = SUPPORTED_OPERATION_RISK[key];
   if (profile === undefined) {
-    throw new Error(`Unsupported operation for ${domain}: ${operation}.`);
+    if (operation.startsWith('get') || operation === 'list' || operation === 'list_inbounds') {
+      return {
+        tier: 'tier1',
+        effect: 'read',
+        scope: 'single_response',
+        blastRadius: 'single_response',
+        confirmationRequired: false,
+        rationale: `Reads ${domain}.${operation} without mutating remote state.`,
+      };
+    }
+    if (operation === 'delete' || operation === 'revoke_subscription') {
+      return {
+        tier: 'tier3',
+        effect: operation === 'delete' ? 'delete' : 'update',
+        scope: 'single_entity',
+        blastRadius: 'mass_or_destructive',
+        confirmationRequired: true,
+        rationale: `Mutates ${domain}.${operation} and requires confirmation before execution.`,
+      };
+    }
+    return {
+      tier: 'tier2',
+      effect: operation === 'create' ? 'create' : 'update',
+      scope: 'single_entity',
+      blastRadius: 'single_entity',
+      confirmationRequired: false,
+      rationale: `Applies a bounded ${domain}.${operation} mutation after schema validation.`,
+    };
   }
 
   return profile;
 }
 
 export function buildTier3ConfirmationState(input: Tier3ConfirmationInput): Tier3ConfirmationResult {
-  const token = computePreviewBindingHash({
+  const bindingHash = computePreviewBindingHash({
     domain: input.domain,
     operation: input.operation,
     effect: input.effect,
@@ -636,16 +747,16 @@ export function buildTier3ConfirmationState(input: Tier3ConfirmationInput): Tier
     impactSummary: input.impactSummary,
   });
 
-  const confirmed = input.confirmationToken !== null && input.confirmationToken === token;
+  const confirmed = consumeConfirmationToken(input.confirmationToken, bindingHash);
 
   if (!confirmed) {
+    const token = createConfirmationToken(bindingHash);
     return {
       ok: false,
       tier: 'tier3',
       confirmationRequired: true,
       token,
       impactSummary: input.impactSummary,
-      suggestedNextStep: 'Review the impact summary, then retry with the returned confirmation token.',
     };
   }
 
@@ -653,8 +764,45 @@ export function buildTier3ConfirmationState(input: Tier3ConfirmationInput): Tier
     ok: true,
     tier: 'tier3',
     confirmationRequired: true,
-    token,
+    token: input.confirmationToken ?? '',
     impactSummary: input.impactSummary,
-    suggestedNextStep: null,
   };
+}
+
+export function clearTier3ConfirmationTokensForTests(): void {
+  confirmationTokens.clear();
+}
+
+function createConfirmationToken(bindingHash: string): string {
+  const token = randomBytes(32).toString('base64url');
+  confirmationTokens.set(token, {
+    token,
+    bindingHash,
+    expiresAtMs: Date.now() + CONFIRMATION_TOKEN_TTL_MS,
+    consumed: false,
+  });
+  return token;
+}
+
+function consumeConfirmationToken(token: string | null, bindingHash: string): boolean {
+  if (token === null) {
+    return false;
+  }
+
+  const entry = confirmationTokens.get(token);
+  if (entry === undefined) {
+    return false;
+  }
+
+  if (entry.consumed || entry.expiresAtMs <= Date.now()) {
+    confirmationTokens.delete(token);
+    return false;
+  }
+
+  if (entry.bindingHash !== bindingHash) {
+    return false;
+  }
+
+  entry.consumed = true;
+  return true;
 }

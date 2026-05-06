@@ -43,6 +43,7 @@ import type {
 import { applySensitiveReadPolicy, type SensitiveReadRevealMode } from '../runtime/errors.js';
 import { createOperationResponseMapper, type OperationResponseMapper } from './response-mappers.js';
 import { registerRuntimeDomainOperations } from './domains/index.js';
+import { SUPPORTED_REMNAWAVE_OPERATIONS } from './domains/runtime-scope.js';
 import { REMNAWAVE_OPERATION_INVENTORY } from './generated/operation-inventory.js';
 import type { RemnawaveNormalizerId, RemnawaveOpenApiBinding, RemnawaveOperationSafetyMode, RemnawaveSupportedOperationContract } from './operation-contract.js';
 import { getSupportedOperationRisk } from './risk.js';
@@ -56,23 +57,42 @@ import {
 
 export interface RemnawaveApiClient {
   readonly getSystemStats: () => Promise<unknown>;
+  readonly getMetadata?: () => Promise<unknown>;
   readonly getSystemHealth?: () => Promise<unknown>;
   readonly getNodesMetrics?: () => Promise<unknown>;
   readonly getBandwidthStats?: () => Promise<unknown>;
   readonly getNodesStatistics?: () => Promise<unknown>;
   readonly generateX25519?: () => Promise<unknown>;
   readonly getSystemRecap?: () => Promise<unknown>;
-  readonly getSubscriptionRequestHistory?: () => Promise<unknown>;
+  readonly getSubscriptionRequestHistory?: (params?: { readonly size?: number; readonly start?: number }) => Promise<unknown>;
+  readonly getSubscriptionRequestHistoryStats?: () => Promise<unknown>;
+  readonly getSubscriptionPageConfigs?: () => Promise<unknown>;
   readonly getUsers?: () => Promise<unknown>;
   readonly resolveUser?: (uuid: string) => Promise<unknown>;
   readonly getUserSubscriptionRequestHistory?: (userUuid: string) => Promise<unknown>;
   readonly getUserHwidDevices?: (userUuid: string) => Promise<unknown>;
-  readonly getSubscriptions?: () => Promise<unknown>;
+  readonly getSubscriptions?: (params?: { readonly size?: number; readonly start?: number }) => Promise<unknown>;
+  readonly getSubscriptionByUsername?: (username: string) => Promise<unknown>;
+  readonly getSubscriptionByShortUuid?: (shortUuid: string) => Promise<unknown>;
+  readonly getSubscriptionByUuid?: (uuid: string) => Promise<unknown>;
+  readonly getRawSubscriptionByShortUuid?: (shortUuid: string, params?: { readonly withDisabledHosts?: boolean }) => Promise<unknown>;
+  readonly getSubscriptionSubpageConfigByShortUuid?: (shortUuid: string, body?: Record<string, unknown>) => Promise<unknown>;
+  readonly getSubscriptionConnectionKeysByUuid?: (uuid: string) => Promise<unknown>;
   readonly getSubscriptionPolicySettings?: () => Promise<unknown>;
   readonly updateSubscriptionPolicySettings?: (payload: Record<string, unknown>) => Promise<unknown>;
   readonly getSubscriptionTemplateByUuid?: (templateUuid: string) => Promise<unknown>;
+  readonly getSubscriptionTemplates?: () => Promise<unknown>;
+  readonly createSubscriptionTemplate?: (payload: Record<string, unknown>) => Promise<unknown>;
+  readonly updateSubscriptionTemplate?: (templateUuid: string, patch: Record<string, unknown>) => Promise<unknown>;
+  readonly deleteSubscriptionTemplate?: (templateUuid: string) => Promise<unknown>;
   readonly patchSubscriptionPageConfig?: (configUuid: string, patch: Record<string, unknown>) => Promise<unknown>;
   readonly listSnippets?: () => Promise<unknown>;
+  readonly createSnippet?: (payload: Record<string, unknown>) => Promise<unknown>;
+  readonly updateSnippet?: (snippetName: string, patch: Record<string, unknown>) => Promise<unknown>;
+  readonly deleteSnippet?: (snippetName: string) => Promise<unknown>;
+  readonly getPublicSubscriptionInfo?: (shortUuid: string) => Promise<unknown>;
+  readonly getPublicSubscription?: (shortUuid: string) => Promise<unknown>;
+  readonly getPublicSubscriptionByClientType?: (shortUuid: string, clientType: string) => Promise<unknown>;
   readonly getHosts?: () => Promise<unknown>;
   readonly createHost?: (payload: Record<string, unknown>) => Promise<unknown>;
   readonly updateHost?: (hostUuid: string, patch: Record<string, unknown>) => Promise<unknown>;
@@ -99,6 +119,7 @@ export interface RemnawaveApiClient {
     readonly end: number;
   }) => Promise<unknown>;
   readonly getNodeMetadata?: (nodeUuid: string) => Promise<unknown>;
+  readonly upsertNodeMetadata?: (nodeUuid: string, payload: Record<string, unknown>) => Promise<unknown>;
   readonly createNode?: (payload: Record<string, unknown>) => Promise<unknown>;
   readonly updateNode?: (nodeUuid: string, patch: Record<string, unknown>) => Promise<unknown>;
   readonly deleteNode?: (nodeUuid: string) => Promise<unknown>;
@@ -147,6 +168,7 @@ export interface RemnawaveApiClient {
   ) => Promise<unknown>;
   readonly revokeUserSubscription?: (userUuid: string) => Promise<unknown>;
   readonly deleteUserHwidDevice?: (userUuid: string, hwid: string) => Promise<unknown>;
+  readonly executeOpenApiOperation?: (operation: RemnawaveSupportedOperationContract, payload: Record<string, unknown>) => Promise<unknown>;
 }
 
 export type ScopeDisposition = 'supported' | 'deferred' | 'denied';
@@ -241,6 +263,7 @@ export interface RuntimeOperationFactoryContext {
   readonly toLooseSystemStats: typeof toLooseSystemStats;
   readonly toUsersListResult: typeof toUsersListResult;
   readonly toUsersResolveResponse: typeof toUsersResolveResponse;
+  readonly registerGeneratedInventoryOperations: typeof registerGeneratedInventoryOperations;
 }
 
 interface DomainRecord {
@@ -267,6 +290,7 @@ const DEFAULT_DOMAIN_DESCRIPTIONS: Readonly<Record<string, string>> = {
   snippets: 'Snippet inventory and lifecycle management.',
   auth: 'Authentication, passkeys, tokens, and panel settings.',
   public_subscriptions: 'Public subscription endpoints under /sub/*.',
+  subscription_request_history: 'Subscription request-history reads and stats.',
 };
 
 export class OperationRegistry {
@@ -456,6 +480,7 @@ export function createDefaultOperationRegistry(): OperationRegistry {
     toLooseSystemStats,
     toUsersListResult,
     toUsersResolveResponse,
+    registerGeneratedInventoryOperations,
   });
   return registry;
 }
@@ -585,8 +610,113 @@ function supportedWriteOperation(
   };
 }
 
+function registerGeneratedInventoryOperations(
+  registry: OperationRegistry,
+  implementedKeys: readonly string[],
+): void {
+  const implemented = new Set(implementedKeys);
+  for (const contract of SUPPORTED_REMNAWAVE_OPERATIONS) {
+    if (implemented.has(contract.key)) {
+      continue;
+    }
+    if (contract.write) {
+      registry.register(contract.domain, contract.operation, generatedWriteOperation(contract));
+    } else {
+      registry.register(contract.domain, contract.operation, generatedReadOperation(contract));
+    }
+  }
+}
+
+function generatedReadOperation(contract: RemnawaveSupportedOperationContract): OperationRegistration {
+  const schema = getSupportedOperationSchema(contract.domain, contract.operation);
+  return {
+    discovery: {
+      domain: contract.domain,
+      operation: contract.operation,
+      description: `Execute ${contract.key} through its OpenAPI endpoint.`,
+      helpText: 'Send payload matching the described OpenAPI-backed contract.',
+      domainDescription: DEFAULT_DOMAIN_DESCRIPTIONS[contract.domain],
+    },
+    validation: {
+      payloadExample: schema.payloadExample,
+      validatePayload: schema.validatePayload,
+      schemaSummary: schema.schemaSummary,
+      validationSchema: schema.validationSchema,
+    },
+    execution: {
+      execute: async (client, payload) => ({
+        result: await executeGeneratedOperation(client, contract, payload),
+      }),
+      clientMethod: 'executeOpenApiOperation',
+      deferred: false,
+    },
+    risk: { tier: toRegistryRiskTier(getSupportedOperationRisk(contract.domain, contract.operation).tier) },
+    sideEffects: {
+      summary: contract.sideEffects.summary,
+      asyncBehavior: 'synchronous request; returns the upstream result for this atomic OpenAPI operation.',
+    },
+    disposition: 'supported',
+    write: false,
+    rawAllowed: contract.rawAllowed,
+    normalizer: contract.normalizer,
+    responseMapper: createOperationResponseMapper({ domain: contract.domain, operation: contract.operation, normalizer: contract.normalizer }),
+    safetyMode: contract.safetyMode,
+    openapi: contract.openapi,
+  };
+}
+
+function generatedWriteOperation(contract: RemnawaveSupportedOperationContract): OperationRegistration {
+  const schema = getSupportedOperationSchema(contract.domain, contract.operation);
+  return {
+    discovery: {
+      domain: contract.domain,
+      operation: contract.operation,
+      description: `Execute ${contract.key} through its OpenAPI endpoint.`,
+      helpText: 'Send payload matching the described OpenAPI-backed contract.',
+      domainDescription: DEFAULT_DOMAIN_DESCRIPTIONS[contract.domain],
+    },
+    validation: {
+      payloadExample: schema.payloadExample,
+      validatePayload: schema.validatePayload,
+      schemaSummary: schema.schemaSummary,
+      validationSchema: schema.validationSchema,
+    },
+    execution: {
+      execute: async (client, payload) => ({
+        result: await executeGeneratedOperation(client, contract, payload),
+      }),
+      clientMethod: 'executeOpenApiOperation',
+      deferred: false,
+    },
+    risk: { tier: toRegistryRiskTier(getSupportedOperationRisk(contract.domain, contract.operation).tier) },
+    sideEffects: {
+      summary: contract.sideEffects.summary,
+      asyncBehavior: 'synchronous request; remote state changes when the upstream accepts the payload.',
+    },
+    disposition: 'supported',
+    write: true,
+    rawAllowed: contract.rawAllowed,
+    normalizer: contract.normalizer,
+    responseMapper: createOperationResponseMapper({ domain: contract.domain, operation: contract.operation, normalizer: contract.normalizer }),
+    safetyMode: contract.safetyMode,
+    openapi: contract.openapi,
+  };
+}
+
+async function executeGeneratedOperation(
+  client: RemnawaveApiClient,
+  contract: RemnawaveSupportedOperationContract,
+  payload: Record<string, unknown>,
+): Promise<unknown> {
+  const execute = client.executeOpenApiOperation;
+  if (execute === undefined) {
+    throw new Error(`OpenAPI execution is not available for ${contract.key}.`);
+  }
+  return execute(contract, payload);
+}
+
 function validateCreateUserPayload(payload: unknown): readonly ValidationIssue[] {
-  return getSupportedOperationSchema('users', 'create_user').validatePayload(payload);
+  return getSupportedOperationSchema('users', 'create').validatePayload(payload);
 }
 
 function validateUsersDisablePayload(payload: unknown): readonly ValidationIssue[] {
@@ -1279,7 +1409,7 @@ async function executeUsersSubscriptionHistory(
   const revealMode = readSensitiveReadRevealMode(payload);
   const user = await resolveUserFromPayload(payload, client);
   const history = toUserSubscriptionHistoryResponse(
-    await requireClientMethod(client, 'getUserSubscriptionRequestHistory', 'users.get_subscription_history')(user.uuid),
+    await requireClientMethod(client, 'getUserSubscriptionRequestHistory', 'users.get_subscription_request_history')(user.uuid),
   );
   const policy = applySensitiveReadPolicy(
     {

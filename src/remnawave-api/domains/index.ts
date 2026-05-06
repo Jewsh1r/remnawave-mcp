@@ -1,8 +1,15 @@
 import type { OperationRegistry, RuntimeOperationFactoryContext } from '../registry.js';
 import { registerHostOperations } from './hosts.js';
+import { registerMetadataOperations } from './metadata.js';
 import { registerNodeOperations } from './nodes.js';
 import { getRuntimeSupportedOperationKeys } from './runtime-scope.js';
+import { registerProfileOperations } from './profiles.js';
+import { registerPublicSubscriptionOperations } from './public-subscriptions.js';
+import { registerSnippetOperations } from './snippets.js';
+import { registerSquadOperations } from './squads.js';
+import { registerSubscriptionOperations } from './subscriptions.js';
 import { registerSystemOperations } from './system.js';
+import { registerTemplateOperations } from './templates.js';
 import { registerUserOperations } from './users.js';
 
 export function registerRuntimeDomainOperations(
@@ -13,6 +20,14 @@ export function registerRuntimeDomainOperations(
   registerUserOperations(registry, context);
   registerHostOperations(registry, context);
   registerNodeOperations(registry, context);
+  registerMetadataOperations(registry, context);
+  registerTemplateOperations(registry, context);
+  registerSnippetOperations(registry, context);
+  registerPublicSubscriptionOperations(registry, context);
+  registerSubscriptionOperations(registry, context);
+  registerProfileOperations(registry, context);
+  registerSquadOperations(registry, context);
+  context.registerGeneratedInventoryOperations(registry, registry.getScopeMap().supported);
   assertInventoryBackedRuntimeCoverage(registry);
 }
 
