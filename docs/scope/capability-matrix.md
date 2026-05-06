@@ -1,51 +1,139 @@
-# Capability Matrix
+This matrix is the published capability-level support boundary for the current repository state. It is intentionally aligned to the single-tool `remnawave_api` contract, the runtime discovery surface, and the registry-backed scope map.
 
-Baseline evidence for this matrix is Task 3's live contract report (`docs/contracts/remnawave-contract-report.md`, capture timestamp `2026-03-30T07:49:25Z`) plus Task 2's rewrite-default ADR (`docs/adr/0002-salvage-vs-rewrite-architecture.md`).
+Do not read this matrix as endpoint coverage or as a claim that all OpenAPI paths are supported. The current runtime publishes 148 supported operations across 18 domains.
 
-Status meanings:
+## Capability classes
 
-| Status | Meaning |
+| Capability class | Meaning |
 |---|---|
-| `supported` | In final repo scope as a first-class capability, grounded in verified contracts or a verified upstream concept with a clear test path. |
-| `compat` | Kept only at semantic/adapter level; do not preserve upstream shape, naming, or exact count blindly. |
-| `deferred` | Valuable but intentionally postponed until contract validation, safer semantics, or mutation controls are stronger. |
-| `dropped` | Intentionally not carried into the final repo surface. |
+| `supported` | Runnable and published as part of the current operator support promise. |
+| `sensitive-read` | Supported read capability with explicit redaction/reveal governance because the output can expose secrets, keys, or admin-sensitive state. |
+| `dangerous-write` | Supported high-impact writes that require preview/apply confirmation through the shared tier3 safety gate. |
+| `deferred` | Intentionally out of runnable scope until stronger evidence or safer policy exists. |
+| `dropped` | Intentionally not carried into the shipped surface. |
 
-## Stable core domains
+See the [danger classes and side-effects reference](../safety/danger-classes-and-side-effects.md) for the complete risk tier definitions, confirmation gating model, and dangerous operations list.
 
-| Feature area | Upstream / discovered source | Final class | Final status | Rationale | Verification method |
-|---|---|---|---|---|---|
-| Users tools/domain | Upstream MCP tools bucket; Task 3 `GET /api/users` | stable core | `supported` | Live users fixture confirms baseline user listing contract. This is core operator value and fits rewrite-default semantics over normalized models. | Live fixture `fixtures/contracts/users.json`; contract report rows for users; future `tests/discovery/users-tools.test.ts`. |
-| Users resolve | Newly discovered domain; Task 3 `POST /api/users/resolve` | stable core | `supported` | Task 3 confirmed the route and DTO-sensitive request shape using `uuid`. High operator value for lookup workflows justifies first-class support. | Live fixture `fixtures/contracts/users_resolve.json`; OpenAPI `ResolveUserRequestBodyDto`; future `tests/contracts/users-resolve.test.ts`. |
-| Nodes tools/domain | Upstream MCP tools bucket; Task 3 `GET /api/nodes` | stable core | `supported` | Live node payloads confirm modern `system`/`versions` shape, making this a verified baseline domain. | Live fixture `fixtures/contracts/nodes.json`; contract report drift note for node shape; future `tests/discovery/nodes-tools.test.ts`. |
-| System tools/domain | Upstream MCP tools bucket; Task 3 `GET /api/system/stats`, `GET /api/system/health`, `GET /api/system/metadata` | stable core | `supported` | Stats, health, metadata, and auth failure behavior are all evidenced. This forms the canonical safe read-only diagnostics surface. | Live fixtures `system_stats.json`, `system_health.json`, `metadata.json`, `auth_error.json`; contract report comparisons; future `tests/discovery/system-tools.test.ts`. |
-| Subscriptions tools/domain | Upstream MCP tools bucket; Task 3 `GET /api/subscriptions` | stable core | `supported` | Subscriptions were validated live and are a baseline operational domain. Mutating subscription actions remain outside this row unless later added with dry-run semantics. | Live fixture `fixtures/contracts/subscriptions.json`; contract report rows for subscriptions; future `tests/discovery/subscriptions-tools.test.ts`. |
-| Panel statistics resource | Upstream resources bucket; benchmark claims real-time panel statistics | stable core | `supported` | The exact upstream resource inventory is not independently enumerated, but Task 3 validates the underlying stats contract that should back a resource. | Live fixture `fixtures/contracts/system_stats.json`; benchmark note in contract report; future `tests/discovery/resources.test.ts` snapshot for stats resource. |
-| Node status resource | Upstream resources bucket; benchmark claims node status resource | stable core | `supported` | Node payloads are validated live and can support a resource surface without preserving upstream internal structure. | Live fixture `fixtures/contracts/nodes.json`; contract report nodes evidence; future `tests/discovery/resources.test.ts` snapshot for node-status resource. |
-| Health checks resource | Upstream resources bucket; benchmark claims health-check resource | stable core | `supported` | System health contract is live-validated, including `runtimeMetrics`, so a health resource belongs in the stable core. | Live fixture `fixtures/contracts/system_health.json`; contract report health/runtimeMetrics note; future `tests/discovery/resources.test.ts` snapshot for health resource. |
+## Version and precedence notes that affect support claims
 
-## Advanced / volatile domains
+- Global runtime gate: this repo supports Remnawave `2.7.0` through `2.7.4`; unknown or unsupported versions fail before discovery is advertised.
+- Published support is capability-based and registry-backed, not path-count-based.
+- Discovery is supported-only; deferred and excluded operations are absent from runtime discovery.
 
-| Feature area | Upstream / discovered source | Final class | Final status | Rationale | Verification method |
-|---|---|---|---|---|---|
-| Metadata | Newly discovered domain; Task 3 `GET /api/system/metadata` | advanced / volatile | `supported` | Metadata is live-verified and useful, but version drift evidence (`2.7.3` live vs `2.7.4` changelog latest) makes it better treated as an advanced diagnostics domain rather than core discovery clutter. | Live fixture `fixtures/contracts/metadata.json`; contract report version contradiction row; discovery/tests in `src/server/discovery.ts`, `src/tools/index.ts`, `tests/stable-core-tools.test.ts`. |
-| Node plugins | Newly discovered domain; Task 3 `GET /api/node-plugins` | advanced / volatile | `supported` | Plugins are confirmed live, but plugin inventories are ecosystem-sensitive and likely to drift, so they stay outside stable core while remaining supported. | Live fixture `fixtures/contracts/node_plugins.json`; OpenAPI path; normalization/tests in `src/client/normalize.ts`, `tests/remnawave-client.test.ts`, `tests/stable-core-tools.test.ts`. |
-| Bandwidth stats | Newly discovered domain; Task 3 `GET /api/system/stats/bandwidth` | advanced / volatile | `supported` | The read-only route is live-validated and useful for power operators, but bandwidth reporting has known route-drift history and should stay in the advanced set. | Live fixture `fixtures/contracts/bandwidth_stats.json`; contract report bandwidth route coverage; discovery/tool tests in `tests/discovery-bootstrap.test.ts` and `tests/stable-core-tools.test.ts`. |
-| HWID tools/domain | Upstream MCP tools bucket and newly discovered Task 3 `GET /api/hwid/devices/stats` | advanced / volatile | `supported` | HWID has live fixture evidence and is explicitly called out by upstream breadth claims, but device-control semantics are sensitive and should not crowd the stable core. | Live fixture `fixtures/contracts/hwid.json`; benchmark claim + contract report confirmation; normalization/tests in `src/client/normalize.ts`, `tests/remnawave-client.test.ts`, `tests/stable-core-tools.test.ts`. |
-| Guided operational prompts | Upstream prompts bucket; benchmark claims 5 guided prompts | advanced / volatile | `compat` | Prompt count and exact prompt inventory are not contract-validated. Per ADR 0002, prompts are rewritten product semantics, so only semantic compatibility is retained. | Benchmark doc `external_docs/remnawave-panel-docs/awesome-remnawave/_install-guides/mcp-remnawave.md`; ADR 0002 prompts=`rewrite`; future `tests/discovery/prompts.test.ts` snapshot. |
-| Config profiles / inbounds | Upstream MCP tools bucket | advanced / volatile | `deferred` | High-value area, but Task 3 did not validate live contracts here and schema coupling risk is high. This should wait for adapter-first contract work. | Task 3 report constraint: unprobed domains remain uncertain; ADR 0002 per-domain tools=`rewrite`; future contract fixture path `fixtures/contracts/config_profiles*.json`. |
-| Squads | Upstream MCP tools bucket | advanced / volatile | `deferred` | Upstream breadth claims mention squads, but no Task 3 live fixture validates the current panel contract, so support would be speculative right now. | Benchmark doc feature bullet; Task 3 report says unprobed domains are uncertain; future contract fixture path `fixtures/contracts/squads*.json`. |
-| Subscription page configs | Newly discovered domain from plan guidance | advanced / volatile | `deferred` | Potentially useful but not part of the verified Task 3 fixture set. Also likely product/config-shape sensitive, so postpone until explicit contract capture exists. | Plan-known-domain requirement; Task 3 report lack of probe; future contract fixture path `fixtures/contracts/subscription_page_configs*.json`. |
-| IP control | Newly discovered domain from plan guidance | advanced / volatile | `deferred` | IP-control features are mutation-heavy and safety-sensitive. Under Task 2's dry-run-first rule, this domain should not enter scope before explicit preview/apply semantics exist. | ADR 0002 dry-run-first rule; Task 3 has no live IP-control fixture; future test path `tests/mutations/ip-control-plan-apply.test.ts`. |
-| Bulk actions | Newly discovered domain from plan guidance | advanced / volatile | `deferred` | Bulk actions amplify operator risk and need preview/apply guarantees plus rollback-friendly semantics before exposure. No Task 3 contract evidence exists yet. | ADR 0002 plan/apply separation; Task 3 has no bulk-action fixtures; future test path `tests/mutations/bulk-actions-plan-apply.test.ts`. |
-| Recap | Newly discovered domain; Task 3 `GET /api/system/stats/recap` | advanced / volatile | `deferred` | The route exists in OpenAPI/changelog references, but Task 3 did not capture a live fixture, so recap remains explicitly uncertain rather than promised. | Contract report row marking recap `uncertain`; notepad `issues.md` recap note; future fixture `fixtures/contracts/system_stats_recap.json`. |
-| Hosts | Upstream MCP tools bucket | advanced / volatile | `dropped` | The final repo should not carry a separate host domain purely because upstream did. Task 3 did not validate host-specific contracts, and current verified core value is covered by nodes + system domains. | Upstream benchmark feature bullet; Task 3 missing host fixture; this matrix row is the authoritative drop decision. |
+## Migration note: single-tool contract only
+
+This matrix describes capabilities exposed exclusively through the single `remnawave_api` tool. Legacy multi-tool MCP designs (where each operation was a separate discoverable tool) are not supported.
+
+**Key implications:**
+
+- Discovery returns one tool: `remnawave_api`
+- Operations are accessed via `domain` + `operation` + `payload`, not individual tool names
+- No compatibility shims expose legacy tool aliases
+
+See the [migration guide](../migration/flat-to-single-tool.md) for details on transitioning from flat-tool designs.
+
+## Published capability boundary
+
+| Capability area | Published class | Supported now | Notes / boundary |
+|---|---|---|---|
+| system | `supported` | `system.get_stats`, `system.get_metadata`, `system.get_health`, `system.get_bandwidth_stats`, `system.get_node_statistics`, `system.get_nodes_metrics`, `system.get_recap` | Runtime-discoverable through `remnawave_api`. |
+| users | `supported` | `users.list`, `users.create`, `users.get`, `users.get_subscription_request_history`, `users.revoke_subscription`, `users.disable`, `users.enable`, `users.update`, `users.bulk_all_extend_expiration_date`, `users.bulk_all_reset_traffic`, `users.bulk_all_update`, `users.bulk_delete`, `users.bulk_delete_by_status`, `users.bulk_extend_expiration_date`, `users.bulk_reset_traffic`, `users.bulk_revoke_subscription`, `users.bulk_update`, `users.bulk_update_squads`, `users.get_by_email`, `users.get_by_id`, `users.get_by_short_uuid`, `users.get_by_tag`, `users.get_by_telegram_id`, `users.get_by_username`, `users.resolve`, `users.list_tags`, `users.delete`, `users.get_accessible_nodes`, `users.reset_traffic` | Runtime-discoverable through `remnawave_api`. |
+| hosts | `supported` | `hosts.bulk_set_port`, `hosts.list`, `hosts.update`, `hosts.create`, `hosts.reorder`, `hosts.bulk_delete`, `hosts.bulk_disable`, `hosts.bulk_enable`, `hosts.bulk_set_inbound`, `hosts.list_tags`, `hosts.delete`, `hosts.get` | Runtime-discoverable through `remnawave_api`. |
+| nodes | `supported` | `nodes.restart`, `nodes.list`, `nodes.update`, `nodes.create`, `nodes.reorder`, `nodes.restart_all`, `nodes.bulk_actions`, `nodes.profile_modification`, `nodes.bulk_update`, `nodes.list_tags`, `nodes.delete`, `nodes.get`, `nodes.disable`, `nodes.enable`, `nodes.reset_traffic` | Runtime-discoverable through `remnawave_api`. |
+| metadata | `supported` | `metadata.get_node`, `metadata.upsert_node`, `metadata.get_user`, `metadata.upsert_user` | Runtime-discoverable through `remnawave_api`. |
+| templates | `supported` | `templates.list`, `templates.get`, `templates.create`, `templates.update`, `templates.delete`, `templates.reorder` | Runtime-discoverable through `remnawave_api`. |
+| Subscription templates | `supported` | `templates.list`, `templates.get`, `templates.create`, `templates.update`, `templates.delete`, `templates.reorder` | Template list/read/create/update/delete are supported; template reorder and broader delivery workflows are deferred. |
+| snippets | `supported` | `snippets.list`, `snippets.create`, `snippets.update`, `snippets.delete` | Runtime-discoverable through `remnawave_api`. |
+| Snippets | `supported` | `snippets.list`, `snippets.create`, `snippets.update`, `snippets.delete` | Snippet inventory and CRUD are supported; snippet reorder and broader composite workflows are deferred. |
+| public_subscriptions | `supported` | `public_subscriptions.get_info`, `public_subscriptions.get`, `public_subscriptions.get_by_client_type` | Runtime-discoverable through `remnawave_api`. |
+| subscriptions | `supported` | `subscriptions.list`, `subscriptions.get_by_username`, `subscriptions.get_by_short_uuid`, `subscriptions.get_by_uuid`, `subscriptions.get_raw_by_short_uuid`, `subscriptions.get_subpage_config_by_short_uuid`, `subscriptions.get_connection_keys_by_uuid` | Runtime-discoverable through `remnawave_api`. |
+| subscription_request_history | `supported` | `subscription_request_history.list`, `subscription_request_history.get_stats` | Runtime-discoverable through `remnawave_api`. |
+| profiles | `supported` | `profiles.list`, `profiles.get`, `profiles.get_computed`, `profiles.list_inbounds`, `profiles.update`, `profiles.create`, `profiles.reorder`, `profiles.list_all_inbounds`, `profiles.delete` | Runtime-discoverable through `remnawave_api`. |
+| bandwidth_stats | `supported` | `bandwidth_stats.list_nodes_usage`, `bandwidth_stats.get_node_users_usage`, `bandwidth_stats.get_node_user_usage_legacy`, `bandwidth_stats.get_user_usage`, `bandwidth_stats.get_user_usage_legacy` | Runtime-discoverable through `remnawave_api`. |
+| external_squads | `supported` | `external_squads.list`, `external_squads.update`, `external_squads.create`, `external_squads.reorder`, `external_squads.delete`, `external_squads.get`, `external_squads.add_users`, `external_squads.remove_users` | Runtime-discoverable through `remnawave_api`. |
+| hwid | `supported` | `hwid.list_users`, `hwid.create_device`, `hwid.delete_device`, `hwid.delete_all_devices`, `hwid.get_stats`, `hwid.get_top_users`, `hwid.get_user_devices` | Runtime-discoverable through `remnawave_api`. |
+| infra_billing | `supported` | `infra_billing.list_history`, `infra_billing.create_history_record`, `infra_billing.delete_history_record`, `infra_billing.list_nodes`, `infra_billing.update_node`, `infra_billing.create_node`, `infra_billing.delete_node`, `infra_billing.list_providers`, `infra_billing.update_provider`, `infra_billing.create_provider`, `infra_billing.delete_provider`, `infra_billing.get_provider` | Runtime-discoverable through `remnawave_api`. |
+| internal_squads | `supported` | `internal_squads.list`, `internal_squads.update`, `internal_squads.create`, `internal_squads.reorder`, `internal_squads.delete`, `internal_squads.get`, `internal_squads.get_accessible_nodes`, `internal_squads.add_users`, `internal_squads.remove_users` | Runtime-discoverable through `remnawave_api`. |
+| subscription_page_configs | `supported` | `subscription_page_configs.list`, `subscription_page_configs.update`, `subscription_page_configs.create`, `subscription_page_configs.clone`, `subscription_page_configs.reorder`, `subscription_page_configs.delete`, `subscription_page_configs.get` | Runtime-discoverable through `remnawave_api`. |
+| subscription_settings | `supported` | `subscription_settings.get`, `subscription_settings.update` | Runtime-discoverable through `remnawave_api`. |
+| Explicitly excluded domains | `dropped` | `auth.*`, `tokens.*`, `ip_control.*`, `node_plugins.*`, `keygen`, `remnawave_settings`, dangerous/internal system helpers | Intentionally outside the published v1 support promise. |
+| Routing / control-plane rule management | `deferred` | No standalone executable seam | No routing-rule or response-rule management seam is currently exposed through the model-facing MCP runtime; generic topology/control-plane orchestration remains deferred. |
 
 ## Guardrails implied by this matrix
 
-- Stable-core discovery should prioritize users, users/resolve, nodes, system, subscriptions, and the three core resources.
-- Advanced capabilities may still be implemented, but they should be clearly segmented from core discovery and version-gated where Task 3 shows drift risk.
-- `compat` applies only at the semantic boundary. Do not preserve upstream prompt names/counts or raw contract shapes unless later evidence justifies it.
-- `deferred` mutation-heavy domains must follow dry-run-first plan/apply semantics before they can move to `supported`.
+- Keep support language at the domain/action level.
+- Keep runtime discovery, README wording, and release-readiness text aligned with the registry-backed scope map.
+- Treat `sensitive-read` as a support-boundary class, not as an implementation footnote.
+- Do not upgrade deferred discovery visibility into executable support claims.
 
 The release-level summary for these scope decisions is published in [`docs/release/production-readiness.md`](../release/production-readiness.md).
+
+## PRD Domain Coverage Matrix
+
+This matrix maps every PRD-defined domain (section 6.2) to its final implementation state in the single-tool `remnawave_api` contract.
+
+| PRD domain | Registry domain | Final state | Coverage notes |
+|---|---|---|---|
+| users | `users` | supported | User reads, lookup, create/update, lifecycle, and bulk preview/apply workflows are supported. |
+| nodes | `nodes` | supported | Node reads, lifecycle, and guarded bulk/profile workflows are supported. |
+| hosts | `hosts` | supported | Host reads, writes, tags, reorder, delete, and guarded bulk workflows are supported. |
+| config profiles | `profiles` | supported | Profile reads, create/update/delete, reorder, and inbound reads are supported. |
+| internal squads | `internal_squads` | supported | Internal squad lifecycle and membership operations are supported. |
+| external squads | `external_squads` | supported | External squad lifecycle and membership operations are supported. |
+| subscription settings | `subscription_settings` | supported | Settings read and guarded update are supported. |
+| subscription templates | `templates` | supported | Template CRUD and reorder are supported. |
+| subscription page configs | `subscription_page_configs` | supported | Page-config read/list and guarded lifecycle/reorder/clone operations are supported. |
+| snippets | `snippets` | supported | Snippet CRUD is supported. |
+| metadata | `metadata` | supported | User and node metadata reads/upserts are supported. |
+| bandwidth stats | `bandwidth_stats` | supported | Node/user bandwidth stat reads are supported. |
+| system observability | `system` | partially supported | Diagnostics are supported; debug and key-generation helpers are denied. |
+| system observability | `system` | partially supported | Diagnostics supported; debug endpoints and key-generation helpers are denied. |
+| system observability | `system` | partially supported | `get_stats`, `get_metadata`, `get_health`, `get_nodes_metrics`, `get_recap`, and `get_node_statistics` are supported; debug endpoints and key-generation helpers are denied. |
+| bandwidth stats | `system` | supported | `get_bandwidth_stats` operation provides aggregate bandwidth statistics. |
+| infra billing | `infra_billing` | supported | Billing provider, node, and history reads/mutations are supported. |
+| hwid | `hwid` | supported | HWID reads, stats, create, and guarded delete workflows are supported. |
+| ip control | `ip_control` | dropped | IP-control async fetch jobs and connection drops remain excluded. |
+| node plugins | `node_plugins` | dropped | Node plugin configuration and reports remain excluded. |
+| subscription request history | `subscription_request_history` | supported | Request-history reads and stats are supported. |
+
+> **Note on classification distinctions:** The PRD Domain Coverage Matrix rows above classify the *listed capability area* (the operations named in the row). The Truth Table below and Summary Counts provide the *overall capability-class view* for each PRD domain, accounting for denied or deferred subsets that exist elsewhere in the domain. For example, `system observability` lists supported diagnostic operations above, while the Truth Table marks it `partially supported` because debug endpoints are denied within that domain. Both views are correct: the row reflects the supported surface; the summary accounts for the full domain boundary.
+
+### PRD domain state summary
+
+| State | Count | Domains |
+|---|---|---|
+| Fully supported | 14 | users, nodes, hosts, config profiles, internal squads, external squads, subscription settings, subscription templates, subscription page configs, snippets, metadata, bandwidth stats, infra billing, hwid, subscription request history |
+| Partially supported | 1 | system observability |
+| Dropped | 2 | ip control, node plugins |
+| Denied | 0 | N/A |
+
+### Explicit exclusions from PRD scope
+
+The following PRD-explicit exclusions (section 6.2) are correctly denied:
+
+- Public `/sub/*` user delivery endpoints → denied
+- Auth/passkeys/token bootstrap flows → `auth.*` denied
+- Debug/internal-only actions → `system.debug_srr_matcher`, `node_plugins.execute_plugin_executor`, `ip_control.drop_connections`, `metadata.manage_node` denied
+
+## Truth table: PRD domain → capability class
+
+| PRD domain | Capability class | Rationale |
+|---|---|---|
+| users | `supported` | Core, lookup, lifecycle, and bulk workflows are supported. |
+| nodes | `supported` | Node reads, lifecycle, and guarded bulk/profile workflows are supported. |
+| hosts | `supported` | Host reads/writes and guarded bulk workflows are supported. |
+| config profiles | `supported` | Profile reads and guarded lifecycle/reorder workflows are supported. |
+| internal squads | `supported` | Internal squad lifecycle and membership operations are supported. |
+| external squads | `supported` | External squad lifecycle and membership operations are supported. |
+| subscription settings | `supported` | Settings read and guarded update are supported. |
+| subscription templates | `supported` | Template CRUD and reorder are supported. |
+| subscription page configs | `supported` | Page-config lifecycle, clone, reorder, and reads are supported. |
+| snippets | `supported` | Snippet CRUD is supported. |
+| metadata | `supported` | User and node metadata reads/upserts are supported. |
+| bandwidth stats | `supported` | Bandwidth statistics are supported. |
+| system observability | `partially supported` | Diagnostics are supported; debug endpoints and key-generation helpers are denied. |
+| infra billing | `supported` | Billing provider, node, and history workflows are supported. |
+| hwid | `supported` | HWID reads/stats and guarded actions are supported. |
+| ip control | `dropped` | IP-control operations remain excluded. |
+| node plugins | `dropped` | Node plugin operations remain excluded. |
+| subscription request history | `supported` | Request-history reads and stats are supported. |

@@ -54,7 +54,7 @@ Sources:
 | Node plugins endpoints exist (`GET /api/node-plugins`) | **confirmed** | Live `node_plugins.json` status 200 |
 | `/api/system/health` uses `runtimeMetrics` replacement | **confirmed** | `system_health.json` contains `response.runtimeMetrics` |
 | Node response drift: modern `system`/`versions` shape present | **confirmed** | `nodes.json` includes `system` and `versions` objects |
-| Panel is already on latest changelog version `2.7.4` | **contradicted** | Live `metadata.json` reports panel version `2.7.3` while changelog latest section is `2.7.4` |
+| Panel is already on latest changelog version `2.7.4` | **confirmed** | Live `metadata.json` reports panel version `2.7.4` |
 | Removed endpoint `/api/bandwidth-stats/nodes/realtime` is no longer reachable | **uncertain** | Not explicitly probed in this fixture set |
 | `subLastOpenedAt` / `subLastUserAgent` removed from user payloads | **confirmed** | Not present in sampled `users.json` payload entries |
 
