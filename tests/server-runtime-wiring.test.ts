@@ -20,16 +20,18 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-let capturedHandler: ((args: Record<string, unknown>) => Promise<{ structuredContent: Record<string, unknown> }>) | null = null;
+let capturedHandler: ((args: Record<string, unknown>) => Promise<{ structuredContent: Record<string, unknown>; isError?: boolean }>) | null = null;
+let capturedMetadata: Record<string, unknown> | null = null;
 
 vi.mock('@modelcontextprotocol/sdk/server/mcp.js', () => ({
   McpServer: class {
     registerTool = mocks.registerToolMock.mockImplementation(
       (
         _name: string,
-        _metadata: Record<string, unknown>,
-        handler: (args: Record<string, unknown>) => Promise<{ structuredContent: Record<string, unknown> }>,
+        metadata: Record<string, unknown>,
+        handler: (args: Record<string, unknown>) => Promise<{ structuredContent: Record<string, unknown>; isError?: boolean }>,
       ) => {
+        capturedMetadata = metadata;
         capturedHandler = handler;
       },
     );
@@ -97,8 +99,8 @@ function createRuntimeConfig() {
         tools: true,
       },
       server: {
-        name: 'mcp-remnawave',
-        version: '0.1.0',
+        name: 'remnawave-mcp',
+        version: '0.2.0',
         protocolVersion: '2024-11-05',
       },
     },
@@ -108,6 +110,7 @@ function createRuntimeConfig() {
 describe('server runtime wiring', () => {
   afterEach(() => {
     capturedHandler = null;
+    capturedMetadata = null;
     mocks.registerToolMock.mockClear();
     mocks.connectMock.mockClear();
     mocks.closeMock.mockClear();
@@ -127,6 +130,8 @@ describe('server runtime wiring', () => {
       expect.any(Object),
       expect.any(Function),
     );
+    expect(capturedMetadata?.description).toContain('domain only to discover operations');
+    expect(capturedMetadata?.description).not.toContain('system.get_stats');
     expect(mocks.createRemnawaveApiClientAdapterMock).toHaveBeenCalledTimes(1);
     expect(mocks.createRemnawaveApiClientAdapterMock).toHaveBeenCalledWith(mocks.constructedClients[0]?.instance);
     expect(capturedHandler).not.toBeNull();
@@ -138,6 +143,31 @@ describe('server runtime wiring', () => {
     expect(response).toEqual({
       content: [{ type: 'text', text: JSON.stringify({ stats: { users: '1', nested: ['2'] } }, null, 2) }],
       structuredContent: { stats: { users: '1', nested: ['2'] } },
+    });
+
+    await runtime.close();
+  });
+
+  test('marks compact error envelopes as MCP tool errors without changing payload shape', async () => {
+    mocks.createRemnawaveApiClientAdapterMock.mockReturnValueOnce(mocks.adapterClient);
+    const compactError = {
+      error: {
+        code: 'INVALID_PAYLOAD',
+        kind: 'validation',
+        message: 'Payload is invalid.',
+        retryable: false,
+      },
+    };
+    mocks.routeRemnawaveApiRequestMock.mockResolvedValueOnce(compactError);
+
+    const runtime = await startServer(createRuntimeConfig());
+    const request = { domain: 'system', operation: 'get_stats', payload: { unexpected: true } };
+    const response = await capturedHandler?.(request);
+
+    expect(response).toEqual({
+      content: [{ type: 'text', text: JSON.stringify(compactError, null, 2) }],
+      structuredContent: compactError,
+      isError: true,
     });
 
     await runtime.close();

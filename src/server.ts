@@ -50,7 +50,7 @@ export async function startServer(config: RuntimeConfig): Promise<ServerRuntime>
     'remnawave_api',
     {
       title: 'Remnawave API',
-      description: 'Primary interface for all Remnawave operations. Use domain + operation + payload pattern.',
+      description: 'Single Remnawave API entry point. Use domain only to discover operations, domain + operation to describe one operation, and domain + operation + payload to execute.',
       inputSchema: remnawaveApiToolInput,
     },
     async (args) => {
@@ -59,6 +59,7 @@ export async function startServer(config: RuntimeConfig): Promise<ServerRuntime>
       return {
         content: [{ type: 'text', text: JSON.stringify(safeResult, null, 2) }],
         structuredContent: asStructuredContent(safeResult),
+        ...(isCompactErrorEnvelope(safeResult) ? { isError: true } : {}),
       };
     },
   );
@@ -115,4 +116,13 @@ function asStructuredContent(value: unknown): Record<string, unknown> {
   return {
     value,
   };
+}
+
+function isCompactErrorEnvelope(value: unknown): boolean {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return false;
+  }
+
+  const error = (value as Record<string, unknown>).error;
+  return Boolean(error && typeof error === 'object' && !Array.isArray(error));
 }
