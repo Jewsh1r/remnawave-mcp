@@ -12,6 +12,31 @@
 - Supported Remnawave version gate: `2.7.0` through `2.7.4`
 - Unsupported or unknown Remnawave versions: startup fails before discovery is advertised
 
+## Install from npm
+
+Install the MCP server globally:
+
+```bash
+npm install -g remnawave-mcp
+```
+
+Then configure your MCP client to run `remnawave-mcp` with the required Remnawave environment variables:
+
+```json
+{
+  "mcpServers": {
+    "remnawave": {
+      "command": "remnawave-mcp",
+      "env": {
+        "REMNAWAVE_BASE_URL": "https://panel.example.test",
+        "REMNAWAVE_API_TOKEN": "replace-with-real-token",
+        "REMNAWAVE_VERSION": "2.7.4"
+      }
+    }
+  }
+}
+```
+
 ## Quickstart: Using the single-tool API
 
 The MCP server exposes **one** tool: `remnawave_api`. All operations flow through this tool using a three-state pattern:
