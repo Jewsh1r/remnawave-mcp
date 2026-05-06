@@ -142,8 +142,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "bandwidth_stats",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "bandwidth_stats.get_nodes_usage_history_controller_get_stats_nodes_usage_bandwidth_stats_nodes",
+      "key": "bandwidth_stats.list_nodes_usage",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "NodesUsageHistoryController_getStatsNodesUsage",
@@ -155,13 +155,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesUsageHistoryController_getStatsNodesUsage.responses.500"
         ]
       },
-      "operation": "get_nodes_usage_history_controller_get_stats_nodes_usage_bandwidth_stats_nodes",
-      "status": "excluded"
+      "operation": "list_nodes_usage",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads bandwidth_stats.list_nodes_usage without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "bandwidth_stats",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "bandwidth_stats.get_bandwidth_stats_nodes_controller_get_stats_node_users_usage_bandwidth_stats_nodes_uuid_users",
+      "key": "bandwidth_stats.get_node_users_usage",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "BandwidthStatsNodesController_getStatsNodeUsersUsage",
@@ -173,13 +182,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:BandwidthStatsNodesController_getStatsNodeUsersUsage.responses.500"
         ]
       },
-      "operation": "get_bandwidth_stats_nodes_controller_get_stats_node_users_usage_bandwidth_stats_nodes_uuid_users",
-      "status": "excluded"
+      "operation": "get_node_users_usage",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads bandwidth_stats.get_node_users_usage without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "bandwidth_stats",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "bandwidth_stats.get_bandwidth_stats_nodes_controller_get_node_user_usage_bandwidth_stats_nodes_uuid_users_legacy",
+      "key": "bandwidth_stats.get_node_user_usage_legacy",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "BandwidthStatsNodesController_getNodeUserUsage",
@@ -191,13 +209,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:BandwidthStatsNodesController_getNodeUserUsage.responses.500"
         ]
       },
-      "operation": "get_bandwidth_stats_nodes_controller_get_node_user_usage_bandwidth_stats_nodes_uuid_users_legacy",
-      "status": "excluded"
+      "operation": "get_node_user_usage_legacy",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads bandwidth_stats.get_node_user_usage_legacy without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "bandwidth_stats",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "bandwidth_stats.get_bandwidth_stats_users_controller_get_stats_nodes_usage_bandwidth_stats_users_uuid",
+      "key": "bandwidth_stats.get_user_usage",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "BandwidthStatsUsersController_getStatsNodesUsage",
@@ -209,13 +236,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:BandwidthStatsUsersController_getStatsNodesUsage.responses.500"
         ]
       },
-      "operation": "get_bandwidth_stats_users_controller_get_stats_nodes_usage_bandwidth_stats_users_uuid",
-      "status": "excluded"
+      "operation": "get_user_usage",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads bandwidth_stats.get_user_usage without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "bandwidth_stats",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "bandwidth_stats.get_bandwidth_stats_users_controller_get_user_usage_by_range_bandwidth_stats_users_uuid_legacy",
+      "key": "bandwidth_stats.get_user_usage_legacy",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "BandwidthStatsUsersController_getUserUsageByRange",
@@ -227,13 +263,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:BandwidthStatsUsersController_getUserUsageByRange.responses.500"
         ]
       },
-      "operation": "get_bandwidth_stats_users_controller_get_user_usage_by_range_bandwidth_stats_users_uuid_legacy",
-      "status": "excluded"
+      "operation": "get_user_usage_legacy",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads bandwidth_stats.get_user_usage_legacy without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.get_config_profile_controller_get_config_profiles_config_profiles",
+      "domain": "profiles",
+      "key": "profiles.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ConfigProfileController_getConfigProfiles",
@@ -245,13 +290,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_getConfigProfiles.responses.500"
         ]
       },
-      "operation": "get_config_profile_controller_get_config_profiles_config_profiles",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads profiles.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.patch_config_profile_controller_update_config_profile_config_profiles",
+      "domain": "profiles",
+      "key": "profiles.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "ConfigProfileController_updateConfigProfile",
@@ -263,13 +317,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_updateConfigProfile.responses.500"
         ]
       },
-      "operation": "patch_config_profile_controller_update_config_profile_config_profiles",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes profiles.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.post_config_profile_controller_create_config_profile_config_profiles",
+      "domain": "profiles",
+      "key": "profiles.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "ConfigProfileController_createConfigProfile",
@@ -281,13 +344,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_createConfigProfile.responses.500"
         ]
       },
-      "operation": "post_config_profile_controller_create_config_profile_config_profiles",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes profiles.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.post_config_profile_controller_reorder_config_profiles_config_profiles_actions_reorder",
+      "domain": "profiles",
+      "key": "profiles.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "ConfigProfileController_reorderConfigProfiles",
@@ -299,13 +371,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_reorderConfigProfiles.responses.500"
         ]
       },
-      "operation": "post_config_profile_controller_reorder_config_profiles_config_profiles_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes profiles.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.get_config_profile_controller_get_all_inbounds_config_profiles_inbounds",
+      "domain": "profiles",
+      "key": "profiles.list_all_inbounds",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ConfigProfileController_getAllInbounds",
@@ -317,13 +398,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_getAllInbounds.responses.500"
         ]
       },
-      "operation": "get_config_profile_controller_get_all_inbounds_config_profiles_inbounds",
-      "status": "excluded"
+      "operation": "list_all_inbounds",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads profiles.list_all_inbounds without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.delete_config_profile_controller_delete_config_profile_by_uuid_config_profiles_uuid",
+      "domain": "profiles",
+      "key": "profiles.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "ConfigProfileController_deleteConfigProfileByUuid",
@@ -335,13 +425,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_deleteConfigProfileByUuid.responses.500"
         ]
       },
-      "operation": "delete_config_profile_controller_delete_config_profile_by_uuid_config_profiles_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes profiles.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.get_config_profile_controller_get_config_profile_by_uuid_config_profiles_uuid",
+      "domain": "profiles",
+      "key": "profiles.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ConfigProfileController_getConfigProfileByUuid",
@@ -353,13 +452,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_getConfigProfileByUuid.responses.500"
         ]
       },
-      "operation": "get_config_profile_controller_get_config_profile_by_uuid_config_profiles_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads profiles.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.get_config_profile_controller_get_computed_config_profile_by_uuid_config_profiles_uuid_computed_config",
+      "domain": "profiles",
+      "key": "profiles.get_computed",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ConfigProfileController_getComputedConfigProfileByUuid",
@@ -371,13 +479,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_getComputedConfigProfileByUuid.responses.500"
         ]
       },
-      "operation": "get_config_profile_controller_get_computed_config_profile_by_uuid_config_profiles_uuid_computed_config",
-      "status": "excluded"
+      "operation": "get_computed",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads profiles.get_computed without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
-      "domain": "config_profiles",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "config_profiles.get_config_profile_controller_get_inbounds_by_profile_uuid_config_profiles_uuid_inbounds",
+      "domain": "profiles",
+      "key": "profiles.list_inbounds",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ConfigProfileController_getInboundsByProfileUuid",
@@ -389,13 +506,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ConfigProfileController_getInboundsByProfileUuid.responses.500"
         ]
       },
-      "operation": "get_config_profile_controller_get_inbounds_by_profile_uuid_config_profiles_uuid_inbounds",
-      "status": "excluded"
+      "operation": "list_inbounds",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads profiles.list_inbounds without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.get_external_squad_controller_get_external_squads_external_squads",
+      "key": "external_squads.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ExternalSquadController_getExternalSquads",
@@ -407,13 +533,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_getExternalSquads.responses.500"
         ]
       },
-      "operation": "get_external_squad_controller_get_external_squads_external_squads",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads external_squads.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.patch_external_squad_controller_update_external_squad_external_squads",
+      "key": "external_squads.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "ExternalSquadController_updateExternalSquad",
@@ -425,13 +560,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_updateExternalSquad.responses.500"
         ]
       },
-      "operation": "patch_external_squad_controller_update_external_squad_external_squads",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes external_squads.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.post_external_squad_controller_create_external_squad_external_squads",
+      "key": "external_squads.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "ExternalSquadController_createExternalSquad",
@@ -443,13 +587,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_createExternalSquad.responses.500"
         ]
       },
-      "operation": "post_external_squad_controller_create_external_squad_external_squads",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes external_squads.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.post_external_squad_controller_reorder_external_squads_external_squads_actions_reorder",
+      "key": "external_squads.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "ExternalSquadController_reorderExternalSquads",
@@ -461,13 +614,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_reorderExternalSquads.responses.500"
         ]
       },
-      "operation": "post_external_squad_controller_reorder_external_squads_external_squads_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes external_squads.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.delete_external_squad_controller_delete_external_squad_external_squads_uuid",
+      "key": "external_squads.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "ExternalSquadController_deleteExternalSquad",
@@ -479,13 +641,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_deleteExternalSquad.responses.500"
         ]
       },
-      "operation": "delete_external_squad_controller_delete_external_squad_external_squads_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes external_squads.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.get_external_squad_controller_get_external_squad_by_uuid_external_squads_uuid",
+      "key": "external_squads.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "ExternalSquadController_getExternalSquadByUuid",
@@ -497,13 +668,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_getExternalSquadByUuid.responses.500"
         ]
       },
-      "operation": "get_external_squad_controller_get_external_squad_by_uuid_external_squads_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads external_squads.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.post_external_squad_controller_add_users_to_external_squad_external_squads_uuid_bulk_actions_add_users",
+      "key": "external_squads.add_users",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "ExternalSquadController_addUsersToExternalSquad",
@@ -515,13 +695,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_addUsersToExternalSquad.responses.500"
         ]
       },
-      "operation": "post_external_squad_controller_add_users_to_external_squad_external_squads_uuid_bulk_actions_add_users",
-      "status": "excluded"
+      "operation": "add_users",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes external_squads.add_users through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "external_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "external_squads.delete_external_squad_controller_remove_users_from_external_squad_external_squads_uuid_bulk_actions_remove_users",
+      "key": "external_squads.remove_users",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "ExternalSquadController_removeUsersFromExternalSquad",
@@ -533,13 +722,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:ExternalSquadController_removeUsersFromExternalSquad.responses.500"
         ]
       },
-      "operation": "delete_external_squad_controller_remove_users_from_external_squad_external_squads_uuid_bulk_actions_remove_users",
-      "status": "excluded"
+      "operation": "remove_users",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes external_squads.remove_users through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.get_hosts_controller_get_all_hosts_hosts",
+      "key": "hosts.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HostsController_getAllHosts",
@@ -551,13 +749,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_getAllHosts.responses.500"
         ]
       },
-      "operation": "get_hosts_controller_get_all_hosts_hosts",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hosts.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.patch_hosts_controller_update_host_hosts",
+      "key": "hosts.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "HostsController_updateHost",
@@ -569,13 +776,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_updateHost.responses.500"
         ]
       },
-      "operation": "patch_hosts_controller_update_host_hosts",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes hosts.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_controller_create_host_hosts",
+      "key": "hosts.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsController_createHost",
@@ -587,13 +803,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_createHost.responses.500"
         ]
       },
-      "operation": "post_hosts_controller_create_host_hosts",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes hosts.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_controller_reorder_hosts_hosts_actions_reorder",
+      "key": "hosts.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsController_reorderHosts",
@@ -605,13 +830,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_reorderHosts.responses.500"
         ]
       },
-      "operation": "post_hosts_controller_reorder_hosts_hosts_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes hosts.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_bulk_actions_controller_delete_hosts_hosts_bulk_delete",
+      "key": "hosts.bulk_delete",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsBulkActionsController_deleteHosts",
@@ -623,13 +857,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsBulkActionsController_deleteHosts.responses.500"
         ]
       },
-      "operation": "post_hosts_bulk_actions_controller_delete_hosts_hosts_bulk_delete",
-      "status": "excluded"
+      "operation": "bulk_delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_delete",
+        "summary": "Executes hosts.bulk_delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_bulk_actions_controller_disable_hosts_hosts_bulk_disable",
+      "key": "hosts.bulk_disable",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsBulkActionsController_disableHosts",
@@ -641,13 +884,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsBulkActionsController_disableHosts.responses.500"
         ]
       },
-      "operation": "post_hosts_bulk_actions_controller_disable_hosts_hosts_bulk_disable",
-      "status": "excluded"
+      "operation": "bulk_disable",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes hosts.bulk_disable through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_bulk_actions_controller_enable_hosts_hosts_bulk_enable",
+      "key": "hosts.bulk_enable",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsBulkActionsController_enableHosts",
@@ -659,13 +911,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsBulkActionsController_enableHosts.responses.500"
         ]
       },
-      "operation": "post_hosts_bulk_actions_controller_enable_hosts_hosts_bulk_enable",
-      "status": "excluded"
+      "operation": "bulk_enable",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes hosts.bulk_enable through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.post_hosts_bulk_actions_controller_set_inbound_to_hosts_hosts_bulk_set_inbound",
+      "key": "hosts.bulk_set_inbound",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HostsBulkActionsController_setInboundToHosts",
@@ -677,8 +938,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsBulkActionsController_setInboundToHosts.responses.500"
         ]
       },
-      "operation": "post_hosts_bulk_actions_controller_set_inbound_to_hosts_hosts_bulk_set_inbound",
-      "status": "excluded"
+      "operation": "bulk_set_inbound",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes hosts.bulk_set_inbound through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
@@ -702,15 +972,15 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "preview_apply",
       "sideEffects": {
         "kind": "bulk_update",
-        "summary": "Sets the port for a bounded host set."
+        "summary": "Executes hosts.bulk_set_port through its OpenAPI endpoint."
       },
       "status": "supported",
       "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.get_hosts_controller_get_all_host_tags_hosts_tags",
+      "key": "hosts.list_tags",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HostsController_getAllHostTags",
@@ -722,13 +992,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_getAllHostTags.responses.500"
         ]
       },
-      "operation": "get_hosts_controller_get_all_host_tags_hosts_tags",
-      "status": "excluded"
+      "operation": "list_tags",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hosts.list_tags without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.delete_hosts_controller_delete_host_hosts_uuid",
+      "key": "hosts.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "HostsController_deleteHost",
@@ -740,13 +1019,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_deleteHost.responses.500"
         ]
       },
-      "operation": "delete_hosts_controller_delete_host_hosts_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes hosts.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hosts",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hosts.get_hosts_controller_get_one_host_hosts_uuid",
+      "key": "hosts.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HostsController_getOneHost",
@@ -758,13 +1046,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HostsController_getOneHost.responses.500"
         ]
       },
-      "operation": "get_hosts_controller_get_one_host_hosts_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hosts.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.get_hwid_user_devices_controller_get_all_users_hwid_devices",
+      "key": "hwid.list_users",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HwidUserDevicesController_getAllUsers",
@@ -776,13 +1073,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_getAllUsers.responses.500"
         ]
       },
-      "operation": "get_hwid_user_devices_controller_get_all_users_hwid_devices",
-      "status": "excluded"
+      "operation": "list_users",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hwid.list_users without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.post_hwid_user_devices_controller_create_user_hwid_device_hwid_devices",
+      "key": "hwid.create_device",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HwidUserDevicesController_createUserHwidDevice",
@@ -794,13 +1100,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_createUserHwidDevice.responses.500"
         ]
       },
-      "operation": "post_hwid_user_devices_controller_create_user_hwid_device_hwid_devices",
-      "status": "excluded"
+      "operation": "create_device",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes hwid.create_device through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.post_hwid_user_devices_controller_delete_user_hwid_device_hwid_devices_delete",
+      "key": "hwid.delete_device",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HwidUserDevicesController_deleteUserHwidDevice",
@@ -812,13 +1127,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_deleteUserHwidDevice.responses.500"
         ]
       },
-      "operation": "post_hwid_user_devices_controller_delete_user_hwid_device_hwid_devices_delete",
-      "status": "excluded"
+      "operation": "delete_device",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes hwid.delete_device through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.post_hwid_user_devices_controller_delete_all_user_hwid_devices_hwid_devices_delete_all",
+      "key": "hwid.delete_all_devices",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "HwidUserDevicesController_deleteAllUserHwidDevices",
@@ -830,13 +1154,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_deleteAllUserHwidDevices.responses.500"
         ]
       },
-      "operation": "post_hwid_user_devices_controller_delete_all_user_hwid_devices_hwid_devices_delete_all",
-      "status": "excluded"
+      "operation": "delete_all_devices",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_delete",
+        "summary": "Executes hwid.delete_all_devices through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.get_hwid_user_devices_controller_get_hwid_devices_stats_hwid_devices_stats",
+      "key": "hwid.get_stats",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HwidUserDevicesController_getHwidDevicesStats",
@@ -848,13 +1181,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_getHwidDevicesStats.responses.500"
         ]
       },
-      "operation": "get_hwid_user_devices_controller_get_hwid_devices_stats_hwid_devices_stats",
-      "status": "excluded"
+      "operation": "get_stats",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hwid.get_stats without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.get_hwid_user_devices_controller_get_top_users_by_hwid_devices_hwid_devices_top_users",
+      "key": "hwid.get_top_users",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HwidUserDevicesController_getTopUsersByHwidDevices",
@@ -866,13 +1208,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_getTopUsersByHwidDevices.responses.500"
         ]
       },
-      "operation": "get_hwid_user_devices_controller_get_top_users_by_hwid_devices_hwid_devices_top_users",
-      "status": "excluded"
+      "operation": "get_top_users",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hwid.get_top_users without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "hwid",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "hwid.get_hwid_user_devices_controller_get_user_hwid_devices_hwid_devices_user_uuid",
+      "key": "hwid.get_user_devices",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "HwidUserDevicesController_getUserHwidDevices",
@@ -884,13 +1235,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:HwidUserDevicesController_getUserHwidDevices.responses.500"
         ]
       },
-      "operation": "get_hwid_user_devices_controller_get_user_hwid_devices_hwid_devices_user_uuid",
-      "status": "excluded"
+      "operation": "get_user_devices",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads hwid.get_user_devices without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.get_infra_billing_controller_get_infra_billing_history_records_infra_billing_history",
+      "key": "infra_billing.list_history",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InfraBillingController_getInfraBillingHistoryRecords",
@@ -902,13 +1262,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_getInfraBillingHistoryRecords.responses.500"
         ]
       },
-      "operation": "get_infra_billing_controller_get_infra_billing_history_records_infra_billing_history",
-      "status": "excluded"
+      "operation": "list_history",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads infra_billing.list_history without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.post_infra_billing_controller_create_infra_billing_history_record_infra_billing_history",
+      "key": "infra_billing.create_history_record",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "InfraBillingController_createInfraBillingHistoryRecord",
@@ -920,13 +1289,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_createInfraBillingHistoryRecord.responses.500"
         ]
       },
-      "operation": "post_infra_billing_controller_create_infra_billing_history_record_infra_billing_history",
-      "status": "excluded"
+      "operation": "create_history_record",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes infra_billing.create_history_record through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.delete_infra_billing_controller_delete_infra_billing_history_record_by_uuid_infra_billing_history_uuid",
+      "key": "infra_billing.delete_history_record",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "InfraBillingController_deleteInfraBillingHistoryRecordByUuid",
@@ -938,13 +1316,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_deleteInfraBillingHistoryRecordByUuid.responses.500"
         ]
       },
-      "operation": "delete_infra_billing_controller_delete_infra_billing_history_record_by_uuid_infra_billing_history_uuid",
-      "status": "excluded"
+      "operation": "delete_history_record",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes infra_billing.delete_history_record through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.get_infra_billing_controller_get_billing_nodes_infra_billing_nodes",
+      "key": "infra_billing.list_nodes",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InfraBillingController_getBillingNodes",
@@ -956,13 +1343,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_getBillingNodes.responses.500"
         ]
       },
-      "operation": "get_infra_billing_controller_get_billing_nodes_infra_billing_nodes",
-      "status": "excluded"
+      "operation": "list_nodes",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads infra_billing.list_nodes without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.patch_infra_billing_controller_update_infra_billing_node_infra_billing_nodes",
+      "key": "infra_billing.update_node",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "InfraBillingController_updateInfraBillingNode",
@@ -974,13 +1370,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_updateInfraBillingNode.responses.500"
         ]
       },
-      "operation": "patch_infra_billing_controller_update_infra_billing_node_infra_billing_nodes",
-      "status": "excluded"
+      "operation": "update_node",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes infra_billing.update_node through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.post_infra_billing_controller_create_infra_billing_node_infra_billing_nodes",
+      "key": "infra_billing.create_node",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "InfraBillingController_createInfraBillingNode",
@@ -992,13 +1397,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_createInfraBillingNode.responses.500"
         ]
       },
-      "operation": "post_infra_billing_controller_create_infra_billing_node_infra_billing_nodes",
-      "status": "excluded"
+      "operation": "create_node",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes infra_billing.create_node through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.delete_infra_billing_controller_delete_infra_billing_node_by_uuid_infra_billing_nodes_uuid",
+      "key": "infra_billing.delete_node",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "InfraBillingController_deleteInfraBillingNodeByUuid",
@@ -1010,13 +1424,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_deleteInfraBillingNodeByUuid.responses.500"
         ]
       },
-      "operation": "delete_infra_billing_controller_delete_infra_billing_node_by_uuid_infra_billing_nodes_uuid",
-      "status": "excluded"
+      "operation": "delete_node",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes infra_billing.delete_node through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.get_infra_billing_controller_get_infra_providers_infra_billing_providers",
+      "key": "infra_billing.list_providers",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InfraBillingController_getInfraProviders",
@@ -1028,13 +1451,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_getInfraProviders.responses.500"
         ]
       },
-      "operation": "get_infra_billing_controller_get_infra_providers_infra_billing_providers",
-      "status": "excluded"
+      "operation": "list_providers",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads infra_billing.list_providers without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.patch_infra_billing_controller_update_infra_provider_infra_billing_providers",
+      "key": "infra_billing.update_provider",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "InfraBillingController_updateInfraProvider",
@@ -1046,13 +1478,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_updateInfraProvider.responses.500"
         ]
       },
-      "operation": "patch_infra_billing_controller_update_infra_provider_infra_billing_providers",
-      "status": "excluded"
+      "operation": "update_provider",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes infra_billing.update_provider through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.post_infra_billing_controller_create_infra_provider_infra_billing_providers",
+      "key": "infra_billing.create_provider",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "InfraBillingController_createInfraProvider",
@@ -1064,13 +1505,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_createInfraProvider.responses.500"
         ]
       },
-      "operation": "post_infra_billing_controller_create_infra_provider_infra_billing_providers",
-      "status": "excluded"
+      "operation": "create_provider",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes infra_billing.create_provider through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.delete_infra_billing_controller_delete_infra_provider_by_uuid_infra_billing_providers_uuid",
+      "key": "infra_billing.delete_provider",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "InfraBillingController_deleteInfraProviderByUuid",
@@ -1082,13 +1532,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_deleteInfraProviderByUuid.responses.500"
         ]
       },
-      "operation": "delete_infra_billing_controller_delete_infra_provider_by_uuid_infra_billing_providers_uuid",
-      "status": "excluded"
+      "operation": "delete_provider",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes infra_billing.delete_provider through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "infra_billing",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "infra_billing.get_infra_billing_controller_get_infra_provider_by_uuid_infra_billing_providers_uuid",
+      "key": "infra_billing.get_provider",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InfraBillingController_getInfraProviderByUuid",
@@ -1100,13 +1559,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InfraBillingController_getInfraProviderByUuid.responses.500"
         ]
       },
-      "operation": "get_infra_billing_controller_get_infra_provider_by_uuid_infra_billing_providers_uuid",
-      "status": "excluded"
+      "operation": "get_provider",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads infra_billing.get_provider without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.get_internal_squad_controller_get_internal_squads_internal_squads",
+      "key": "internal_squads.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InternalSquadController_getInternalSquads",
@@ -1118,13 +1586,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_getInternalSquads.responses.500"
         ]
       },
-      "operation": "get_internal_squad_controller_get_internal_squads_internal_squads",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads internal_squads.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.patch_internal_squad_controller_update_internal_squad_internal_squads",
+      "key": "internal_squads.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "InternalSquadController_updateInternalSquad",
@@ -1136,13 +1613,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_updateInternalSquad.responses.500"
         ]
       },
-      "operation": "patch_internal_squad_controller_update_internal_squad_internal_squads",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes internal_squads.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.post_internal_squad_controller_create_internal_squad_internal_squads",
+      "key": "internal_squads.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "InternalSquadController_createInternalSquad",
@@ -1154,13 +1640,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_createInternalSquad.responses.500"
         ]
       },
-      "operation": "post_internal_squad_controller_create_internal_squad_internal_squads",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes internal_squads.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.post_internal_squad_controller_reorder_internal_squads_internal_squads_actions_reorder",
+      "key": "internal_squads.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "InternalSquadController_reorderInternalSquads",
@@ -1172,13 +1667,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_reorderInternalSquads.responses.500"
         ]
       },
-      "operation": "post_internal_squad_controller_reorder_internal_squads_internal_squads_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes internal_squads.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.delete_internal_squad_controller_delete_internal_squad_internal_squads_uuid",
+      "key": "internal_squads.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "InternalSquadController_deleteInternalSquad",
@@ -1190,13 +1694,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_deleteInternalSquad.responses.500"
         ]
       },
-      "operation": "delete_internal_squad_controller_delete_internal_squad_internal_squads_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes internal_squads.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.get_internal_squad_controller_get_internal_squad_by_uuid_internal_squads_uuid",
+      "key": "internal_squads.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InternalSquadController_getInternalSquadByUuid",
@@ -1208,13 +1721,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_getInternalSquadByUuid.responses.500"
         ]
       },
-      "operation": "get_internal_squad_controller_get_internal_squad_by_uuid_internal_squads_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads internal_squads.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.get_internal_squad_controller_get_internal_squad_accessible_nodes_internal_squads_uuid_accessible_nodes",
+      "key": "internal_squads.get_accessible_nodes",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "InternalSquadController_getInternalSquadAccessibleNodes",
@@ -1226,13 +1748,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_getInternalSquadAccessibleNodes.responses.500"
         ]
       },
-      "operation": "get_internal_squad_controller_get_internal_squad_accessible_nodes_internal_squads_uuid_accessible_nodes",
-      "status": "excluded"
+      "operation": "get_accessible_nodes",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads internal_squads.get_accessible_nodes without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.post_internal_squad_controller_add_users_to_internal_squad_internal_squads_uuid_bulk_actions_add_users",
+      "key": "internal_squads.add_users",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "InternalSquadController_addUsersToInternalSquad",
@@ -1244,13 +1775,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_addUsersToInternalSquad.responses.500"
         ]
       },
-      "operation": "post_internal_squad_controller_add_users_to_internal_squad_internal_squads_uuid_bulk_actions_add_users",
-      "status": "excluded"
+      "operation": "add_users",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes internal_squads.add_users through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "internal_squads",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "internal_squads.delete_internal_squad_controller_remove_users_from_internal_squad_internal_squads_uuid_bulk_actions_remove_users",
+      "key": "internal_squads.remove_users",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "InternalSquadController_removeUsersFromInternalSquad",
@@ -1262,8 +1802,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:InternalSquadController_removeUsersFromInternalSquad.responses.500"
         ]
       },
-      "operation": "delete_internal_squad_controller_remove_users_from_internal_squad_internal_squads_uuid_bulk_actions_remove_users",
-      "status": "excluded"
+      "operation": "remove_users",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes internal_squads.remove_users through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "ip_control",
@@ -1375,8 +1924,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "metadata",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "metadata.get_metadata_controller_get_node_metadata_metadata_node_uuid",
+      "key": "metadata.get_node",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "MetadataController_getNodeMetadata",
@@ -1389,13 +1938,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:MetadataController_getNodeMetadata.responses.500"
         ]
       },
-      "operation": "get_metadata_controller_get_node_metadata_metadata_node_uuid",
-      "status": "excluded"
+      "operation": "get_node",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads metadata.get_node without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "metadata",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "metadata.put_metadata_controller_upsert_node_metadata_metadata_node_uuid",
+      "key": "metadata.upsert_node",
+      "normalizer": "none",
       "openapi": {
         "method": "put",
         "operationId": "MetadataController_upsertNodeMetadata",
@@ -1408,13 +1966,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:MetadataController_upsertNodeMetadata.responses.500"
         ]
       },
-      "operation": "put_metadata_controller_upsert_node_metadata_metadata_node_uuid",
-      "status": "excluded"
+      "operation": "upsert_node",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes metadata.upsert_node through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "metadata",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "metadata.get_metadata_controller_get_user_metadata_metadata_user_uuid",
+      "key": "metadata.get_user",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "MetadataController_getUserMetadata",
@@ -1427,13 +1994,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:MetadataController_getUserMetadata.responses.500"
         ]
       },
-      "operation": "get_metadata_controller_get_user_metadata_metadata_user_uuid",
-      "status": "excluded"
+      "operation": "get_user",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads metadata.get_user without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "metadata",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "metadata.put_metadata_controller_upsert_user_metadata_metadata_user_uuid",
+      "key": "metadata.upsert_user",
+      "normalizer": "none",
       "openapi": {
         "method": "put",
         "operationId": "MetadataController_upsertUserMetadata",
@@ -1446,8 +2022,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:MetadataController_upsertUserMetadata.responses.500"
         ]
       },
-      "operation": "put_metadata_controller_upsert_user_metadata_metadata_user_uuid",
-      "status": "excluded"
+      "operation": "upsert_user",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes metadata.upsert_user through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "node_plugins",
@@ -1649,8 +2234,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.get_nodes_controller_get_all_nodes_nodes",
+      "key": "nodes.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "NodesController_getAllNodes",
@@ -1662,13 +2247,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_getAllNodes.responses.500"
         ]
       },
-      "operation": "get_nodes_controller_get_all_nodes_nodes",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads nodes.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.patch_nodes_controller_update_node_nodes",
+      "key": "nodes.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "NodesController_updateNode",
@@ -1680,13 +2274,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_updateNode.responses.500"
         ]
       },
-      "operation": "patch_nodes_controller_update_node_nodes",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes nodes.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_create_node_nodes",
+      "key": "nodes.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_createNode",
@@ -1698,13 +2301,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_createNode.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_create_node_nodes",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes nodes.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_reorder_nodes_nodes_actions_reorder",
+      "key": "nodes.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_reorderNodes",
@@ -1716,13 +2328,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_reorderNodes.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_reorder_nodes_nodes_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes nodes.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_restart_all_nodes_nodes_actions_restart_all",
+      "key": "nodes.restart_all",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_restartAllNodes",
@@ -1734,13 +2355,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_restartAllNodes.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_restart_all_nodes_nodes_actions_restart_all",
-      "status": "excluded"
+      "operation": "restart_all",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "restart",
+        "summary": "Executes nodes.restart_all through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_bulk_nodes_actions_nodes_bulk_actions",
+      "key": "nodes.bulk_actions",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_bulkNodesActions",
@@ -1752,13 +2382,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_bulkNodesActions.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_bulk_nodes_actions_nodes_bulk_actions",
-      "status": "excluded"
+      "operation": "bulk_actions",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes nodes.bulk_actions through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_profile_modification_nodes_bulk_actions_profile_modification",
+      "key": "nodes.profile_modification",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_profileModification",
@@ -1770,13 +2409,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_profileModification.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_profile_modification_nodes_bulk_actions_profile_modification",
-      "status": "excluded"
+      "operation": "profile_modification",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes nodes.profile_modification through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_bulk_nodes_update_nodes_bulk_actions_update",
+      "key": "nodes.bulk_update",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_bulkNodesUpdate",
@@ -1788,13 +2436,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_bulkNodesUpdate.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_bulk_nodes_update_nodes_bulk_actions_update",
-      "status": "excluded"
+      "operation": "bulk_update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes nodes.bulk_update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.get_nodes_controller_get_all_nodes_tags_nodes_tags",
+      "key": "nodes.list_tags",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "NodesController_getAllNodesTags",
@@ -1806,13 +2463,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_getAllNodesTags.responses.500"
         ]
       },
-      "operation": "get_nodes_controller_get_all_nodes_tags_nodes_tags",
-      "status": "excluded"
+      "operation": "list_tags",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads nodes.list_tags without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.delete_nodes_controller_delete_node_nodes_uuid",
+      "key": "nodes.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "NodesController_deleteNode",
@@ -1824,13 +2490,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_deleteNode.responses.500"
         ]
       },
-      "operation": "delete_nodes_controller_delete_node_nodes_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes nodes.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.get_nodes_controller_get_one_node_nodes_uuid",
+      "key": "nodes.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "NodesController_getOneNode",
@@ -1842,13 +2517,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_getOneNode.responses.500"
         ]
       },
-      "operation": "get_nodes_controller_get_one_node_nodes_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads nodes.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_disable_node_nodes_uuid_actions_disable",
+      "key": "nodes.disable",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_disableNode",
@@ -1860,13 +2544,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_disableNode.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_disable_node_nodes_uuid_actions_disable",
-      "status": "excluded"
+      "operation": "disable",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes nodes.disable through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_enable_node_nodes_uuid_actions_enable",
+      "key": "nodes.enable",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_enableNode",
@@ -1878,13 +2571,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_enableNode.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_enable_node_nodes_uuid_actions_enable",
-      "status": "excluded"
+      "operation": "enable",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes nodes.enable through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "nodes.post_nodes_controller_reset_node_traffic_nodes_uuid_actions_reset_traffic",
+      "key": "nodes.reset_traffic",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "NodesController_resetNodeTraffic",
@@ -1896,8 +2598,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:NodesController_resetNodeTraffic.responses.500"
         ]
       },
-      "operation": "post_nodes_controller_reset_node_traffic_nodes_uuid_actions_reset_traffic",
-      "status": "excluded"
+      "operation": "reset_traffic",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes nodes.reset_traffic through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "nodes",
@@ -1921,7 +2632,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "restart",
-        "summary": "Restarts one node."
+        "summary": "Executes nodes.restart through its OpenAPI endpoint."
       },
       "status": "supported",
       "write": true
@@ -2054,8 +2765,8 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
     },
     {
       "domain": "snippets",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "snippets.delete_snippets_controller_delete_snippet_by_name_snippets",
+      "key": "snippets.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "SnippetsController_deleteSnippetByName",
@@ -2067,13 +2778,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SnippetsController_deleteSnippetByName.responses.500"
         ]
       },
-      "operation": "delete_snippets_controller_delete_snippet_by_name_snippets",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes snippets.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "snippets",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "snippets.get_snippets_controller_get_snippets_snippets",
+      "key": "snippets.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SnippetsController_getSnippets",
@@ -2085,13 +2805,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SnippetsController_getSnippets.responses.500"
         ]
       },
-      "operation": "get_snippets_controller_get_snippets_snippets",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads snippets.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "snippets",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "snippets.patch_snippets_controller_update_snippet_snippets",
+      "key": "snippets.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "SnippetsController_updateSnippet",
@@ -2103,13 +2832,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SnippetsController_updateSnippet.responses.500"
         ]
       },
-      "operation": "patch_snippets_controller_update_snippet_snippets",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes snippets.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "snippets",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "snippets.post_snippets_controller_create_snippet_snippets",
+      "key": "snippets.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "SnippetsController_createSnippet",
@@ -2121,13 +2859,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SnippetsController_createSnippet.responses.500"
         ]
       },
-      "operation": "post_snippets_controller_create_snippet_snippets",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes snippets.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "public_subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "public_subscriptions.get_subscription_controller_get_subscription_sub_short_uuid",
+      "key": "public_subscriptions.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionController_getSubscription",
@@ -2135,13 +2882,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
         "requestSchemaKey": null,
         "responseSchemaKeys": []
       },
-      "operation": "get_subscription_controller_get_subscription_sub_short_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads public_subscriptions.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "public_subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "public_subscriptions.get_subscription_controller_get_subscription_info_by_short_uuid_sub_short_uuid_info",
+      "key": "public_subscriptions.get_info",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionController_getSubscriptionInfoByShortUuid",
@@ -2153,13 +2909,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionController_getSubscriptionInfoByShortUuid.responses.500"
         ]
       },
-      "operation": "get_subscription_controller_get_subscription_info_by_short_uuid_sub_short_uuid_info",
-      "status": "excluded"
+      "operation": "get_info",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads public_subscriptions.get_info without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "public_subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "public_subscriptions.get_subscription_controller_get_subscription_by_client_type_sub_short_uuid_client_type",
+      "key": "public_subscriptions.get_by_client_type",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionController_getSubscriptionByClientType",
@@ -2167,13 +2932,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
         "requestSchemaKey": null,
         "responseSchemaKeys": []
       },
-      "operation": "get_subscription_controller_get_subscription_by_client_type_sub_short_uuid_client_type",
-      "status": "excluded"
+      "operation": "get_by_client_type",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads public_subscriptions.get_by_client_type without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.get_subscription_page_config_controller_get_all_configs_subscription_page_configs",
+      "key": "subscription_page_configs.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionPageConfigController_getAllConfigs",
@@ -2185,13 +2959,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_getAllConfigs.responses.500"
         ]
       },
-      "operation": "get_subscription_page_config_controller_get_all_configs_subscription_page_configs",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscription_page_configs.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.patch_subscription_page_config_controller_update_config_subscription_page_configs",
+      "key": "subscription_page_configs.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "SubscriptionPageConfigController_updateConfig",
@@ -2203,13 +2986,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_updateConfig.responses.500"
         ]
       },
-      "operation": "patch_subscription_page_config_controller_update_config_subscription_page_configs",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes subscription_page_configs.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.post_subscription_page_config_controller_create_config_subscription_page_configs",
+      "key": "subscription_page_configs.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "SubscriptionPageConfigController_createConfig",
@@ -2221,13 +3013,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_createConfig.responses.500"
         ]
       },
-      "operation": "post_subscription_page_config_controller_create_config_subscription_page_configs",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes subscription_page_configs.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.post_subscription_page_config_controller_clone_subscription_page_config_subscription_page_configs_actions_clone",
+      "key": "subscription_page_configs.clone",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "SubscriptionPageConfigController_cloneSubscriptionPageConfig",
@@ -2239,13 +3040,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_cloneSubscriptionPageConfig.responses.500"
         ]
       },
-      "operation": "post_subscription_page_config_controller_clone_subscription_page_config_subscription_page_configs_actions_clone",
-      "status": "excluded"
+      "operation": "clone",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes subscription_page_configs.clone through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.post_subscription_page_config_controller_reorder_subscription_page_configs_subscription_page_configs_actions_reorder",
+      "key": "subscription_page_configs.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "SubscriptionPageConfigController_reorderSubscriptionPageConfigs",
@@ -2257,13 +3067,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_reorderSubscriptionPageConfigs.responses.500"
         ]
       },
-      "operation": "post_subscription_page_config_controller_reorder_subscription_page_configs_subscription_page_configs_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes subscription_page_configs.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.delete_subscription_page_config_controller_delete_config_subscription_page_configs_uuid",
+      "key": "subscription_page_configs.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "SubscriptionPageConfigController_deleteConfig",
@@ -2275,13 +3094,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_deleteConfig.responses.500"
         ]
       },
-      "operation": "delete_subscription_page_config_controller_delete_config_subscription_page_configs_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes subscription_page_configs.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "subscription_page_configs",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_page_configs.get_subscription_page_config_controller_get_config_by_uuid_subscription_page_configs_uuid",
+      "key": "subscription_page_configs.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionPageConfigController_getConfigByUuid",
@@ -2293,13 +3121,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionPageConfigController_getConfigByUuid.responses.500"
         ]
       },
-      "operation": "get_subscription_page_config_controller_get_config_by_uuid_subscription_page_configs_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscription_page_configs.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscription_request_history",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_request_history.get_user_subscription_request_history_controller_get_subscription_request_history_subscription_request_history",
+      "key": "subscription_request_history.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "UserSubscriptionRequestHistoryController_getSubscriptionRequestHistory",
@@ -2311,13 +3148,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UserSubscriptionRequestHistoryController_getSubscriptionRequestHistory.responses.500"
         ]
       },
-      "operation": "get_user_subscription_request_history_controller_get_subscription_request_history_subscription_request_history",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscription_request_history.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscription_request_history",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_request_history.get_user_subscription_request_history_controller_get_subscription_request_history_stats_subscription_request_history_stats",
+      "key": "subscription_request_history.get_stats",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "UserSubscriptionRequestHistoryController_getSubscriptionRequestHistoryStats",
@@ -2329,13 +3175,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UserSubscriptionRequestHistoryController_getSubscriptionRequestHistoryStats.responses.500"
         ]
       },
-      "operation": "get_user_subscription_request_history_controller_get_subscription_request_history_stats_subscription_request_history_stats",
-      "status": "excluded"
+      "operation": "get_stats",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscription_request_history.get_stats without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscription_settings",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_settings.get_subscription_settings_controller_get_settings_subscription_settings",
+      "key": "subscription_settings.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionSettingsController_getSettings",
@@ -2347,13 +3202,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionSettingsController_getSettings.responses.500"
         ]
       },
-      "operation": "get_subscription_settings_controller_get_settings_subscription_settings",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscription_settings.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscription_settings",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_settings.patch_subscription_settings_controller_update_settings_subscription_settings",
+      "key": "subscription_settings.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "SubscriptionSettingsController_updateSettings",
@@ -2365,13 +3229,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionSettingsController_updateSettings.responses.500"
         ]
       },
-      "operation": "patch_subscription_settings_controller_update_settings_subscription_settings",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes subscription_settings.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "subscription_templates",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_templates.get_subscription_template_controller_get_all_templates_subscription_templates",
+      "domain": "templates",
+      "key": "templates.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionTemplateController_getAllTemplates",
@@ -2383,13 +3256,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionTemplateController_getAllTemplates.responses.500"
         ]
       },
-      "operation": "get_subscription_template_controller_get_all_templates_subscription_templates",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads templates.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
-      "domain": "subscription_templates",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_templates.patch_subscription_template_controller_update_template_subscription_templates",
+      "domain": "templates",
+      "key": "templates.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "SubscriptionTemplateController_updateTemplate",
@@ -2401,13 +3283,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionTemplateController_updateTemplate.responses.500"
         ]
       },
-      "operation": "patch_subscription_template_controller_update_template_subscription_templates",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes templates.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "subscription_templates",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_templates.post_subscription_template_controller_create_template_subscription_templates",
+      "domain": "templates",
+      "key": "templates.create",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "SubscriptionTemplateController_createTemplate",
@@ -2419,13 +3310,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionTemplateController_createTemplate.responses.500"
         ]
       },
-      "operation": "post_subscription_template_controller_create_template_subscription_templates",
-      "status": "excluded"
+      "operation": "create",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "create",
+        "summary": "Executes templates.create through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "subscription_templates",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_templates.post_subscription_template_controller_reorder_subscription_templates_subscription_templates_actions_reorder",
+      "domain": "templates",
+      "key": "templates.reorder",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "SubscriptionTemplateController_reorderSubscriptionTemplates",
@@ -2437,13 +3337,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionTemplateController_reorderSubscriptionTemplates.responses.500"
         ]
       },
-      "operation": "post_subscription_template_controller_reorder_subscription_templates_subscription_templates_actions_reorder",
-      "status": "excluded"
+      "operation": "reorder",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes templates.reorder through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "subscription_templates",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_templates.delete_subscription_template_controller_delete_template_subscription_templates_uuid",
+      "domain": "templates",
+      "key": "templates.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "SubscriptionTemplateController_deleteTemplate",
@@ -2455,13 +3364,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionTemplateController_deleteTemplate.responses.500"
         ]
       },
-      "operation": "delete_subscription_template_controller_delete_template_subscription_templates_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes templates.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
-      "domain": "subscription_templates",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscription_templates.get_subscription_template_controller_get_template_by_uuid_subscription_templates_uuid",
+      "domain": "templates",
+      "key": "templates.get",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionTemplateController_getTemplateByUuid",
@@ -2473,13 +3391,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionTemplateController_getTemplateByUuid.responses.500"
         ]
       },
-      "operation": "get_subscription_template_controller_get_template_by_uuid_subscription_templates_uuid",
-      "status": "excluded"
+      "operation": "get",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads templates.get without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_all_subscriptions_subscriptions",
+      "key": "subscriptions.list",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getAllSubscriptions",
@@ -2491,13 +3418,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getAllSubscriptions.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_all_subscriptions_subscriptions",
-      "status": "excluded"
+      "operation": "list",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.list without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_subscription_by_short_uuid_protected_subscriptions_by_short_uuid_short_uuid",
+      "key": "subscriptions.get_by_short_uuid",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getSubscriptionByShortUuidProtected",
@@ -2510,13 +3446,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getSubscriptionByShortUuidProtected.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_subscription_by_short_uuid_protected_subscriptions_by_short_uuid_short_uuid",
-      "status": "excluded"
+      "operation": "get_by_short_uuid",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.get_by_short_uuid without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_raw_subscription_by_short_uuid_subscriptions_by_short_uuid_short_uuid_raw",
+      "key": "subscriptions.get_raw_by_short_uuid",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getRawSubscriptionByShortUuid",
@@ -2528,13 +3473,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getRawSubscriptionByShortUuid.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_raw_subscription_by_short_uuid_subscriptions_by_short_uuid_short_uuid_raw",
-      "status": "excluded"
+      "operation": "get_raw_by_short_uuid",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.get_raw_by_short_uuid without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_subscription_by_username_subscriptions_by_username_username",
+      "key": "subscriptions.get_by_username",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getSubscriptionByUsername",
@@ -2547,13 +3501,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getSubscriptionByUsername.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_subscription_by_username_subscriptions_by_username_username",
-      "status": "excluded"
+      "operation": "get_by_username",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.get_by_username without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_subscription_by_uuid_subscriptions_by_uuid_uuid",
+      "key": "subscriptions.get_by_uuid",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getSubscriptionByUuid",
@@ -2566,13 +3529,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getSubscriptionByUuid.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_subscription_by_uuid_subscriptions_by_uuid_uuid",
-      "status": "excluded"
+      "operation": "get_by_uuid",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.get_by_uuid without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_connection_keys_by_uuid_subscriptions_connection_keys_uuid",
+      "key": "subscriptions.get_connection_keys_by_uuid",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getConnectionKeysByUuid",
@@ -2584,13 +3556,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getConnectionKeysByUuid.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_connection_keys_by_uuid_subscriptions_connection_keys_uuid",
-      "status": "excluded"
+      "operation": "get_connection_keys_by_uuid",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.get_connection_keys_by_uuid without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "subscriptions",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "subscriptions.get_subscriptions_controller_get_subpage_config_by_short_uuid_subscriptions_subpage_config_short_uuid",
+      "key": "subscriptions.get_subpage_config_by_short_uuid",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SubscriptionsController_getSubpageConfigByShortUuid",
@@ -2602,13 +3583,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SubscriptionsController_getSubpageConfigByShortUuid.responses.500"
         ]
       },
-      "operation": "get_subscriptions_controller_get_subpage_config_by_short_uuid_subscriptions_subpage_config_short_uuid",
-      "status": "excluded"
+      "operation": "get_subpage_config_by_short_uuid",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads subscriptions.get_subpage_config_by_short_uuid without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "system.get_system_controller_get_remnawave_health_system_health",
+      "key": "system.get_health",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getRemnawaveHealth",
@@ -2620,13 +3610,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getRemnawaveHealth.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_remnawave_health_system_health",
-      "status": "excluded"
+      "operation": "get_health",
+      "rawAllowed": true,
+      "rawPolicy": "raw_allowed",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads system.get_health without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "system.get_system_controller_get_metadata_system_metadata",
+      "key": "system.get_metadata",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getMetadata",
@@ -2638,13 +3637,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getMetadata.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_metadata_system_metadata",
-      "status": "excluded"
+      "operation": "get_metadata",
+      "rawAllowed": true,
+      "rawPolicy": "raw_allowed",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads system.get_metadata without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "system.get_system_controller_get_nodes_metrics_system_nodes_metrics",
+      "key": "system.get_nodes_metrics",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getNodesMetrics",
@@ -2656,8 +3664,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getNodesMetrics.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_nodes_metrics_system_nodes_metrics",
-      "status": "excluded"
+      "operation": "get_nodes_metrics",
+      "rawAllowed": true,
+      "rawPolicy": "raw_allowed",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads system.get_nodes_metrics without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
@@ -2681,15 +3698,15 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads system statistics without mutating panel state."
+        "summary": "Reads system.get_stats without mutating panel state."
       },
       "status": "supported",
       "write": false
     },
     {
       "domain": "system",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "system.get_system_controller_get_bandwidth_stats_system_stats_bandwidth",
+      "key": "system.get_bandwidth_stats",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getBandwidthStats",
@@ -2701,13 +3718,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getBandwidthStats.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_bandwidth_stats_system_stats_bandwidth",
-      "status": "excluded"
+      "operation": "get_bandwidth_stats",
+      "rawAllowed": true,
+      "rawPolicy": "raw_allowed",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads system.get_bandwidth_stats without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "system.get_system_controller_get_nodes_statistics_system_stats_nodes",
+      "key": "system.get_node_statistics",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getNodesStatistics",
@@ -2719,13 +3745,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getNodesStatistics.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_nodes_statistics_system_stats_nodes",
-      "status": "excluded"
+      "operation": "get_node_statistics",
+      "rawAllowed": true,
+      "rawPolicy": "raw_allowed",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads system.get_node_statistics without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "system.get_system_controller_get_recap_system_stats_recap",
+      "key": "system.get_recap",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "SystemController_getRecap",
@@ -2737,8 +3772,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:SystemController_getRecap.responses.500"
         ]
       },
-      "operation": "get_system_controller_get_recap_system_stats_recap",
-      "status": "excluded"
+      "operation": "get_recap",
+      "rawAllowed": true,
+      "rawPolicy": "raw_allowed",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads system.get_recap without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "system",
@@ -2870,15 +3914,15 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads user inventory without mutating panel state."
+        "summary": "Reads users.list without mutating panel state."
       },
       "status": "supported",
       "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.patch_users_controller_update_user_users",
+      "key": "users.update",
+      "normalizer": "none",
       "openapi": {
         "method": "patch",
         "operationId": "UsersController_updateUser",
@@ -2890,12 +3934,21 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_updateUser.responses.500"
         ]
       },
-      "operation": "patch_users_controller_update_user_users",
-      "status": "excluded"
+      "operation": "update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes users.update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "key": "users.create_user",
+      "key": "users.create",
       "normalizer": "user",
       "openapi": {
         "method": "post",
@@ -2908,22 +3961,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_createUser.responses.500"
         ]
       },
-      "operation": "create_user",
+      "operation": "create",
       "rawAllowed": false,
       "rawPolicy": "raw_denied",
       "riskTier": "tier2",
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "create",
-        "summary": "Creates one user account."
+        "summary": "Executes users.create through its OpenAPI endpoint."
       },
       "status": "supported",
       "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_all_extend_expiration_date_users_bulk_all_extend_expiration_date",
+      "key": "users.bulk_all_extend_expiration_date",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkAllExtendExpirationDate",
@@ -2935,13 +3988,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkAllExtendExpirationDate.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_all_extend_expiration_date_users_bulk_all_extend_expiration_date",
-      "status": "excluded"
+      "operation": "bulk_all_extend_expiration_date",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_all_extend_expiration_date through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_all_reset_user_traffic_users_bulk_all_reset_traffic",
+      "key": "users.bulk_all_reset_traffic",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkAllResetUserTraffic",
@@ -2953,13 +4015,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkAllResetUserTraffic.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_all_reset_user_traffic_users_bulk_all_reset_traffic",
-      "status": "excluded"
+      "operation": "bulk_all_reset_traffic",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_all_reset_traffic through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_update_all_users_users_bulk_all_update",
+      "key": "users.bulk_all_update",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkUpdateAllUsers",
@@ -2971,13 +4042,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkUpdateAllUsers.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_update_all_users_users_bulk_all_update",
-      "status": "excluded"
+      "operation": "bulk_all_update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_all_update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_delete_users_users_bulk_delete",
+      "key": "users.bulk_delete",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkDeleteUsers",
@@ -2989,13 +4069,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkDeleteUsers.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_delete_users_users_bulk_delete",
-      "status": "excluded"
+      "operation": "bulk_delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_delete",
+        "summary": "Executes users.bulk_delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_delete_users_by_status_users_bulk_delete_by_status",
+      "key": "users.bulk_delete_by_status",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkDeleteUsersByStatus",
@@ -3007,13 +4096,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkDeleteUsersByStatus.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_delete_users_by_status_users_bulk_delete_by_status",
-      "status": "excluded"
+      "operation": "bulk_delete_by_status",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_delete",
+        "summary": "Executes users.bulk_delete_by_status through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_extend_expiration_date_users_bulk_extend_expiration_date",
+      "key": "users.bulk_extend_expiration_date",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkExtendExpirationDate",
@@ -3025,13 +4123,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkExtendExpirationDate.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_extend_expiration_date_users_bulk_extend_expiration_date",
-      "status": "excluded"
+      "operation": "bulk_extend_expiration_date",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_extend_expiration_date through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_reset_user_traffic_users_bulk_reset_traffic",
+      "key": "users.bulk_reset_traffic",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkResetUserTraffic",
@@ -3043,13 +4150,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkResetUserTraffic.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_reset_user_traffic_users_bulk_reset_traffic",
-      "status": "excluded"
+      "operation": "bulk_reset_traffic",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_reset_traffic through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_revoke_users_subscription_users_bulk_revoke_subscription",
+      "key": "users.bulk_revoke_subscription",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkRevokeUsersSubscription",
@@ -3061,13 +4177,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkRevokeUsersSubscription.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_revoke_users_subscription_users_bulk_revoke_subscription",
-      "status": "excluded"
+      "operation": "bulk_revoke_subscription",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_revoke_subscription through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_update_users_users_bulk_update",
+      "key": "users.bulk_update",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkUpdateUsers",
@@ -3079,13 +4204,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkUpdateUsers.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_update_users_users_bulk_update",
-      "status": "excluded"
+      "operation": "bulk_update",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_update through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_bulk_actions_controller_bulk_update_users_internal_squads_users_bulk_update_squads",
+      "key": "users.bulk_update_squads",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersBulkActionsController_bulkUpdateUsersInternalSquads",
@@ -3097,13 +4231,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersBulkActionsController_bulkUpdateUsersInternalSquads.responses.500"
         ]
       },
-      "operation": "post_users_bulk_actions_controller_bulk_update_users_internal_squads_users_bulk_update_squads",
-      "status": "excluded"
+      "operation": "bulk_update_squads",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "preview_apply",
+      "sideEffects": {
+        "kind": "bulk_update",
+        "summary": "Executes users.bulk_update_squads through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_users_by_email_users_by_email_email",
+      "key": "users.get_by_email",
+      "normalizer": "user",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUsersByEmail",
@@ -3115,13 +4258,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUsersByEmail.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_users_by_email_users_by_email_email",
-      "status": "excluded"
+      "operation": "get_by_email",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_by_email without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_user_by_id_users_by_id_id",
+      "key": "users.get_by_id",
+      "normalizer": "user",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUserById",
@@ -3133,13 +4285,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserById.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_user_by_id_users_by_id_id",
-      "status": "excluded"
+      "operation": "get_by_id",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_by_id without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_user_by_short_uuid_users_by_short_uuid_short_uuid",
+      "key": "users.get_by_short_uuid",
+      "normalizer": "user",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUserByShortUuid",
@@ -3151,13 +4312,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserByShortUuid.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_user_by_short_uuid_users_by_short_uuid_short_uuid",
-      "status": "excluded"
+      "operation": "get_by_short_uuid",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_by_short_uuid without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_users_by_tag_users_by_tag_tag",
+      "key": "users.get_by_tag",
+      "normalizer": "user",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUsersByTag",
@@ -3169,13 +4339,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUsersByTag.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_users_by_tag_users_by_tag_tag",
-      "status": "excluded"
+      "operation": "get_by_tag",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_by_tag without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_user_by_telegram_id_users_by_telegram_id_telegram_id",
+      "key": "users.get_by_telegram_id",
+      "normalizer": "user",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUserByTelegramId",
@@ -3187,13 +4366,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserByTelegramId.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_user_by_telegram_id_users_by_telegram_id_telegram_id",
-      "status": "excluded"
+      "operation": "get_by_telegram_id",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_by_telegram_id without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_user_by_username_users_by_username_username",
+      "key": "users.get_by_username",
+      "normalizer": "user",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUserByUsername",
@@ -3205,13 +4393,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserByUsername.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_user_by_username_users_by_username_username",
-      "status": "excluded"
+      "operation": "get_by_username",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_by_username without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_controller_resolve_user_users_resolve",
+      "key": "users.resolve",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersController_resolveUser",
@@ -3223,13 +4420,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_resolveUser.responses.500"
         ]
       },
-      "operation": "post_users_controller_resolve_user_users_resolve",
-      "status": "excluded"
+      "operation": "resolve",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier2",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes users.resolve through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_all_tags_users_tags",
+      "key": "users.list_tags",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getAllTags",
@@ -3241,13 +4447,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getAllTags.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_all_tags_users_tags",
-      "status": "excluded"
+      "operation": "list_tags",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.list_tags without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.delete_users_controller_delete_user_users_uuid",
+      "key": "users.delete",
+      "normalizer": "none",
       "openapi": {
         "method": "delete",
         "operationId": "UsersController_deleteUser",
@@ -3259,12 +4474,21 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_deleteUser.responses.500"
         ]
       },
-      "operation": "delete_users_controller_delete_user_users_uuid",
-      "status": "excluded"
+      "operation": "delete",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "delete",
+        "summary": "Executes users.delete through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "key": "users.get_by_uuid",
+      "key": "users.get",
       "normalizer": "user",
       "openapi": {
         "method": "get",
@@ -3277,22 +4501,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserByUuid.responses.500"
         ]
       },
-      "operation": "get_by_uuid",
+      "operation": "get",
       "rawAllowed": false,
       "rawPolicy": "raw_denied",
       "riskTier": "tier1",
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "none",
-        "summary": "Reads one user by UUID without mutating panel state."
+        "summary": "Reads users.get without mutating panel state."
       },
       "status": "supported",
       "write": false
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_user_accessible_nodes_users_uuid_accessible_nodes",
+      "key": "users.get_accessible_nodes",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUserAccessibleNodes",
@@ -3304,8 +4528,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserAccessibleNodes.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_user_accessible_nodes_users_uuid_accessible_nodes",
-      "status": "excluded"
+      "operation": "get_accessible_nodes",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_accessible_nodes without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     },
     {
       "domain": "users",
@@ -3329,7 +4562,7 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "confirm",
       "sideEffects": {
         "kind": "update",
-        "summary": "Disables one user account."
+        "summary": "Executes users.disable through its OpenAPI endpoint."
       },
       "status": "supported",
       "write": true
@@ -3356,15 +4589,15 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
       "safetyMode": "direct",
       "sideEffects": {
         "kind": "update",
-        "summary": "Enables one user account."
+        "summary": "Executes users.enable through its OpenAPI endpoint."
       },
       "status": "supported",
       "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_controller_reset_user_traffic_users_uuid_actions_reset_traffic",
+      "key": "users.reset_traffic",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersController_resetUserTraffic",
@@ -3376,13 +4609,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_resetUserTraffic.responses.500"
         ]
       },
-      "operation": "post_users_controller_reset_user_traffic_users_uuid_actions_reset_traffic",
-      "status": "excluded"
+      "operation": "reset_traffic",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes users.reset_traffic through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.post_users_controller_revoke_user_subscription_users_uuid_actions_revoke",
+      "key": "users.revoke_subscription",
+      "normalizer": "none",
       "openapi": {
         "method": "post",
         "operationId": "UsersController_revokeUserSubscription",
@@ -3394,13 +4636,22 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_revokeUserSubscription.responses.500"
         ]
       },
-      "operation": "post_users_controller_revoke_user_subscription_users_uuid_actions_revoke",
-      "status": "excluded"
+      "operation": "revoke_subscription",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier3",
+      "safetyMode": "confirm",
+      "sideEffects": {
+        "kind": "update",
+        "summary": "Executes users.revoke_subscription through its OpenAPI endpoint."
+      },
+      "status": "supported",
+      "write": true
     },
     {
       "domain": "users",
-      "exclusionReason": "not_selected_initial_inventory",
-      "key": "users.get_users_controller_get_user_subscription_request_history_users_uuid_subscription_request_history",
+      "key": "users.get_subscription_request_history",
+      "normalizer": "none",
       "openapi": {
         "method": "get",
         "operationId": "UsersController_getUserSubscriptionRequestHistory",
@@ -3412,8 +4663,17 @@ export const REMNAWAVE_OPERATION_INVENTORY = ({
           "500:UsersController_getUserSubscriptionRequestHistory.responses.500"
         ]
       },
-      "operation": "get_users_controller_get_user_subscription_request_history_users_uuid_subscription_request_history",
-      "status": "excluded"
+      "operation": "get_subscription_request_history",
+      "rawAllowed": false,
+      "rawPolicy": "raw_denied",
+      "riskTier": "tier1",
+      "safetyMode": "direct",
+      "sideEffects": {
+        "kind": "none",
+        "summary": "Reads users.get_subscription_request_history without mutating panel state."
+      },
+      "status": "supported",
+      "write": false
     }
   ]
 }) as const satisfies RemnawaveOperationInventory;

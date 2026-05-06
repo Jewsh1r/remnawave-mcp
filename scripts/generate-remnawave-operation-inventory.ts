@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { SELECTED_OPENAPI_OPERATIONS } from './extract-remnawave-openapi.js';
+import { extractOpenApiSnapshot } from './extract-remnawave-openapi.js';
 import type { RemnawaveExclusionReason, RemnawaveOperationContract, RemnawaveOperationInventory } from '../src/remnawave-api/operation-contract.js';
 
 interface OpenApiDocument {
@@ -36,10 +36,50 @@ const HTTP_METHODS = new Set(['get', 'put', 'post', 'delete', 'patch', 'options'
 const DEFAULT_SOURCE = 'src/remnawave-api/openapi/remnawave-openapi-2.7.4.json';
 const DEFAULT_OUTPUT = 'src/remnawave-api/generated/operation-inventory.ts';
 
-const SUPPORTED_OPERATION_SEEDS: Readonly<Record<string, SupportedSeed>> = {
+const LEGACY_SUPPORTED_OPERATION_SEEDS: Readonly<Record<string, SupportedSeed>> = {
+  'get /api/subscriptions': {
+    domain: 'subscriptions', operation: 'list', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Lists protected subscriptions without mutating panel state.' },
+  },
+  'get /api/subscriptions/by-username/{username}': {
+    domain: 'subscriptions', operation: 'get_by_username', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one protected subscription by username without mutating panel state.' },
+  },
+  'get /api/subscriptions/by-short-uuid/{shortUuid}': {
+    domain: 'subscriptions', operation: 'get_by_short_uuid', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one protected subscription by short UUID without mutating panel state.' },
+  },
+  'get /api/subscriptions/by-uuid/{uuid}': {
+    domain: 'subscriptions', operation: 'get_by_uuid', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one protected subscription by UUID without mutating panel state.' },
+  },
+  'get /api/subscriptions/by-short-uuid/{shortUuid}/raw': {
+    domain: 'subscriptions', operation: 'get_raw_by_short_uuid', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one protected raw subscription payload by short UUID without mutating panel state.' },
+  },
+  'get /api/subscriptions/subpage-config/{shortUuid}': {
+    domain: 'subscriptions', operation: 'get_subpage_config_by_short_uuid', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one protected subscription subpage config without mutating panel state.' },
+  },
+  'get /api/subscriptions/connection-keys/{uuid}': {
+    domain: 'subscriptions', operation: 'get_connection_keys_by_uuid', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads protected subscription connection keys without mutating panel state.' },
+  },
+  'get /api/subscription-request-history': {
+    domain: 'subscription_request_history', operation: 'list', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Lists subscription request history without mutating panel state.' },
+  },
+  'get /api/subscription-request-history/stats': {
+    domain: 'subscription_request_history', operation: 'get_stats', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads subscription request-history stats without mutating panel state.' },
+  },
+  'get /api/users/{uuid}/subscription-request-history': {
+    domain: 'users', operation: 'get_subscription_request_history', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one user subscription request-history trail without mutating panel state.' },
+  },
   'post /api/users': {
     domain: 'users',
-    operation: 'create_user',
+    operation: 'create',
     write: true,
     safetyMode: 'direct',
     riskTier: 'tier2',
@@ -65,7 +105,7 @@ const SUPPORTED_OPERATION_SEEDS: Readonly<Record<string, SupportedSeed>> = {
   },
   'get /api/users/{uuid}': {
     domain: 'users',
-    operation: 'get_by_uuid',
+    operation: 'get',
     write: false,
     safetyMode: 'direct',
     riskTier: 'tier1',
@@ -88,6 +128,170 @@ const SUPPORTED_OPERATION_SEEDS: Readonly<Record<string, SupportedSeed>> = {
       kind: 'none',
       summary: 'Reads system statistics without mutating panel state.',
     },
+  },
+
+  'get /api/system/metadata': {
+    domain: 'system',
+    operation: 'get_metadata',
+    write: false,
+    safetyMode: 'direct',
+    riskTier: 'tier1',
+    rawAllowed: true,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'none',
+      summary: 'Reads system metadata without mutating panel state.',
+    },
+  },
+  'get /api/system/health': {
+    domain: 'system',
+    operation: 'get_health',
+    write: false,
+    safetyMode: 'direct',
+    riskTier: 'tier1',
+    rawAllowed: true,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'none',
+      summary: 'Reads system health without mutating panel state.',
+    },
+  },
+  'get /api/system/stats/bandwidth': {
+    domain: 'system',
+    operation: 'get_bandwidth_stats',
+    write: false,
+    safetyMode: 'direct',
+    riskTier: 'tier1',
+    rawAllowed: true,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'none',
+      summary: 'Reads aggregate bandwidth statistics without mutating panel state.',
+    },
+  },
+  'get /api/system/stats/nodes': {
+    domain: 'system',
+    operation: 'get_node_statistics',
+    write: false,
+    safetyMode: 'direct',
+    riskTier: 'tier1',
+    rawAllowed: true,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'none',
+      summary: 'Reads aggregate node statistics without mutating panel state.',
+    },
+  },
+  'get /api/system/nodes/metrics': {
+    domain: 'system',
+    operation: 'get_nodes_metrics',
+    write: false,
+    safetyMode: 'direct',
+    riskTier: 'tier1',
+    rawAllowed: true,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'none',
+      summary: 'Reads node metrics without mutating panel state.',
+    },
+  },
+  'get /api/system/stats/recap': {
+    domain: 'system',
+    operation: 'get_recap',
+    write: false,
+    safetyMode: 'direct',
+    riskTier: 'tier1',
+    rawAllowed: true,
+    normalizer: 'none',
+    sideEffects: {
+      kind: 'none',
+      summary: 'Reads system recap statistics without mutating panel state.',
+    },
+  },
+
+  'get /api/metadata/node/{uuid}': {
+    domain: 'metadata', operation: 'get_node', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one node metadata document without mutating panel state.' },
+  },
+  'put /api/metadata/node/{uuid}': {
+    domain: 'metadata', operation: 'upsert_node', write: true, safetyMode: 'direct', riskTier: 'tier2', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'update', summary: 'Upserts one node metadata document.' },
+  },
+  'get /api/metadata/user/{uuid}': {
+    domain: 'metadata', operation: 'get_user', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one user metadata document without mutating panel state.' },
+  },
+  'put /api/metadata/user/{uuid}': {
+    domain: 'metadata', operation: 'upsert_user', write: true, safetyMode: 'direct', riskTier: 'tier2', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'update', summary: 'Upserts one user metadata document.' },
+  },
+  'get /api/subscription-templates': {
+    domain: 'templates', operation: 'list', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Lists subscription templates without mutating panel state.' },
+  },
+  'get /api/subscription-templates/{uuid}': {
+    domain: 'templates', operation: 'get', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one subscription template without mutating panel state.' },
+  },
+  'post /api/subscription-templates': {
+    domain: 'templates', operation: 'create', write: true, safetyMode: 'direct', riskTier: 'tier2', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'create', summary: 'Creates one subscription template.' },
+  },
+  'patch /api/subscription-templates': {
+    domain: 'templates', operation: 'update', write: true, safetyMode: 'direct', riskTier: 'tier2', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'update', summary: 'Updates one subscription template.' },
+  },
+  'delete /api/subscription-templates/{uuid}': {
+    domain: 'templates', operation: 'delete', write: true, safetyMode: 'confirm', riskTier: 'tier3', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'delete', summary: 'Deletes one subscription template.' },
+  },
+  'get /api/snippets': {
+    domain: 'snippets', operation: 'list', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Lists snippets without mutating panel state.' },
+  },
+  'post /api/snippets': {
+    domain: 'snippets', operation: 'create', write: true, safetyMode: 'direct', riskTier: 'tier2', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'create', summary: 'Creates one snippet.' },
+  },
+  'patch /api/snippets': {
+    domain: 'snippets', operation: 'update', write: true, safetyMode: 'direct', riskTier: 'tier2', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'update', summary: 'Updates one snippet.' },
+  },
+  'delete /api/snippets': {
+    domain: 'snippets', operation: 'delete', write: true, safetyMode: 'confirm', riskTier: 'tier3', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'delete', summary: 'Deletes one snippet.' },
+  },
+  'get /api/sub/{shortUuid}/info': {
+    domain: 'public_subscriptions', operation: 'get_info', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one public subscription info document without mutating panel state.' },
+  },
+  'get /api/sub/{shortUuid}': {
+    domain: 'public_subscriptions', operation: 'get', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one public subscription response without mutating panel state.' },
+  },
+  'get /api/sub/{shortUuid}/{clientType}': {
+    domain: 'public_subscriptions', operation: 'get_by_client_type', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one client-specific public subscription response without mutating panel state.' },
+  },
+  'get /api/config-profiles': {
+    domain: 'profiles', operation: 'list', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Lists config profiles without mutating panel state.' },
+  },
+  'get /api/config-profiles/{uuid}': {
+    domain: 'profiles', operation: 'get', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one config profile without mutating panel state.' },
+  },
+  'get /api/config-profiles/{uuid}/computed-config': {
+    domain: 'profiles', operation: 'get_computed', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Reads one computed config profile without mutating panel state.' },
+  },
+  'get /api/config-profiles/{uuid}/inbounds': {
+    domain: 'profiles', operation: 'list_inbounds', write: false, safetyMode: 'direct', riskTier: 'tier1', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'none', summary: 'Lists inbounds for one config profile without mutating panel state.' },
+  },
+  'post /api/users/{uuid}/actions/revoke': {
+    domain: 'users', operation: 'revoke_subscription', write: true, safetyMode: 'confirm', riskTier: 'tier3', rawAllowed: false, normalizer: 'none',
+    sideEffects: { kind: 'update', summary: 'Revokes one user subscription credentials.' },
   },
   'post /api/users/{uuid}/actions/disable': {
     domain: 'users',
@@ -182,9 +386,8 @@ export type RemnawaveGeneratedOperationContract = RemnawaveGeneratedOperationInv
 }
 
 function classifyOperation(operation: EnumeratedOperation): RemnawaveOperationContract {
-  const supported = SUPPORTED_OPERATION_SEEDS[`${operation.method} ${operation.path}`];
+  const supported = getSupportedSeed(operation);
   if (supported) {
-    assertSupportedOperationId(operation, supported);
     return sortObject({
       status: 'supported',
       key: `${supported.domain}.${supported.operation}`,
@@ -213,14 +416,73 @@ function classifyOperation(operation: EnumeratedOperation): RemnawaveOperationCo
   }) as RemnawaveOperationContract;
 }
 
-function assertSupportedOperationId(operation: EnumeratedOperation, supported: SupportedSeed): void {
-  const selected = SELECTED_OPENAPI_OPERATIONS.find((selection) => selection.key === `${supported.domain}.${supported.operation}`);
-  if (!selected) {
-    return;
+function getSupportedSeed(operation: EnumeratedOperation): SupportedSeed | undefined {
+  const legacy = LEGACY_SUPPORTED_OPERATION_SEEDS[`${operation.method} ${operation.path}`];
+
+  const extracted = extractOpenApiSnapshot({
+    openapi: '3.0.0',
+    info: { title: '', version: '' },
+    paths: { [operation.path]: { [operation.method]: { operationId: operation.openapi.operationId, responses: { 200: { description: 'OK' } } } } },
+  }).operations[0];
+  if (extracted === undefined) {
+    return undefined;
   }
-  if (selected.method !== operation.method || selected.path !== operation.path || selected.operationId !== operation.openapi.operationId) {
-    throw new Error(`Supported operation ${supported.domain}.${supported.operation} does not match the OpenAPI extraction selection.`);
+
+  const [domain, op] = extracted.key.split('.') as [string, string];
+  const write = operation.method !== 'get';
+  const safetyMode = inferSafetyMode(domain, op, operation);
+  return {
+    domain,
+    operation: op,
+    write,
+    safetyMode,
+    riskTier: legacy?.riskTier ?? (safetyMode === 'direct' ? (write ? 'tier2' : 'tier1') : 'tier3'),
+    rawAllowed: legacy?.rawAllowed ?? isRawAllowed(domain, op),
+    normalizer: legacy?.normalizer ?? inferNormalizer(domain, op),
+    sideEffects: {
+      kind: inferSideEffectKind(write, safetyMode, op),
+      summary: write ? `Executes ${domain}.${op} through its OpenAPI endpoint.` : `Reads ${domain}.${op} without mutating panel state.`,
+    },
+  };
+}
+
+function inferSafetyMode(domain: string, operation: string, source: EnumeratedOperation): SupportedSeed['safetyMode'] {
+  if (source.method === 'get') return 'direct';
+  if (
+    operation.includes('bulk')
+    || operation === 'reorder'
+    || operation === 'delete_all_devices'
+    || domain === 'subscription_settings'
+    || domain === 'subscription_page_configs'
+    || (domain === 'profiles' && operation !== 'create')
+    || (domain === 'nodes' && ['delete', 'reorder', 'profile_modification', 'bulk_actions', 'bulk_update'].includes(operation))
+    || (domain === 'hosts' && ['delete', 'reorder', 'bulk_delete', 'bulk_disable', 'bulk_enable', 'bulk_set_inbound', 'bulk_set_port'].includes(operation))
+    || (domain === 'templates' && operation === 'reorder')
+  ) return 'preview_apply';
+  if (['delete', 'disable', 'restart', 'restart_all', 'reset_traffic', 'revoke_subscription', 'delete_device', 'delete_provider', 'delete_node', 'delete_history_record'].includes(operation)) {
+    return 'confirm';
   }
+  return 'direct';
+}
+
+function isRawAllowed(domain: string, operation: string): boolean {
+  return domain === 'system' && ['get_metadata', 'get_stats', 'get_bandwidth_stats', 'get_node_statistics', 'get_health', 'get_nodes_metrics', 'get_recap'].includes(operation);
+}
+
+function inferNormalizer(domain: string, operation: string): SupportedSeed['normalizer'] {
+  if (domain === 'system' && operation === 'get_stats') return 'system_stats';
+  if (domain === 'users' && operation === 'list') return 'users_list';
+  if (domain === 'users' && (operation === 'get' || operation.startsWith('get_by_') || operation === 'create')) return 'user';
+  return 'none';
+}
+
+function inferSideEffectKind(write: boolean, safetyMode: SupportedSeed['safetyMode'], operation: string): SupportedSeed['sideEffects']['kind'] {
+  if (!write) return 'none';
+  if (operation === 'create' || operation === 'create_device' || operation.startsWith('create_')) return 'create';
+  if (operation.includes('delete')) return operation.includes('bulk') || operation.includes('all') ? 'bulk_delete' : 'delete';
+  if (operation.includes('restart')) return 'restart';
+  if (safetyMode === 'preview_apply' && operation.includes('bulk')) return 'bulk_update';
+  return 'update';
 }
 
 interface EnumeratedOperation {

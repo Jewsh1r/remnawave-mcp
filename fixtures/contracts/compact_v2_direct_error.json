@@ -1,0 +1,20 @@
+{
+  "error": {
+    "code": "INVALID_PAYLOAD",
+    "kind": "validation",
+    "message": "Payload is missing or invalid for users.create.",
+    "retryable": false,
+    "issues": [
+      {
+        "field": "payload.expireAt",
+        "code": "REQUIRED",
+        "message": "payload.expireAt is required."
+      },
+      {
+        "field": "payload.username",
+        "code": "MIN_LENGTH",
+        "message": "payload.username must be at least 3 characters long."
+      }
+    ]
+  }
+}

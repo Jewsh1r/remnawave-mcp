@@ -1,6 +1,6 @@
 {
   "name": "@indiebrothers/mcp-remnawave",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Stdio-only MCP server for verified Remnawave 2.7.4 diagnostics, inventory reads, and guarded mutation flows.",
   "type": "module",

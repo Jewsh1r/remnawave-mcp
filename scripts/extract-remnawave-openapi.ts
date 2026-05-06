@@ -59,7 +59,217 @@ const DEFAULT_OUTPUT = 'src/remnawave-api/generated/operations.ts';
 
 export const SELECTED_OPENAPI_OPERATIONS = [
   {
-    key: 'users.create_user',
+    key: 'subscriptions.list',
+    method: 'get',
+    path: '/api/subscriptions',
+    operationId: 'SubscriptionsController_getAllSubscriptions',
+  },
+  {
+    key: 'subscriptions.get_by_username',
+    method: 'get',
+    path: '/api/subscriptions/by-username/{username}',
+    operationId: 'SubscriptionsController_getSubscriptionByUsername',
+  },
+  {
+    key: 'subscriptions.get_by_short_uuid',
+    method: 'get',
+    path: '/api/subscriptions/by-short-uuid/{shortUuid}',
+    operationId: 'SubscriptionsController_getSubscriptionByShortUuidProtected',
+  },
+  {
+    key: 'subscriptions.get_by_uuid',
+    method: 'get',
+    path: '/api/subscriptions/by-uuid/{uuid}',
+    operationId: 'SubscriptionsController_getSubscriptionByUuid',
+  },
+  {
+    key: 'subscriptions.get_raw_by_short_uuid',
+    method: 'get',
+    path: '/api/subscriptions/by-short-uuid/{shortUuid}/raw',
+    operationId: 'SubscriptionsController_getRawSubscriptionByShortUuid',
+  },
+  {
+    key: 'subscriptions.get_subpage_config_by_short_uuid',
+    method: 'get',
+    path: '/api/subscriptions/subpage-config/{shortUuid}',
+    operationId: 'SubscriptionsController_getSubpageConfigByShortUuid',
+  },
+  {
+    key: 'subscriptions.get_connection_keys_by_uuid',
+    method: 'get',
+    path: '/api/subscriptions/connection-keys/{uuid}',
+    operationId: 'SubscriptionsController_getConnectionKeysByUuid',
+  },
+  {
+    key: 'subscription_request_history.list',
+    method: 'get',
+    path: '/api/subscription-request-history',
+    operationId: 'UserSubscriptionRequestHistoryController_getSubscriptionRequestHistory',
+  },
+  {
+    key: 'subscription_request_history.get_stats',
+    method: 'get',
+    path: '/api/subscription-request-history/stats',
+    operationId: 'UserSubscriptionRequestHistoryController_getSubscriptionRequestHistoryStats',
+  },
+  {
+    key: 'users.get_subscription_request_history',
+    method: 'get',
+    path: '/api/users/{uuid}/subscription-request-history',
+    operationId: 'UsersController_getUserSubscriptionRequestHistory',
+  },
+  {
+    key: 'profiles.list',
+    method: 'get',
+    path: '/api/config-profiles',
+    operationId: 'ConfigProfileController_getConfigProfiles',
+  },
+  {
+    key: 'profiles.get',
+    method: 'get',
+    path: '/api/config-profiles/{uuid}',
+    operationId: 'ConfigProfileController_getConfigProfileByUuid',
+  },
+  {
+    key: 'profiles.get_computed',
+    method: 'get',
+    path: '/api/config-profiles/{uuid}/computed-config',
+    operationId: 'ConfigProfileController_getComputedConfigProfileByUuid',
+  },
+  {
+    key: 'profiles.list_inbounds',
+    method: 'get',
+    path: '/api/config-profiles/{uuid}/inbounds',
+    operationId: 'ConfigProfileController_getInboundsByProfileUuid',
+  },
+  {
+    key: 'hosts.bulk_set_port',
+    method: 'post',
+    path: '/api/hosts/bulk/set-port',
+    operationId: 'HostsBulkActionsController_setPortToHosts',
+  },
+  {
+    key: 'metadata.get_node',
+    method: 'get',
+    path: '/api/metadata/node/{uuid}',
+    operationId: 'MetadataController_getNodeMetadata',
+  },
+  {
+    key: 'metadata.upsert_node',
+    method: 'put',
+    path: '/api/metadata/node/{uuid}',
+    operationId: 'MetadataController_upsertNodeMetadata',
+  },
+  {
+    key: 'metadata.get_user',
+    method: 'get',
+    path: '/api/metadata/user/{uuid}',
+    operationId: 'MetadataController_getUserMetadata',
+  },
+  {
+    key: 'metadata.upsert_user',
+    method: 'put',
+    path: '/api/metadata/user/{uuid}',
+    operationId: 'MetadataController_upsertUserMetadata',
+  },
+  {
+    key: 'nodes.restart',
+    method: 'post',
+    path: '/api/nodes/{uuid}/actions/restart',
+    operationId: 'NodesController_restartNode',
+  },
+  {
+    key: 'snippets.delete',
+    method: 'delete',
+    path: '/api/snippets',
+    operationId: 'SnippetsController_deleteSnippetByName',
+  },
+  {
+    key: 'snippets.list',
+    method: 'get',
+    path: '/api/snippets',
+    operationId: 'SnippetsController_getSnippets',
+  },
+  {
+    key: 'snippets.update',
+    method: 'patch',
+    path: '/api/snippets',
+    operationId: 'SnippetsController_updateSnippet',
+  },
+  {
+    key: 'snippets.create',
+    method: 'post',
+    path: '/api/snippets',
+    operationId: 'SnippetsController_createSnippet',
+  },
+  {
+    key: 'public_subscriptions.get',
+    method: 'get',
+    path: '/api/sub/{shortUuid}',
+    operationId: 'SubscriptionController_getSubscription',
+  },
+  {
+    key: 'public_subscriptions.get_info',
+    method: 'get',
+    path: '/api/sub/{shortUuid}/info',
+    operationId: 'SubscriptionController_getSubscriptionInfoByShortUuid',
+  },
+  {
+    key: 'public_subscriptions.get_by_client_type',
+    method: 'get',
+    path: '/api/sub/{shortUuid}/{clientType}',
+    operationId: 'SubscriptionController_getSubscriptionByClientType',
+  },
+  {
+    key: 'templates.list',
+    method: 'get',
+    path: '/api/subscription-templates',
+    operationId: 'SubscriptionTemplateController_getAllTemplates',
+  },
+  {
+    key: 'templates.update',
+    method: 'patch',
+    path: '/api/subscription-templates',
+    operationId: 'SubscriptionTemplateController_updateTemplate',
+  },
+  {
+    key: 'templates.create',
+    method: 'post',
+    path: '/api/subscription-templates',
+    operationId: 'SubscriptionTemplateController_createTemplate',
+  },
+  {
+    key: 'templates.delete',
+    method: 'delete',
+    path: '/api/subscription-templates/{uuid}',
+    operationId: 'SubscriptionTemplateController_deleteTemplate',
+  },
+  {
+    key: 'templates.get',
+    method: 'get',
+    path: '/api/subscription-templates/{uuid}',
+    operationId: 'SubscriptionTemplateController_getTemplateByUuid',
+  },
+  {
+    key: 'system.get_health',
+    method: 'get',
+    path: '/api/system/health',
+    operationId: 'SystemController_getRemnawaveHealth',
+  },
+  {
+    key: 'system.get_metadata',
+    method: 'get',
+    path: '/api/system/metadata',
+    operationId: 'SystemController_getMetadata',
+  },
+  {
+    key: 'system.get_nodes_metrics',
+    method: 'get',
+    path: '/api/system/nodes/metrics',
+    operationId: 'SystemController_getNodesMetrics',
+  },
+  {
+    key: 'users.create',
     method: 'post',
     path: '/api/users',
     operationId: 'UsersController_createUser',
@@ -71,7 +281,7 @@ export const SELECTED_OPENAPI_OPERATIONS = [
     operationId: 'UsersController_getAllUsers',
   },
   {
-    key: 'users.get_by_uuid',
+    key: 'users.get',
     method: 'get',
     path: '/api/users/{uuid}',
     operationId: 'UsersController_getUserByUuid',
@@ -81,6 +291,42 @@ export const SELECTED_OPENAPI_OPERATIONS = [
     method: 'get',
     path: '/api/system/stats',
     operationId: 'SystemController_getStats',
+  },
+  {
+    key: 'system.get_bandwidth_stats',
+    method: 'get',
+    path: '/api/system/stats/bandwidth',
+    operationId: 'SystemController_getBandwidthStats',
+  },
+  {
+    key: 'system.get_node_statistics',
+    method: 'get',
+    path: '/api/system/stats/nodes',
+    operationId: 'SystemController_getNodesStatistics',
+  },
+  {
+    key: 'system.get_recap',
+    method: 'get',
+    path: '/api/system/stats/recap',
+    operationId: 'SystemController_getRecap',
+  },
+  {
+    key: 'users.disable',
+    method: 'post',
+    path: '/api/users/{uuid}/actions/disable',
+    operationId: 'UsersController_disableUser',
+  },
+  {
+    key: 'users.enable',
+    method: 'post',
+    path: '/api/users/{uuid}/actions/enable',
+    operationId: 'UsersController_enableUser',
+  },
+  {
+    key: 'users.revoke_subscription',
+    method: 'post',
+    path: '/api/users/{uuid}/actions/revoke',
+    operationId: 'UsersController_revokeUserSubscription',
   },
 ] as const satisfies readonly SelectedOpenApiOperation[];
 
@@ -93,7 +339,7 @@ export class UnsupportedSchemaError extends Error {
 
 export function extractOpenApiSnapshot(
   document: OpenApiDocument,
-  selectedOperations: readonly SelectedOpenApiOperation[] = SELECTED_OPENAPI_OPERATIONS,
+  selectedOperations: readonly SelectedOpenApiOperation[] = deriveSelectedOpenApiOperations(document),
 ): { readonly metadata: Record<string, unknown>; readonly operations: readonly ExtractedOpenApiOperation[] } {
   if (!document.paths || typeof document.paths !== 'object') {
     throw new Error('OpenAPI document is missing paths.');
@@ -113,6 +359,201 @@ export function extractOpenApiSnapshot(
 
 export function readOpenApiSnapshot(path: string): OpenApiDocument {
   return JSON.parse(readFileSync(path, 'utf8')) as OpenApiDocument;
+}
+
+function deriveSelectedOpenApiOperations(document: OpenApiDocument): readonly SelectedOpenApiOperation[] {
+  return enumerateOpenApiOperations(document)
+    .map((operation) => ({
+      key: classifySupportedOperation(operation)?.key ?? '',
+      method: operation.method,
+      path: operation.path,
+      operationId: operation.operationId,
+    }))
+    .filter((operation) => operation.key !== '');
+}
+
+interface OpenApiEnumeration {
+  readonly method: string;
+  readonly path: string;
+  readonly operationId: string;
+}
+
+function enumerateOpenApiOperations(document: OpenApiDocument): readonly OpenApiEnumeration[] {
+  const operations: OpenApiEnumeration[] = [];
+  for (const path of Object.keys(document.paths ?? {}).sort()) {
+    const pathItem = document.paths?.[path];
+    if (!isRecord(pathItem)) {
+      continue;
+    }
+
+    for (const method of Object.keys(pathItem).sort()) {
+      if (!HTTP_METHODS.has(method)) {
+        continue;
+      }
+      const operation = pathItem[method];
+      if (isRecord(operation) && typeof operation.operationId === 'string') {
+        operations.push({ method, path, operationId: operation.operationId });
+      }
+    }
+  }
+  return operations;
+}
+
+function classifySupportedOperation(operation: OpenApiEnumeration): { readonly key: string } | null {
+  const routeKey = `${operation.method} ${operation.path}`;
+  const staticKeys: Readonly<Record<string, string>> = {
+    'get /api/subscriptions': 'subscriptions.list',
+    'get /api/subscriptions/by-username/{username}': 'subscriptions.get_by_username',
+    'get /api/subscriptions/by-short-uuid/{shortUuid}': 'subscriptions.get_by_short_uuid',
+    'get /api/subscriptions/by-uuid/{uuid}': 'subscriptions.get_by_uuid',
+    'get /api/subscriptions/by-short-uuid/{shortUuid}/raw': 'subscriptions.get_raw_by_short_uuid',
+    'get /api/subscriptions/subpage-config/{shortUuid}': 'subscriptions.get_subpage_config_by_short_uuid',
+    'get /api/subscriptions/connection-keys/{uuid}': 'subscriptions.get_connection_keys_by_uuid',
+    'get /api/subscription-request-history': 'subscription_request_history.list',
+    'get /api/subscription-request-history/stats': 'subscription_request_history.get_stats',
+    'get /api/users/{uuid}/subscription-request-history': 'users.get_subscription_request_history',
+    'post /api/users': 'users.create',
+    'patch /api/users': 'users.update',
+    'get /api/users': 'users.list',
+    'delete /api/users/{uuid}': 'users.delete',
+    'get /api/users/{uuid}': 'users.get',
+    'get /api/users/tags': 'users.list_tags',
+    'get /api/users/{uuid}/accessible-nodes': 'users.get_accessible_nodes',
+    'get /api/users/by-short-uuid/{shortUuid}': 'users.get_by_short_uuid',
+    'get /api/users/by-username/{username}': 'users.get_by_username',
+    'get /api/users/by-id/{id}': 'users.get_by_id',
+    'get /api/users/by-telegram-id/{telegramId}': 'users.get_by_telegram_id',
+    'get /api/users/by-email/{email}': 'users.get_by_email',
+    'get /api/users/by-tag/{tag}': 'users.get_by_tag',
+    'post /api/users/{uuid}/actions/revoke': 'users.revoke_subscription',
+    'post /api/users/{uuid}/actions/disable': 'users.disable',
+    'post /api/users/{uuid}/actions/enable': 'users.enable',
+    'post /api/users/{uuid}/actions/reset-traffic': 'users.reset_traffic',
+    'post /api/users/resolve': 'users.resolve',
+    'post /api/users/bulk/delete-by-status': 'users.bulk_delete_by_status',
+    'post /api/users/bulk/delete': 'users.bulk_delete',
+    'post /api/users/bulk/revoke-subscription': 'users.bulk_revoke_subscription',
+    'post /api/users/bulk/reset-traffic': 'users.bulk_reset_traffic',
+    'post /api/users/bulk/update': 'users.bulk_update',
+    'post /api/users/bulk/update-squads': 'users.bulk_update_squads',
+    'post /api/users/bulk/extend-expiration-date': 'users.bulk_extend_expiration_date',
+    'post /api/users/bulk/all/update': 'users.bulk_all_update',
+    'post /api/users/bulk/all/reset-traffic': 'users.bulk_all_reset_traffic',
+    'post /api/users/bulk/all/extend-expiration-date': 'users.bulk_all_extend_expiration_date',
+    'get /api/system/stats': 'system.get_stats',
+    'get /api/system/metadata': 'system.get_metadata',
+    'get /api/system/health': 'system.get_health',
+    'get /api/system/stats/bandwidth': 'system.get_bandwidth_stats',
+    'get /api/system/stats/nodes': 'system.get_node_statistics',
+    'get /api/system/nodes/metrics': 'system.get_nodes_metrics',
+    'get /api/system/stats/recap': 'system.get_recap',
+    'get /api/metadata/node/{uuid}': 'metadata.get_node',
+    'put /api/metadata/node/{uuid}': 'metadata.upsert_node',
+    'get /api/metadata/user/{uuid}': 'metadata.get_user',
+    'put /api/metadata/user/{uuid}': 'metadata.upsert_user',
+    'get /api/subscription-templates': 'templates.list',
+    'get /api/subscription-templates/{uuid}': 'templates.get',
+    'post /api/subscription-templates': 'templates.create',
+    'patch /api/subscription-templates': 'templates.update',
+    'delete /api/subscription-templates/{uuid}': 'templates.delete',
+    'post /api/subscription-templates/actions/reorder': 'templates.reorder',
+    'get /api/snippets': 'snippets.list',
+    'post /api/snippets': 'snippets.create',
+    'patch /api/snippets': 'snippets.update',
+    'delete /api/snippets': 'snippets.delete',
+    'get /api/sub/{shortUuid}/info': 'public_subscriptions.get_info',
+    'get /api/sub/{shortUuid}': 'public_subscriptions.get',
+    'get /api/sub/{shortUuid}/{clientType}': 'public_subscriptions.get_by_client_type',
+    'get /api/config-profiles': 'profiles.list',
+    'post /api/config-profiles': 'profiles.create',
+    'patch /api/config-profiles': 'profiles.update',
+    'get /api/config-profiles/inbounds': 'profiles.list_all_inbounds',
+    'get /api/config-profiles/{uuid}/inbounds': 'profiles.list_inbounds',
+    'get /api/config-profiles/{uuid}': 'profiles.get',
+    'delete /api/config-profiles/{uuid}': 'profiles.delete',
+    'get /api/config-profiles/{uuid}/computed-config': 'profiles.get_computed',
+    'post /api/config-profiles/actions/reorder': 'profiles.reorder',
+    'get /api/nodes/tags': 'nodes.list_tags',
+    'post /api/nodes': 'nodes.create',
+    'get /api/nodes': 'nodes.list',
+    'patch /api/nodes': 'nodes.update',
+    'get /api/nodes/{uuid}': 'nodes.get',
+    'delete /api/nodes/{uuid}': 'nodes.delete',
+    'post /api/nodes/{uuid}/actions/enable': 'nodes.enable',
+    'post /api/nodes/{uuid}/actions/disable': 'nodes.disable',
+    'post /api/nodes/{uuid}/actions/restart': 'nodes.restart',
+    'post /api/nodes/{uuid}/actions/reset-traffic': 'nodes.reset_traffic',
+    'post /api/nodes/actions/restart-all': 'nodes.restart_all',
+    'post /api/nodes/actions/reorder': 'nodes.reorder',
+    'post /api/nodes/bulk-actions/profile-modification': 'nodes.profile_modification',
+    'post /api/nodes/bulk-actions': 'nodes.bulk_actions',
+    'post /api/nodes/bulk-actions/update': 'nodes.bulk_update',
+    'get /api/hosts/tags': 'hosts.list_tags',
+    'post /api/hosts': 'hosts.create',
+    'patch /api/hosts': 'hosts.update',
+    'get /api/hosts': 'hosts.list',
+    'get /api/hosts/{uuid}': 'hosts.get',
+    'delete /api/hosts/{uuid}': 'hosts.delete',
+    'post /api/hosts/actions/reorder': 'hosts.reorder',
+    'post /api/hosts/bulk/delete': 'hosts.bulk_delete',
+    'post /api/hosts/bulk/disable': 'hosts.bulk_disable',
+    'post /api/hosts/bulk/enable': 'hosts.bulk_enable',
+    'post /api/hosts/bulk/set-inbound': 'hosts.bulk_set_inbound',
+    'post /api/hosts/bulk/set-port': 'hosts.bulk_set_port',
+    'get /api/bandwidth-stats/nodes': 'bandwidth_stats.list_nodes_usage',
+    'get /api/bandwidth-stats/nodes/{uuid}/users': 'bandwidth_stats.get_node_users_usage',
+    'get /api/bandwidth-stats/nodes/{uuid}/users/legacy': 'bandwidth_stats.get_node_user_usage_legacy',
+    'get /api/bandwidth-stats/users/{uuid}': 'bandwidth_stats.get_user_usage',
+    'get /api/bandwidth-stats/users/{uuid}/legacy': 'bandwidth_stats.get_user_usage_legacy',
+    'get /api/hwid/devices': 'hwid.list_users',
+    'post /api/hwid/devices': 'hwid.create_device',
+    'post /api/hwid/devices/delete': 'hwid.delete_device',
+    'post /api/hwid/devices/delete-all': 'hwid.delete_all_devices',
+    'get /api/hwid/devices/stats': 'hwid.get_stats',
+    'get /api/hwid/devices/top-users': 'hwid.get_top_users',
+    'get /api/hwid/devices/{userUuid}': 'hwid.get_user_devices',
+    'get /api/subscription-settings': 'subscription_settings.get',
+    'patch /api/subscription-settings': 'subscription_settings.update',
+    'get /api/subscription-page-configs': 'subscription_page_configs.list',
+    'patch /api/subscription-page-configs': 'subscription_page_configs.update',
+    'post /api/subscription-page-configs': 'subscription_page_configs.create',
+    'post /api/subscription-page-configs/actions/clone': 'subscription_page_configs.clone',
+    'post /api/subscription-page-configs/actions/reorder': 'subscription_page_configs.reorder',
+    'delete /api/subscription-page-configs/{uuid}': 'subscription_page_configs.delete',
+    'get /api/subscription-page-configs/{uuid}': 'subscription_page_configs.get',
+    'get /api/internal-squads': 'internal_squads.list',
+    'post /api/internal-squads': 'internal_squads.create',
+    'patch /api/internal-squads': 'internal_squads.update',
+    'post /api/internal-squads/actions/reorder': 'internal_squads.reorder',
+    'delete /api/internal-squads/{uuid}': 'internal_squads.delete',
+    'get /api/internal-squads/{uuid}': 'internal_squads.get',
+    'get /api/internal-squads/{uuid}/accessible-nodes': 'internal_squads.get_accessible_nodes',
+    'post /api/internal-squads/{uuid}/bulk-actions/add-users': 'internal_squads.add_users',
+    'delete /api/internal-squads/{uuid}/bulk-actions/remove-users': 'internal_squads.remove_users',
+    'get /api/external-squads': 'external_squads.list',
+    'post /api/external-squads': 'external_squads.create',
+    'patch /api/external-squads': 'external_squads.update',
+    'post /api/external-squads/actions/reorder': 'external_squads.reorder',
+    'delete /api/external-squads/{uuid}': 'external_squads.delete',
+    'get /api/external-squads/{uuid}': 'external_squads.get',
+    'post /api/external-squads/{uuid}/bulk-actions/add-users': 'external_squads.add_users',
+    'delete /api/external-squads/{uuid}/bulk-actions/remove-users': 'external_squads.remove_users',
+    'get /api/infra-billing/providers': 'infra_billing.list_providers',
+    'post /api/infra-billing/providers': 'infra_billing.create_provider',
+    'patch /api/infra-billing/providers': 'infra_billing.update_provider',
+    'get /api/infra-billing/providers/{uuid}': 'infra_billing.get_provider',
+    'delete /api/infra-billing/providers/{uuid}': 'infra_billing.delete_provider',
+    'get /api/infra-billing/nodes': 'infra_billing.list_nodes',
+    'post /api/infra-billing/nodes': 'infra_billing.create_node',
+    'patch /api/infra-billing/nodes': 'infra_billing.update_node',
+    'delete /api/infra-billing/nodes/{uuid}': 'infra_billing.delete_node',
+    'get /api/infra-billing/history': 'infra_billing.list_history',
+    'post /api/infra-billing/history': 'infra_billing.create_history_record',
+    'delete /api/infra-billing/history/{uuid}': 'infra_billing.delete_history_record',
+  };
+
+  const key = staticKeys[routeKey];
+  return key === undefined ? null : { key };
 }
 
 export function writeGeneratedOperationsModule(extracted: ReturnType<typeof extractOpenApiSnapshot>, outputPath: string): void {
@@ -238,7 +679,7 @@ function compactSchema(document: OpenApiDocument, schema: unknown, location: str
   }
 
   if (Object.keys(resolved).length === 0) {
-    throw new UnsupportedSchemaError(`Unsupported schema at ${location}: empty schemas are not allowed.`);
+    return {};
   }
 
   if ('not' in resolved) {
@@ -283,6 +724,15 @@ function compactNonNullableSchema(
 
   const type = schema.type ?? (isRecord(schema.properties) ? 'object' : undefined);
   if (typeof type !== 'string') {
+    if (Object.keys(schema).length === 0) {
+      return {};
+    }
+    if ('additionalProperties' in schema || Object.keys(copyScalarConstraints(schema)).length > 0 || Object.keys(copySchemaAnnotations(schema)).length > 0) {
+      return sortObject({ ...copySchemaAnnotations(schema), ...copyScalarConstraints(schema) });
+    }
+    if (location.startsWith('responses.')) {
+      return {};
+    }
     throw new UnsupportedSchemaError(`Unsupported schema at ${location}: missing explicit type.`);
   }
 
@@ -393,7 +843,7 @@ function getOptionalJsonMediaType(container: Record<string, unknown>): Record<st
 }
 
 function copySchemaAnnotations(schema: Record<string, unknown>): Record<string, unknown> {
-  return pick(schema, ['description', 'format', 'default', 'example', 'deprecated', 'readOnly', 'writeOnly', 'enum']);
+  return pick(schema, ['description', 'format', 'default', 'deprecated', 'readOnly', 'writeOnly', 'enum']);
 }
 
 function copyScalarConstraints(schema: Record<string, unknown>): Record<string, unknown> {

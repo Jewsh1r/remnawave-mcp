@@ -1,0 +1,31 @@
+{
+  "stats": {
+    "cpu": {
+      "cores": 4
+    },
+    "memory": {
+      "totalBytes": 10,
+      "freeBytes": 4,
+      "usedBytes": 6
+    },
+    "uptimeSeconds": 120,
+    "generatedAtUnixMs": 123,
+    "users": {
+      "total": 8,
+      "active": 6,
+      "disabled": 1,
+      "limited": 1,
+      "expired": 0
+    },
+    "online": {
+      "now": 2,
+      "lastDay": 4,
+      "lastWeek": 6,
+      "never": 0
+    },
+    "nodes": {
+      "totalOnlineUsers": 3,
+      "lifetimeBytes": 0
+    }
+  }
+}
