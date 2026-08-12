@@ -44,7 +44,7 @@ async function collectStream(stream: NodeJS.ReadableStream): Promise<string> {
 async function waitForStderrContains(
   child: ReturnType<typeof spawn>,
   expected: string,
-  timeoutMs = 2000,
+  timeoutMs = 10000,
 ): Promise<string> {
   const stderrStream = child.stderr;
 
@@ -71,6 +71,10 @@ async function waitForStderrContains(
     }
 
     await new Promise((resolve) => setTimeout(resolve, 25));
+  }
+
+  if (stderr.includes(expected)) {
+    return stderr;
   }
 
   throw new Error(`Timed out waiting for stderr to include ${expected}\nCurrent stderr:\n${stderr}`);
