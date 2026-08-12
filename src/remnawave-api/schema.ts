@@ -406,9 +406,9 @@ export const SUPPORTED_OPERATION_SCHEMAS = {
     validationSchema: CREATE_USER_SCHEMA,
   }),
   'users.list': createSchemaDefinition({
-    schemaSummary: 'payload must be an empty object',
+    schemaSummary: 'payload accepts optional size/start pagination',
     payloadExample: {},
-    validationSchema: EMPTY_OBJECT_SCHEMA,
+    validationSchema: OPTIONAL_PAGINATION_SCHEMA,
   }),
   'users.get': createSchemaDefinition({
     schemaSummary: 'payload requires userId:integer',

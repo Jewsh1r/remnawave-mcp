@@ -139,9 +139,12 @@ const supportedOperationCases = [
   },
   {
     name: 'users.list',
-    request: { domain: 'users', operation: 'list', payload: {} },
+    request: { domain: 'users', operation: 'list', payload: { size: 1000, start: 0 } },
     assert: (panelClient: ReturnType<typeof createPanelClient>) => {
-      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.list' }), {});
+      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(
+        expect.objectContaining({ key: 'users.list' }),
+        { size: 1000, start: 0 },
+      );
     },
   },
   {
