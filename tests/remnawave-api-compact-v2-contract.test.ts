@@ -27,6 +27,7 @@ const groupedOperationKeys = [
 ] as const;
 
 const supportedInventory = REMNAWAVE_OPERATION_INVENTORY.operations.filter((operation) => operation.status === 'supported');
+const HOST_UUID = '11111111-1111-4111-8111-111111111111';
 
 function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApiClient {
   return {
@@ -39,7 +40,7 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
       online: { now: 2, lastDay: 4, lastWeek: 6, never: 0 },
       nodes: { totalOnlineUsers: 3, lifetimeBytes: 0 },
     }),
-    getMetadata: async () => ({ panel: 'rw', version: '2.7.4' }),
+    getMetadata: async () => ({ panel: 'rw', version: '3.2.3' }),
     getSystemHealth: async () => ({ instances: [] }),
     getBandwidthStats: async () => ({ totalBytes: 1024 }),
     getNodesStatistics: async () => ({ items: [] }),
@@ -51,7 +52,7 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
     setUserState: async (uuid, action) => ({ uuid, action }),
     revokeUserSubscription: async (uuid) => ({ uuid, revoked: true }),
     restartNode: async (uuid) => ({ uuid, restarted: true }),
-    getHosts: async () => ({ items: [{ uuid: 'host-1', port: 80, enabled: true, fingerprint: 'fp-1' }] }),
+    getHosts: async () => ({ items: [{ uuid: HOST_UUID, port: 80, enabled: true, fingerprint: 'fp-1' }] }),
     bulkSetHostPort: async (hostUuids, port) => ({ hostUuids, port, updated: true }),
     getNodeMetadata: async (uuid) => ({ uuid, metadata: { zone: 'edge' } }),
     upsertNodeMetadata: async (uuid, metadata) => ({ uuid, metadata }),
@@ -73,6 +74,15 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
     getProfile: async (uuid) => ({ uuid, name: 'Default' }),
     getComputedProfile: async (uuid) => ({ uuid, computed: true }),
     listProfileInbounds: async (uuid) => ({ uuid, items: [] }),
+    executeOpenApiOperation: async (operation, payload) => {
+      if (operation.key === 'users.enable') return { userId: payload.userId, action: 'enable' };
+      if (operation.key === 'users.revoke_subscription') return { userId: payload.userId, revoked: true };
+      if (operation.key === 'users.get_subscription_request_history') {
+        return { items: [{ userId: payload.userId, requestedAt: '2026-05-05T00:00:00.000Z' }] };
+      }
+      if (operation.key === 'hosts.bulk_update') return { ...payload, updated: true };
+      return { response: payload };
+    },
     ...overrides,
   };
 }
@@ -157,26 +167,26 @@ describe('remnawave_api compact v2 contract matrix', () => {
   test('safety modes each have happy and failure cases', async () => {
     const client = createClient();
 
-    const directSuccess = await routeRemnawaveApiRequest({ domain: 'users', operation: 'enable', payload: { uuid: 'user-1' } }, client);
+    const directSuccess = await routeRemnawaveApiRequest({ domain: 'users', operation: 'enable', payload: { userId: 1 } }, client);
     const directFailure = await routeRemnawaveApiRequest({ domain: 'users', operation: 'create', payload: { username: 'ab' } }, client);
-    const confirmFirst = await routeRemnawaveApiRequest({ domain: 'users', operation: 'revoke_subscription', payload: { uuid: 'user-1' } }, client);
+    const confirmFirst = await routeRemnawaveApiRequest({ domain: 'users', operation: 'revoke_subscription', payload: { userId: 1 } }, client);
     const confirmSuccess = isConfirmationRequired(confirmFirst)
-      ? await routeRemnawaveApiRequest({ domain: 'users', operation: 'revoke_subscription', payload: { uuid: 'user-1' }, confirmToken: confirmFirst.error.token }, client)
+      ? await routeRemnawaveApiRequest({ domain: 'users', operation: 'revoke_subscription', payload: { userId: 1 }, confirmToken: confirmFirst.error.token }, client)
       : confirmFirst;
-    const preview = await routeRemnawaveApiRequest({ domain: 'hosts', operation: 'bulk_set_port', payload: { hostUuids: ['host-1'], port: 443 } }, client);
-    const previewFailure = await routeRemnawaveApiRequest({ domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken: '' } }, client);
+    const preview = await routeRemnawaveApiRequest({ domain: 'hosts', operation: 'bulk_update', payload: { uuids: [HOST_UUID], port: 443 } }, client);
+    const previewFailure = await routeRemnawaveApiRequest({ domain: 'hosts', operation: 'bulk_update', payload: { applyToken: '' } }, client);
     const applySuccess = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken: (preview as { readonly applyToken: string }).applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken: (preview as { readonly applyToken: string }).applyToken } },
       client,
     );
 
-    expect(directSuccess).toEqual({ updated: { uuid: 'user-1', action: 'enable' } });
+    expect(directSuccess).toEqual({ updated: { userId: 1, action: 'enable' } });
     expect(directFailure).toMatchObject({ error: { code: 'INVALID_PAYLOAD', kind: 'validation' } });
     expect(confirmFirst).toMatchObject({ error: { code: 'CONFIRMATION_REQUIRED', kind: 'confirmation_required', token: expect.any(String) } });
-    expect(confirmSuccess).toEqual({ updated: { uuid: 'user-1', revoked: true } });
-    expect(preview).toMatchObject({ applyToken: expect.any(String), changes: [{ target: 'host-1', before: { port: 80 }, after: { port: 443 } }] });
+    expect(confirmSuccess).toEqual({ updated: { userId: 1, revoked: true } });
+    expect(preview).toMatchObject({ applyToken: expect.any(String), changes: [{ target: HOST_UUID, before: { state: expect.objectContaining({ port: 80 }) }, after: { patch: { port: 443 } } }] });
     expect(previewFailure).toMatchObject({ error: { code: 'APPLY_TOKEN_MISSING', kind: 'preview_required' } });
-    expect(applySuccess).toEqual({ updated: { hostUuids: ['host-1'], port: 443, updated: true } });
+    expect(applySuccess).toEqual({ updated: { uuids: [HOST_UUID], port: 443, updated: true } });
     [directSuccess, directFailure, confirmFirst, confirmSuccess, preview, previewFailure, applySuccess].forEach(expectCompact);
   });
 
@@ -260,10 +270,10 @@ describe('remnawave_api compact v2 contract matrix', () => {
     expect(stringifyStable(supportedDescriptions)).not.toContain(staleKey);
 
     const executed = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'get_subscription_request_history', payload: { uuid: 'user-1' } },
-      createClient({ getUserSubscriptionRequestHistory: async (uuid) => ({ items: [{ uuid, requestedAt: '2026-05-05T00:00:00.000Z' }] }) }),
+      { domain: 'users', operation: 'get_subscription_request_history', payload: { userId: 1 } },
+      createClient(),
     );
-    expect(executed).toEqual({ items: [{ uuid: 'user-1', requestedAt: '2026-05-05T00:00:00.000Z' }] });
+    expect(executed).toEqual({ items: [{ userId: 1, requestedAt: '2026-05-05T00:00:00.000Z' }] });
   });
 
   test('public subscription compact output redacts secret-like fields and caps large strings', async () => {

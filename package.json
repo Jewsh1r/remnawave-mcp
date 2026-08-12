@@ -1,6 +1,6 @@
 {
   "name": "remnawave-mcp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Publishable stdio MCP server for verified Remnawave diagnostics, inventory reads, and guarded mutation flows.",
   "type": "module",
   "bin": {
@@ -18,12 +18,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nggurbanov/remnawave-mcp.git"
+    "url": "git+https://github.com/Jewsh1r/remnawave-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/nggurbanov/remnawave-mcp/issues"
+    "url": "https://github.com/Jewsh1r/remnawave-mcp/issues"
   },
-  "homepage": "https://github.com/nggurbanov/remnawave-mcp#readme",
+  "homepage": "https://github.com/Jewsh1r/remnawave-mcp#readme",
   "packageManager": "npm@10.9.2",
   "files": [
     "dist",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",
-    "@remnawave/backend-contract": "2.7.3",
+    "@remnawave/backend-contract": "3.2.3",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "zod": "^4.3.6"

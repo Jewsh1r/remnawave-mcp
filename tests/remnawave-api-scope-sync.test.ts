@@ -29,7 +29,7 @@ describe('remnawave_api scope sync', () => {
       'users.disable',
       'users.enable',
       'nodes.restart',
-      'hosts.bulk_set_port',
+      'hosts.bulk_update',
     ]));
     expect(implementation.supported).not.toContain('users.manage_lifecycle');
     expect(implementation.supported).not.toContain('hosts.manage_routing');

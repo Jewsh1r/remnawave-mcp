@@ -16,8 +16,8 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
       online: { now: 2, lastDay: 4, lastWeek: 6, never: 0 },
       nodes: { totalOnlineUsers: 3, lifetimeBytes: 0n },
     }),
-    createUser: async (payload) => ({ uuid: 'user-1', ...payload }),
-    getMetadata: async () => ({ panel: 'rw', version: '2.7.4' }),
+    executeOpenApiOperation: async (_operation, payload) => ({ id: 1, ...payload }),
+    getMetadata: async () => ({ panel: 'rw', version: '3.2.3' }),
     ...overrides,
   };
 }
@@ -111,7 +111,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
 
   test('responseMode raw returns upstream output for allowlisted safe system reads', async () => {
     const rawStats = { raw: true, cpu: { cores: 4 } };
-    const rawMetadata = { panel: 'rw', version: '2.7.4' };
+    const rawMetadata = { panel: 'rw', version: '3.2.3' };
     const getSystemStats = vi.fn(async () => rawStats);
     const getMetadata = vi.fn(async () => rawMetadata);
 
@@ -133,7 +133,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
   });
 
   test('responseMode raw is rejected for writes before execution', async () => {
-    const createUser = vi.fn(async (payload: Record<string, unknown>) => ({ uuid: 'user-1', ...payload }));
+    const executeOpenApiOperation = vi.fn(async (_operation, payload: Record<string, unknown>) => ({ id: 1, ...payload }));
 
     const result = await routeRemnawaveApiRequest(
       {
@@ -142,7 +142,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         payload: { username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
         responseMode: 'raw',
       },
-      createClient({ createUser }),
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({
@@ -152,16 +152,16 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         issues: [expect.objectContaining({ field: 'responseMode' })],
       },
     });
-    expect(createUser).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
     expectNoLegacyFields(result);
   });
 
   test('responseMode raw is rejected for user-sensitive reads', async () => {
-    const resolveUser = vi.fn(async (uuid: string) => ({ uuid }));
+    const executeOpenApiOperation = vi.fn(async (_operation, payload: Record<string, unknown>) => payload);
 
     const result = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'get', payload: { uuid: 'user-1' }, responseMode: 'raw' },
-      createClient({ resolveUser }),
+      { domain: 'users', operation: 'get', payload: { userId: 1 }, responseMode: 'raw' },
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({
@@ -171,15 +171,15 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         issues: [expect.objectContaining({ field: 'responseMode' })],
       },
     });
-    expect(resolveUser).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
     expectNoLegacyFields(result);
   });
 
   test('invalid payload returns canonical compact validation error with stable issues', async () => {
-    const createUser = vi.fn(async (payload: Record<string, unknown>) => ({ uuid: 'user-1', ...payload }));
+    const executeOpenApiOperation = vi.fn(async (_operation, payload: Record<string, unknown>) => ({ id: 1, ...payload }));
     const result = await routeRemnawaveApiRequest(
       { domain: 'users', operation: 'create', payload: { username: 'ab' } },
-      createClient({ createUser }),
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({
@@ -194,7 +194,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         ]),
       },
     });
-    expect(createUser).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
     expect(JSON.stringify(result)).not.toContain('minLength');
     expect(JSON.stringify(result)).not.toContain('schemaPath');
     expect(JSON.stringify(result)).not.toContain('"username":"ab"');
@@ -234,7 +234,7 @@ describe('routeRemnawaveApiRequest compact contract', () => {
   test('normalizes supported operation responses through explicit mapper policies', async () => {
     const usersList = await routeRemnawaveApiRequest(
       { domain: 'users', operation: 'list', payload: {} },
-      createClient({ getUsers: async () => ({ total: 1, items: [{ uuid: 'user-1', username: 'alice' }] }) }),
+      createClient({ executeOpenApiOperation: async () => ({ total: 1, items: [{ id: 1, username: 'alice' }] }) }),
     );
     const createdUser = await routeRemnawaveApiRequest(
       {
@@ -242,19 +242,19 @@ describe('routeRemnawaveApiRequest compact contract', () => {
         operation: 'create',
         payload: { username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
       },
-      createClient({ createUser: async (payload) => ({ response: { uuid: 'user-2', ...payload }, upstreamTrace: 'ignored' }) }),
+      createClient({ executeOpenApiOperation: async (_operation, payload) => ({ response: { id: 2, ...payload }, upstreamTrace: 'ignored' }) }),
     );
     const resolvedUser = await routeRemnawaveApiRequest(
-      { domain: 'users', operation: 'get', payload: { uuid: 'user-1' } },
-      createClient({ resolveUser: async () => ({ response: { uuid: 'user-1', shortUuid: 'short-1', username: 'alice', extra: true } }) }),
+      { domain: 'users', operation: 'get', payload: { userId: 1 } },
+      createClient({ executeOpenApiOperation: async () => ({ found: true, match: { id: 1, shortUuid: 'short-1', username: 'alice' } }) }),
     );
 
-    expect(usersList).toEqual({ total: 1, items: [{ uuid: 'user-1', username: 'alice' }] });
+    expect(usersList).toEqual({ total: 1, items: [{ id: 1, username: 'alice' }] });
     expect(createdUser).toEqual({
-      created: { uuid: 'user-2', username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
+      created: { id: 2, username: 'bridge-operator', expireAt: '2026-05-01T00:00:00.000Z' },
     });
     expect(resolvedUser).toEqual({
-      user: { found: true, match: { uuid: 'user-1', shortUuid: 'short-1', username: 'alice' } },
+      user: { found: true, match: { id: 1, shortUuid: 'short-1', username: 'alice' } },
     });
     expectNoLegacyFields(usersList);
     expectNoLegacyFields(createdUser);

@@ -15,7 +15,7 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
       online: { now: 2, lastDay: 4, lastWeek: 6, never: 0 },
       nodes: { totalOnlineUsers: 3, lifetimeBytes: 0n },
     }),
-    createUser: async (payload) => ({ uuid: 'user-1', ...payload }),
+    executeOpenApiOperation: async (_operation, payload) => ({ id: 1, ...payload }),
     deleteNode: async (nodeUuid: string) => ({ uuid: nodeUuid, deleted: true }),
     ...overrides,
   };
@@ -51,18 +51,18 @@ describe('remnawave_api compact risk behavior', () => {
   });
 
   test('tier2 bounded mutations execute directly and return normalized payloads', async () => {
-    const createUser = vi.fn(async (payload: Record<string, unknown>) => ({ uuid: 'user-1', ...payload }));
+    const executeOpenApiOperation = vi.fn(async (_operation, payload: Record<string, unknown>) => ({ id: 1, ...payload }));
     const result = await routeRemnawaveApiRequest(
       {
         domain: 'users',
         operation: 'create',
         payload: { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
       },
-      createClient({ createUser }),
+      createClient({ executeOpenApiOperation }),
     );
 
-    expect(result).toMatchObject({ created: { uuid: 'user-1', username: 'new-user' } });
-    expect(createUser).toHaveBeenCalledTimes(1);
+    expect(result).toMatchObject({ created: { id: 1, username: 'new-user' } });
+    expect(executeOpenApiOperation).toHaveBeenCalledTimes(1);
     expectCompact(result);
   });
 

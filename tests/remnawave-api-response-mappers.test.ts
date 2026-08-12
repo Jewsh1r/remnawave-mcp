@@ -25,7 +25,7 @@ describe('Remnawave API response mappers', () => {
     expect(DEFAULT_OPERATION_REGISTRY.describeOperation('system', 'get_health')).toMatchObject({ normalizer: 'none' });
     expect(DEFAULT_OPERATION_REGISTRY.describeOperation('users', 'list')).toMatchObject({ normalizer: 'users_list' });
     expect(DEFAULT_OPERATION_REGISTRY.describeOperation('users', 'create')).toMatchObject({ normalizer: 'user' });
-    expect(DEFAULT_OPERATION_REGISTRY.describeOperation('hosts', 'bulk_set_port')).toMatchObject({ normalizer: 'none' });
+    expect(DEFAULT_OPERATION_REGISTRY.describeOperation('hosts', 'bulk_update')).toMatchObject({ normalizer: 'none' });
     expect(DEFAULT_OPERATION_REGISTRY.describeOperation('metadata', 'upsert_node')).toMatchObject({ normalizer: 'none' });
     expect(DEFAULT_OPERATION_REGISTRY.describeOperation('templates', 'create')).toMatchObject({ normalizer: 'none' });
     expect(DEFAULT_OPERATION_REGISTRY.describeOperation('public_subscriptions', 'get_info')).toMatchObject({ rawAllowed: false, normalizer: 'none' });

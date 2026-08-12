@@ -9,17 +9,21 @@ import {
   readPreviewApplyEntry,
 } from '../src/remnawave-api/preview-apply-cache.js';
 
+const HOST_1 = '11111111-1111-4111-8111-111111111111';
+const HOST_2 = '22222222-2222-4222-8222-222222222222';
+const MISSING_HOST = '33333333-3333-4333-8333-333333333333';
+
 function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApiClient {
   return {
     getSystemStats: async () => ({}),
     getHosts: async () => ({
       total: 2,
       items: [
-        { uuid: 'host-1', port: 80, enabled: true, fingerprint: 'fp-1' },
-        { uuid: 'host-2', port: 81, enabled: true, fingerprint: 'fp-2' },
+        { uuid: HOST_1, port: 80, enabled: true, fingerprint: 'fp-1' },
+        { uuid: HOST_2, port: 81, enabled: true, fingerprint: 'fp-2' },
       ],
     }),
-    bulkSetHostPort: async (hostUuids, port) => ({ hostUuids, port, updated: true }),
+    executeOpenApiOperation: async (_operation, payload) => ({ updated: true, ...payload }),
     ...overrides,
   };
 }
@@ -34,15 +38,15 @@ function expectCompact(value: unknown): void {
 
 async function preview(client: RemnawaveApiClient = createClient()): Promise<{ readonly applyToken: string; readonly expiresAt: string }> {
   const result = await routeRemnawaveApiRequest(
-    { domain: 'hosts', operation: 'bulk_set_port', payload: { hostUuids: ['host-1'], port: 443 } },
+    { domain: 'hosts', operation: 'bulk_update', payload: { uuids: [HOST_1], port: 443 } },
     client,
   );
 
   expect(result).toMatchObject({
     applyToken: expect.any(String),
     expiresAt: expect.any(String),
-    target: { type: 'hosts', hostUuids: ['host-1'] },
-    changes: [{ target: 'host-1', before: { port: 80 }, after: { port: 443 } }],
+    target: { type: 'hosts', hostUuids: [HOST_1] },
+    changes: [{ target: HOST_1, before: { state: expect.objectContaining({ port: 80 }) }, after: { patch: { port: 443 } } }],
   });
   expectCompact(result);
   return result as { readonly applyToken: string; readonly expiresAt: string };
@@ -59,48 +63,48 @@ describe('remnawave_api preview/apply safety mode', () => {
   });
 
   test('preview returns compact apply token without upstream write', async () => {
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
 
-    await preview(createClient({ bulkSetHostPort }));
+    await preview(createClient({ executeOpenApiOperation }));
 
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 
   test('preview rejects missing requested hosts before token creation or upstream write', async () => {
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
     const result = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { hostUuids: ['host-1', 'missing-host'], port: 443 } },
-      createClient({ bulkSetHostPort }),
+      { domain: 'hosts', operation: 'bulk_update', payload: { uuids: [HOST_1, MISSING_HOST], port: 443 } },
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({
       error: {
         code: 'HOST_NOT_FOUND',
         kind: 'validation',
-        issues: [{ field: 'payload.hostUuids', code: 'HOST_NOT_FOUND', message: 'Host UUID not found: missing-host.' }],
+        issues: [{ field: 'payload.uuids', code: 'HOST_NOT_FOUND', message: `Host UUID not found: ${MISSING_HOST}.` }],
       },
     });
     expect(result).not.toHaveProperty('applyToken');
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
     expectCompact(result);
 
     const applyAttempt = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken: 'missing-host-token' } },
-      createClient({ bulkSetHostPort }),
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken: 'missing-host-token' } },
+      createClient({ executeOpenApiOperation }),
     );
     expect(applyAttempt).toMatchObject({ error: { code: 'APPLY_TOKEN_NOT_FOUND', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 
   test('apply rejects missing token before upstream write', async () => {
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
     const result = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken: '' } },
-      createClient({ bulkSetHostPort }),
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken: '' } },
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({ error: { code: 'APPLY_TOKEN_MISSING', kind: 'preview_required' } });
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
     expectCompact(result);
   });
 
@@ -109,78 +113,78 @@ describe('remnawave_api preview/apply safety mode', () => {
     vi.setSystemTime(new Date('2026-05-04T00:00:00.000Z'));
     const { applyToken } = await preview();
     vi.setSystemTime(new Date('2026-05-04T00:10:01.000Z'));
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
 
     const result = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
-      createClient({ bulkSetHostPort }),
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({ error: { code: 'APPLY_TOKEN_EXPIRED', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 
   test('apply rejects reused tokens after a successful consume-once apply', async () => {
     const { applyToken } = await preview();
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
-    const client = createClient({ bulkSetHostPort });
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
+    const client = createClient({ executeOpenApiOperation });
 
     const first = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
       client,
     );
     const second = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
       client,
     );
 
-    expect(first).toEqual({ updated: { hostUuids: ['host-1'], port: 443, updated: true } });
+    expect(first).toEqual({ updated: { uuids: [HOST_1], port: 443, updated: true } });
     expect(second).toMatchObject({ error: { code: 'APPLY_TOKEN_REUSED', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).toHaveBeenCalledTimes(1);
+    expect(executeOpenApiOperation).toHaveBeenCalledTimes(1);
   });
 
   test('apply consumes token before upstream write so failed attempts cannot be retried', async () => {
     const { applyToken } = await preview();
-    const bulkSetHostPort = vi.fn(async () => {
+    const executeOpenApiOperation = vi.fn(async () => {
       throw new Error('network failure after upstream accepted request');
     });
-    const client = createClient({ bulkSetHostPort });
+    const client = createClient({ executeOpenApiOperation });
 
     const first = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
       client,
     );
     const retry = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
       client,
     );
 
     expect(first).toMatchObject({ error: { code: 'INTERNAL_ERROR', kind: 'internal' } });
     expect(retry).toMatchObject({ error: { code: 'APPLY_TOKEN_REUSED', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).toHaveBeenCalledTimes(1);
+    expect(executeOpenApiOperation).toHaveBeenCalledTimes(1);
   });
 
   test('apply rejects payload overrides and repeated mutation fields', async () => {
     const { applyToken } = await preview();
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
 
     const result = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken, port: 8443 } },
-      createClient({ bulkSetHostPort }),
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken, port: 8443 } },
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toMatchObject({ error: { code: 'APPLY_TOKEN_PAYLOAD_MISMATCHED', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 
   test('cache rejects wrong-operation tokens', () => {
-    const openapi = getSupportedOperationOpenApiBinding('hosts', 'bulk_set_port');
+    const openapi = getSupportedOperationOpenApiBinding('hosts', 'bulk_update');
     const entry = createPreviewApplyEntry({
       domain: 'hosts',
-      operation: 'bulk_set_port',
+      operation: 'bulk_update',
       openapi,
-      targetIdentity: { type: 'hosts', hostUuids: ['host-1'] },
-      payload: { hostUuids: ['host-1'], port: 443 },
+      targetIdentity: { type: 'hosts', hostUuids: [HOST_1] },
+      payload: { uuids: [HOST_1], port: 443 },
       preStateFingerprint: 'sha256:state',
       changes: [],
     });
@@ -197,34 +201,34 @@ describe('remnawave_api preview/apply safety mode', () => {
 
   test('apply rejects target mismatch before upstream write', async () => {
     const { applyToken } = await preview();
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
 
     const result = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
       createClient({
-        bulkSetHostPort,
+        executeOpenApiOperation,
         getHosts: async () => ({ total: 0, items: [] }),
       }),
     );
 
     expect(result).toMatchObject({ error: { code: 'APPLY_TOKEN_TARGET_MISMATCHED', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 
   test('apply rejects stale-state tokens before upstream write', async () => {
     const { applyToken } = await preview();
-    const bulkSetHostPort = vi.fn(createClient().bulkSetHostPort);
+    const executeOpenApiOperation = vi.fn(createClient().executeOpenApiOperation!);
 
     const result = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken } },
       createClient({
-        bulkSetHostPort,
-        getHosts: async () => ({ total: 1, items: [{ uuid: 'host-1', port: 81, enabled: true, fingerprint: 'fp-1' }] }),
+        executeOpenApiOperation,
+        getHosts: async () => ({ total: 1, items: [{ uuid: HOST_1, port: 81, enabled: true, fingerprint: 'fp-1' }] }),
       }),
     );
 
     expect(result).toMatchObject({ error: { code: 'APPLY_TOKEN_STALE_STATE', kind: 'preview_invalid' } });
-    expect(bulkSetHostPort).not.toHaveBeenCalled();
+    expect(executeOpenApiOperation).not.toHaveBeenCalled();
   });
 
   test('generated preview/apply reads real collection pre-state and rejects stale apply before upstream write', async () => {

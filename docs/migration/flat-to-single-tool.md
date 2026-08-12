@@ -118,7 +118,7 @@ Version 0.2.0 is a contract-level revision. If you used 0.1.x, you need to updat
 |---|---|
 | `users.manage_lifecycle` | `users.disable`, `users.enable`, `users.revoke_subscription` |
 | `nodes.manage_maintenance` | `nodes.restart` |
-| `hosts.manage_routing` | `hosts.bulk_set_port` |
+| `hosts.manage_routing` | `hosts.bulk_update` |
 | `profiles.manage_lifecycle` | Not yet available (absent from discovery) |
 
 ### Response envelope changes

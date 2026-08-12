@@ -289,7 +289,7 @@ export class RemnawaveClient {
     payload: Record<string, unknown>,
   ): Promise<unknown> {
     const path = buildOpenApiPath(operation, payload);
-    const body = operation.openapi.method === 'get' || operation.openapi.method === 'delete'
+    const body = operation.openapi.method === 'get'
       ? undefined
       : omitPathAndQueryParams(payload, operation);
     return this.requestJson(path, operation.openapi.method.toUpperCase() as 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE', body);

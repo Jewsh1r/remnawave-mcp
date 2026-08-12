@@ -61,7 +61,7 @@ describe('remnawave_api schema metadata and validation', () => {
     expect(issues).toEqual(expect.arrayContaining([
       { field: 'payload.username', code: 'MIN_LENGTH', message: 'payload.username must be at least 3 characters long.' },
       { field: 'payload.expireAt', code: 'INVALID_FORMAT', message: 'payload.expireAt must match date-time format.' },
-      { field: 'payload.telegramId', code: 'INVALID_TYPE', message: 'payload.telegramId must be integer.' },
+      { field: 'payload.telegramId', code: 'INVALID_TYPE', message: 'payload.telegramId must be number.' },
     ]));
   });
 
@@ -109,34 +109,34 @@ describe('remnawave_api schema metadata and validation', () => {
       expireAt: '2026-05-01T00:00:00.000Z',
     })).toEqual([]);
     expect(DEFAULT_OPERATION_REGISTRY.get('system', 'get_stats')?.validation.validatePayload({})).toEqual([]);
-    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'disable')?.validation.validatePayload({ uuid: 'user-1' })).toEqual([]);
-    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'enable')?.validation.validatePayload({ uuid: 'user-1' })).toEqual([]);
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'disable')?.validation.validatePayload({ userId: 1 })).toEqual([]);
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'enable')?.validation.validatePayload({ userId: 1 })).toEqual([]);
     expect(DEFAULT_OPERATION_REGISTRY.get('nodes', 'restart')?.validation.validatePayload({ uuid: 'node-1' })).toEqual([]);
-    expect(DEFAULT_OPERATION_REGISTRY.get('hosts', 'bulk_set_port')?.validation.validatePayload({
-      hostUuids: ['host-1'],
+    expect(DEFAULT_OPERATION_REGISTRY.get('hosts', 'bulk_update')?.validation.validatePayload({
+      uuids: ['11111111-1111-4111-8111-111111111111'],
       port: 8443,
     })).toEqual([]);
-    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ uuid: 'user-1' })).toEqual([]);
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ id: 1 })).toEqual([]);
   });
 
   test('rejects malformed users.resolve selector payloads', () => {
     expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ selector: { uuid: 'user-1' } })).toEqual([
       { field: 'payload.selector', code: 'UNEXPECTED_FIELD', message: 'payload.selector is not supported for this operation.' },
     ]);
-    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ uuid: 'user-1', username: 'alice' })).toEqual([
-      { field: 'payload', code: 'INVALID_SELECTOR', message: 'payload must include exactly one of id, uuid, shortUuid, or username.' },
+    expect(DEFAULT_OPERATION_REGISTRY.get('users', 'resolve')?.validation.validatePayload({ id: 1, username: 'alice' })).toEqual([
+      { field: 'payload', code: 'INVALID_SELECTOR', message: 'payload must include exactly one of id, shortUuid, or username.' },
     ]);
   });
 
-  test('rejects malformed atomic bulk host port payloads', () => {
-    const issues = DEFAULT_OPERATION_REGISTRY.get('hosts', 'bulk_set_port')?.validation.validatePayload({
-      hostUuids: [],
-      port: 70000,
+  test('rejects malformed atomic bulk host update payloads', () => {
+    const issues = DEFAULT_OPERATION_REGISTRY.get('hosts', 'bulk_update')?.validation.validatePayload({
+      uuids: [],
+      port: 'invalid',
     });
 
     expect(issues).toEqual([
-      { field: 'payload.hostUuids', code: 'MIN_ITEMS', message: 'payload.hostUuids must include at least 1 item.' },
-      { field: 'payload.port', code: 'MAX_VALUE', message: 'payload.port must be less than or equal to 65535.' },
+      { field: 'payload.port', code: 'INVALID_TYPE', message: 'payload.port must be integer.' },
+      { field: 'payload.uuids', code: 'MIN_ITEMS', message: 'payload.uuids must include at least 1 item.' },
     ]);
   });
 

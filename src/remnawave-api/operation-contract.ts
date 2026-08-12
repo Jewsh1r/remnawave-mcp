@@ -8,6 +8,7 @@ export const REMNAWAVE_EXCLUSION_REASONS = [
   'excluded_auth',
   'excluded_tokens',
   'excluded_ip_control',
+  'excluded_connections',
   'excluded_node_plugins',
   'excluded_system_dangerous',
   'excluded_remnawave_settings',
@@ -63,7 +64,7 @@ export interface RemnawaveExcludedOperationContract {
 export type RemnawaveOperationContract = RemnawaveSupportedOperationContract | RemnawaveExcludedOperationContract;
 
 export interface RemnawaveOperationInventoryMetadata {
-  readonly source: 'remnawave-openapi-2.7.4.json';
+  readonly source: 'remnawave-openapi-3.2.3.json';
   readonly openapi: string;
   readonly title: string;
   readonly version: string;

@@ -3,6 +3,8 @@ import { describe, expect, test, vi } from 'vitest';
 import { createRemnawaveApiClientAdapter } from '../src/remnawave-api/client-adapter.js';
 import { routeRemnawaveApiRequest } from '../src/remnawave-api/router.js';
 
+const SQUAD_UUID = '11111111-1111-4111-8111-111111111111';
+
 function createPanelClient() {
   return {
     getSystemStats: vi.fn(async () => ({
@@ -14,7 +16,7 @@ function createPanelClient() {
       online: { now: 1, lastDay: 1, lastWeek: 1, never: 0 },
       nodes: { totalOnlineUsers: 1, lifetimeBytes: 0n },
     })),
-    getMetadata: vi.fn(async () => ({ version: '2.7.4' })),
+    getMetadata: vi.fn(async () => ({ version: '3.2.3' })),
     getSystemHealth: vi.fn(async () => ({ status: 'ok' })),
     getBandwidthStats: vi.fn(async () => ({ totalBytes: 1024 })),
     getNodesStatistics: vi.fn(async () => ({ items: [] })),
@@ -76,7 +78,11 @@ function createPanelClient() {
     createNodePlugin: vi.fn(async () => ({ plugin: true })),
     encryptHappPayload: vi.fn(async () => ({ encrypted: true })),
     executePluginExecutor: vi.fn(async () => ({ executed: true })),
-    executeOpenApiOperation: vi.fn(async (_operation, payload: Record<string, unknown>) => ({ resolved: payload })),
+    executeOpenApiOperation: vi.fn(async (operation, payload: Record<string, unknown>) => {
+      if (operation.key === 'users.list') return { total: 1, items: [{ id: 1, username: 'alice' }] };
+      if (operation.key === 'users.get') return { found: true, match: { id: 1, shortUuid: 'short-1', username: 'alice' } };
+      return { resolved: payload };
+    }),
   };
 }
 
@@ -135,14 +141,14 @@ const supportedOperationCases = [
     name: 'users.list',
     request: { domain: 'users', operation: 'list', payload: {} },
     assert: (panelClient: ReturnType<typeof createPanelClient>) => {
-      expect(panelClient.getUsers).toHaveBeenCalledTimes(1);
+      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.list' }), {});
     },
   },
   {
     name: 'users.get',
-    request: { domain: 'users', operation: 'get', payload: { uuid: 'user-1' } },
+    request: { domain: 'users', operation: 'get', payload: { userId: 1 } },
     assert: (panelClient: ReturnType<typeof createPanelClient>) => {
-      expect(panelClient.resolveUser).toHaveBeenCalledWith('user-1');
+      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.get' }), { userId: 1 });
     },
   },
   {
@@ -153,22 +159,22 @@ const supportedOperationCases = [
       payload: { username: 'alice-user', expireAt: '2026-05-01T00:00:00.000Z' },
     },
     assert: (panelClient: ReturnType<typeof createPanelClient>) => {
-      expect(panelClient.createUser).toHaveBeenCalledWith({ username: 'alice-user', expireAt: '2026-05-01T00:00:00.000Z' });
+      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.create' }), { username: 'alice-user', expireAt: '2026-05-01T00:00:00.000Z' });
     },
   },
   {
     name: 'users.disable',
-    request: { domain: 'users', operation: 'disable', payload: { uuid: 'user-1' } },
+    request: { domain: 'users', operation: 'disable', payload: { userId: 1 } },
     requiresConfirmation: true,
     assert: (panelClient: ReturnType<typeof createPanelClient>) => {
-      expect(panelClient.setUserState).toHaveBeenCalledWith('user-1', 'disable', undefined);
+      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.disable' }), { userId: 1 });
     },
   },
   {
     name: 'users.enable',
-    request: { domain: 'users', operation: 'enable', payload: { uuid: 'user-1' } },
+    request: { domain: 'users', operation: 'enable', payload: { userId: 1 } },
     assert: (panelClient: ReturnType<typeof createPanelClient>) => {
-      expect(panelClient.setUserState).toHaveBeenCalledWith('user-1', 'enable', undefined);
+      expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.enable' }), { userId: 1 });
     },
   },
 
@@ -186,22 +192,22 @@ const supportedOperationCases = [
   { name: 'subscriptions.list', request: { domain: 'subscriptions', operation: 'list', payload: { size: 25, start: 0 } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptions).toHaveBeenCalledWith({ size: 25, start: 0 }); } },
   { name: 'subscriptions.get_by_username', request: { domain: 'subscriptions', operation: 'get_by_username', payload: { username: 'alice' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionByUsername).toHaveBeenCalledWith('alice'); } },
   { name: 'subscriptions.get_by_short_uuid', request: { domain: 'subscriptions', operation: 'get_by_short_uuid', payload: { shortUuid: 'short-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionByShortUuid).toHaveBeenCalledWith('short-1'); } },
-  { name: 'subscriptions.get_by_uuid', request: { domain: 'subscriptions', operation: 'get_by_uuid', payload: { uuid: 'user-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionByUuid).toHaveBeenCalledWith('user-1'); } },
+  { name: 'subscriptions.get_by_id', request: { domain: 'subscriptions', operation: 'get_by_id', payload: { userId: 1 } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'subscriptions.get_by_id' }), { userId: 1 }); } },
   { name: 'subscriptions.get_raw_by_short_uuid', request: { domain: 'subscriptions', operation: 'get_raw_by_short_uuid', payload: { shortUuid: 'short-1', withDisabledHosts: true } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getRawSubscriptionByShortUuid).toHaveBeenCalledWith('short-1', { withDisabledHosts: true }); } },
   { name: 'subscriptions.get_subpage_config_by_short_uuid', request: { domain: 'subscriptions', operation: 'get_subpage_config_by_short_uuid', payload: { shortUuid: 'short-1', locale: 'en' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionSubpageConfigByShortUuid).toHaveBeenCalledWith('short-1', { locale: 'en' }); } },
-  { name: 'subscriptions.get_connection_keys_by_uuid', request: { domain: 'subscriptions', operation: 'get_connection_keys_by_uuid', payload: { uuid: 'user-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionConnectionKeysByUuid).toHaveBeenCalledWith('user-1'); } },
+  { name: 'subscriptions.get_connection_keys_by_user_id', request: { domain: 'subscriptions', operation: 'get_connection_keys_by_user_id', payload: { userId: 1 } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'subscriptions.get_connection_keys_by_user_id' }), { userId: 1 }); } },
   { name: 'subscription_request_history.list', request: { domain: 'subscription_request_history', operation: 'list', payload: { size: 10, start: 5 } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionRequestHistory).toHaveBeenCalledWith({ size: 10, start: 5 }); } },
   { name: 'subscription_request_history.get_stats', request: { domain: 'subscription_request_history', operation: 'get_stats', payload: {} }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getSubscriptionRequestHistoryStats).toHaveBeenCalledTimes(1); } },
-  { name: 'users.get_subscription_request_history', request: { domain: 'users', operation: 'get_subscription_request_history', payload: { uuid: 'user-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getUserSubscriptionRequestHistory).toHaveBeenCalledWith('user-1'); } },
-  { name: 'users.resolve', request: { domain: 'users', operation: 'resolve', payload: { uuid: 'user-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.resolve' }), { uuid: 'user-1' }); } },
-  { name: 'internal_squads.add_users', request: { domain: 'internal_squads', operation: 'add_users', payload: { uuid: 'squad-1', userUuids: ['user-1'] } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.bulkAddUsersToInternalSquad).toHaveBeenCalledWith('squad-1', ['user-1']); } },
-  { name: 'internal_squads.remove_users', request: { domain: 'internal_squads', operation: 'remove_users', payload: { uuid: 'squad-1', userUuids: ['user-1'] } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.bulkRemoveUsersFromInternalSquad).toHaveBeenCalledWith('squad-1', ['user-1']); } },
-  { name: 'external_squads.add_users', request: { domain: 'external_squads', operation: 'add_users', payload: { uuid: 'squad-1', userUuids: ['user-1'] } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.bulkAddUsersToExternalSquad).toHaveBeenCalledWith('squad-1', ['user-1']); } },
-  { name: 'external_squads.remove_users', request: { domain: 'external_squads', operation: 'remove_users', payload: { uuid: 'squad-1', userUuids: ['user-1'] } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.bulkRemoveUsersFromExternalSquad).toHaveBeenCalledWith('squad-1', ['user-1']); } },
+  { name: 'users.get_subscription_request_history', request: { domain: 'users', operation: 'get_subscription_request_history', payload: { userId: 1 } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.get_subscription_request_history' }), { userId: 1 }); } },
+  { name: 'users.resolve', request: { domain: 'users', operation: 'resolve', payload: { id: 1 } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.resolve' }), { id: 1 }); } },
+  { name: 'internal_squads.add_users', request: { domain: 'internal_squads', operation: 'add_users', payload: { uuid: SQUAD_UUID } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).not.toHaveBeenCalled(); } },
+  { name: 'internal_squads.remove_users', request: { domain: 'internal_squads', operation: 'remove_users', payload: { uuid: SQUAD_UUID } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).not.toHaveBeenCalled(); } },
+  { name: 'external_squads.add_users', request: { domain: 'external_squads', operation: 'add_users', payload: { uuid: SQUAD_UUID } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).not.toHaveBeenCalled(); } },
+  { name: 'external_squads.remove_users', request: { domain: 'external_squads', operation: 'remove_users', payload: { uuid: SQUAD_UUID } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).not.toHaveBeenCalled(); } },
   { name: 'profiles.get', request: { domain: 'profiles', operation: 'get', payload: { uuid: 'profile-1' } }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.getProfile).toHaveBeenCalledWith('profile-1'); } },
   { name: 'keygen.generate_node_secret', request: { domain: 'keygen', operation: 'generate_node_secret', payload: {} }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'keygen.generate_node_secret' }), {}); } },
   { name: 'system.generate_x25519_keypairs', request: { domain: 'system', operation: 'generate_x25519_keypairs', payload: {} }, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'system.generate_x25519_keypairs' }), {}); } },
-  { name: 'users.revoke_subscription', request: { domain: 'users', operation: 'revoke_subscription', payload: { uuid: 'user-1' } }, requiresConfirmation: true, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.revokeUserSubscription).toHaveBeenCalledWith('user-1'); } },
+  { name: 'users.revoke_subscription', request: { domain: 'users', operation: 'revoke_subscription', payload: { userId: 1 } }, requiresConfirmation: true, assert: (panelClient: ReturnType<typeof createPanelClient>) => { expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(expect.objectContaining({ key: 'users.revoke_subscription' }), { userId: 1 }); } },
   {
     name: 'nodes.restart',
     request: { domain: 'nodes', operation: 'restart', payload: { uuid: 'node-1' } },
@@ -226,27 +232,32 @@ describe('Remnawave API client adapter', () => {
     assert(panelClient);
   });
 
-  test('binds hosts.bulk_set_port preview/apply to getHosts and bulkSetHostPort only on apply', async () => {
+  test('binds hosts.bulk_update preview/apply to getHosts and OpenAPI execution only on apply', async () => {
     const panelClient = createPanelClient();
     const adapter = createRemnawaveApiClientAdapter(panelClient);
+    const hostUuid = '22222222-2222-4222-8222-222222222222';
+    panelClient.getHosts.mockResolvedValue({ total: 1, items: [{ uuid: hostUuid, port: 80, enabled: true, fingerprint: 'fp-1' }] });
 
     const preview = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { hostUuids: ['host-1'], port: 443 } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { uuids: [hostUuid], port: 443 } },
       adapter,
     );
 
     expect(preview).toMatchObject({ applyToken: expect.any(String) });
     expect(panelClient.getHosts).toHaveBeenCalledTimes(1);
-    expect(panelClient.bulkSetHostPort).not.toHaveBeenCalled();
+    expect(panelClient.executeOpenApiOperation).not.toHaveBeenCalled();
 
     const apply = await routeRemnawaveApiRequest(
-      { domain: 'hosts', operation: 'bulk_set_port', payload: { applyToken: (preview as { applyToken: string }).applyToken } },
+      { domain: 'hosts', operation: 'bulk_update', payload: { applyToken: (preview as { applyToken: string }).applyToken } },
       adapter,
     );
 
-    expect(apply).toEqual({ updated: { hostUuids: ['host-1'], port: 443, updated: true } });
+    expect(apply).toEqual({ updated: { resolved: { uuids: [hostUuid], port: 443 } } });
     expect(panelClient.getHosts).toHaveBeenCalledTimes(2);
-    expect(panelClient.bulkSetHostPort).toHaveBeenCalledWith(['host-1'], 443);
+    expect(panelClient.executeOpenApiOperation).toHaveBeenCalledWith(
+      expect.objectContaining({ key: 'hosts.bulk_update' }),
+      { uuids: [hostUuid], port: 443 },
+    );
   });
 
   test('does not expose excluded client methods through the runtime adapter', () => {

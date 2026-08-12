@@ -41,7 +41,7 @@ function createProtocolClient(): { client: Client; transport: StdioClientTranspo
       ...process.env,
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.4',
+      REMNAWAVE_VERSION: '3.2.3',
       LOG_LEVEL: 'error',
     } as Record<string, string>,
   });
@@ -62,7 +62,7 @@ describe('mcp runtime protocol', () => {
     const discoveryManifest = buildDiscoveryManifest(loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.4',
+      REMNAWAVE_VERSION: '3.2.3',
     }));
 
     const tools = await client.listTools();

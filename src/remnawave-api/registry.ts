@@ -752,7 +752,7 @@ function validateHostManageDefinitionPayload(payload: unknown): readonly Validat
 }
 
 function validateHostsBulkSetPortPayload(payload: unknown): readonly ValidationIssue[] {
-  return getSupportedOperationSchema('hosts', 'bulk_set_port').validatePayload(payload);
+  return getSupportedOperationSchema('hosts', 'bulk_update').validatePayload(payload);
 }
 
 function validateInternalSquadManageMembershipPayload(payload: unknown): readonly ValidationIssue[] {
@@ -1336,7 +1336,7 @@ async function executeUsersResolve(
     {
       found: true,
       match: {
-        uuid: user.uuid,
+        id: user.id,
         shortUuid: user.shortUuid,
         username: user.username,
       },
@@ -1364,7 +1364,7 @@ async function executeUsersInspect(
     : { items: [] };
   const subscription = subscriptions.items.find((entry) => entry.user.shortUuid === user.shortUuid) ?? null;
   const devices = typeof client.getUserHwidDevices === 'function'
-    ? toUserHwidDevicesResponse(await client.getUserHwidDevices(user.uuid))
+    ? toUserHwidDevicesResponse(await client.getUserHwidDevices(String(user.id)))
     : { items: [] } satisfies NormalizedUserHwidDevicesResponse;
   const accessibleNodes = user.traffic.lastConnectedNodeUuid === null
     ? []
@@ -1375,7 +1375,7 @@ async function executeUsersInspect(
   const policy = applySensitiveReadPolicy(
     {
       identity: {
-        uuid: user.uuid,
+        id: user.id,
         shortUuid: user.shortUuid,
         username: user.username,
         telegramId: user.telegramId,
@@ -1409,7 +1409,7 @@ async function executeUsersSubscriptionHistory(
   const revealMode = readSensitiveReadRevealMode(payload);
   const user = await resolveUserFromPayload(payload, client);
   const history = toUserSubscriptionHistoryResponse(
-    await requireClientMethod(client, 'getUserSubscriptionRequestHistory', 'users.get_subscription_request_history')(user.uuid),
+    await requireClientMethod(client, 'getUserSubscriptionRequestHistory', 'users.get_subscription_request_history')(String(user.id)),
   );
   const policy = applySensitiveReadPolicy(
     {
@@ -1437,7 +1437,7 @@ async function executeSubscriptionsSupportContext(
   const subscription = subscriptions.items.find((entry) => entry.user.shortUuid === user.shortUuid) ?? null;
   const result = {
     user: {
-      uuid: user.uuid,
+      id: user.id,
       shortUuid: user.shortUuid,
       username: user.username,
       status: user.status,
@@ -1476,7 +1476,7 @@ async function executeSubscriptionsPageDelivery(
   const subscription = subscriptions.items.find((entry) => entry.user.shortUuid === user.shortUuid) ?? null;
   const result = {
     user: {
-      uuid: user.uuid,
+      id: user.id,
       shortUuid: user.shortUuid,
       username: user.username,
     },
@@ -1508,11 +1508,11 @@ async function resolveUserFromPayload(
   try {
     return await resolveUserBySelector(selector, client);
   } catch (error) {
-    if (selector.uuid !== null && typeof client.resolveUser === 'function') {
-      const resolved = toUsersResolveResponse(await client.resolveUser(selector.uuid));
+    if (selector.id !== null && typeof client.resolveUser === 'function') {
+      const resolved = toUsersResolveResponse(await client.resolveUser(String(selector.id)));
       if (resolved.found && resolved.match !== null) {
         return {
-          uuid: resolved.match.uuid,
+          id: resolved.match.id,
           shortUuid: resolved.match.shortUuid,
           username: resolved.match.username,
           status: 'ACTIVE',
@@ -1569,7 +1569,7 @@ function readSensitiveReadRevealMode(payload: Record<string, unknown>): Sensitiv
 }
 
 function readUserSelector(value: unknown): {
-  readonly uuid: string | null;
+  readonly id: number | null;
   readonly shortUuid: string | null;
   readonly username: string | null;
   readonly telegramId: number | null;
@@ -1579,18 +1579,18 @@ function readUserSelector(value: unknown): {
     throw new Error('payload.selector must be an object.');
   }
 
-  const uuid = readStringLike(selector.uuid);
+  const id = typeof selector.id === 'number' && Number.isInteger(selector.id) ? selector.id : null;
   const shortUuid = readStringLike(selector.shortUuid);
   const username = readStringLike(selector.username);
   const telegramId = typeof selector.telegramId === 'number' && Number.isInteger(selector.telegramId)
     ? selector.telegramId
     : null;
-  const total = [uuid, shortUuid, username, telegramId].filter((entry) => entry !== null).length;
+  const total = [id, shortUuid, username, telegramId].filter((entry) => entry !== null).length;
   if (total !== 1) {
-    throw new Error('Selector must provide exactly one of uuid, shortUuid, username, or telegramId.');
+    throw new Error('Selector must provide exactly one of id, shortUuid, username, or telegramId.');
   }
 
-  return { uuid, shortUuid, username, telegramId };
+  return { id, shortUuid, username, telegramId };
 }
 
 function toUserSubscriptionHistoryResponse(value: unknown): NormalizedUserSubscriptionHistoryResponse {
@@ -1674,8 +1674,8 @@ function matchesUserSelector(
   user: NormalizedUser,
   selector: ReturnType<typeof readUserSelector>,
 ): boolean {
-  if (selector.uuid !== null) {
-    return user.uuid === selector.uuid;
+  if (selector.id !== null) {
+    return user.id === selector.id;
   }
   if (selector.shortUuid !== null) {
     return user.shortUuid === selector.shortUuid;

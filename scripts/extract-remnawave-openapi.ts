@@ -54,7 +54,8 @@ type OperationObject = Record<string, unknown> & {
 };
 
 const HTTP_METHODS = new Set(['get', 'put', 'post', 'delete', 'patch', 'options', 'head', 'trace']);
-const DEFAULT_SOURCE = 'src/remnawave-api/openapi/remnawave-openapi-2.7.4.json';
+const OPENAPI_SOURCE_NAME = 'remnawave-openapi-3.2.3.json';
+const DEFAULT_SOURCE = `src/remnawave-api/openapi/${OPENAPI_SOURCE_NAME}`;
 const DEFAULT_OUTPUT = 'src/remnawave-api/generated/operations.ts';
 
 export const SELECTED_OPENAPI_OPERATIONS = [
@@ -77,9 +78,9 @@ export const SELECTED_OPENAPI_OPERATIONS = [
     operationId: 'SubscriptionsController_getSubscriptionByShortUuidProtected',
   },
   {
-    key: 'subscriptions.get_by_uuid',
+    key: 'subscriptions.get_by_id',
     method: 'get',
-    path: '/api/subscriptions/by-uuid/{uuid}',
+    path: '/api/subscriptions/by-id/{userId}',
     operationId: 'SubscriptionsController_getSubscriptionByUuid',
   },
   {
@@ -95,10 +96,10 @@ export const SELECTED_OPENAPI_OPERATIONS = [
     operationId: 'SubscriptionsController_getSubpageConfigByShortUuid',
   },
   {
-    key: 'subscriptions.get_connection_keys_by_uuid',
+    key: 'subscriptions.get_connection_keys_by_user_id',
     method: 'get',
-    path: '/api/subscriptions/connection-keys/{uuid}',
-    operationId: 'SubscriptionsController_getConnectionKeysByUuid',
+    path: '/api/subscriptions/connection-keys/{userId}',
+    operationId: 'SubscriptionsController_getConnectionKeysByUserId',
   },
   {
     key: 'subscription_request_history.list',
@@ -115,7 +116,7 @@ export const SELECTED_OPENAPI_OPERATIONS = [
   {
     key: 'users.get_subscription_request_history',
     method: 'get',
-    path: '/api/users/{uuid}/subscription-request-history',
+    path: '/api/users/{userId}/subscription-request-history',
     operationId: 'UsersController_getUserSubscriptionRequestHistory',
   },
   {
@@ -143,9 +144,9 @@ export const SELECTED_OPENAPI_OPERATIONS = [
     operationId: 'ConfigProfileController_getInboundsByProfileUuid',
   },
   {
-    key: 'hosts.bulk_set_port',
-    method: 'post',
-    path: '/api/hosts/bulk/set-port',
+    key: 'hosts.bulk_update',
+    method: 'patch',
+    path: '/api/hosts/bulk/update',
     operationId: 'HostsBulkActionsController_setPortToHosts',
   },
   {
@@ -163,13 +164,13 @@ export const SELECTED_OPENAPI_OPERATIONS = [
   {
     key: 'metadata.get_user',
     method: 'get',
-    path: '/api/metadata/user/{uuid}',
+    path: '/api/metadata/user/{userId}',
     operationId: 'MetadataController_getUserMetadata',
   },
   {
     key: 'metadata.upsert_user',
     method: 'put',
-    path: '/api/metadata/user/{uuid}',
+    path: '/api/metadata/user/{userId}',
     operationId: 'MetadataController_upsertUserMetadata',
   },
   {
@@ -283,8 +284,8 @@ export const SELECTED_OPENAPI_OPERATIONS = [
   {
     key: 'users.get',
     method: 'get',
-    path: '/api/users/{uuid}',
-    operationId: 'UsersController_getUserByUuid',
+    path: '/api/users/{userId}',
+    operationId: 'UsersController_getUserById',
   },
   {
     key: 'system.get_stats',
@@ -325,19 +326,19 @@ export const SELECTED_OPENAPI_OPERATIONS = [
   {
     key: 'users.disable',
     method: 'post',
-    path: '/api/users/{uuid}/actions/disable',
+    path: '/api/users/{userId}/actions/disable',
     operationId: 'UsersController_disableUser',
   },
   {
     key: 'users.enable',
     method: 'post',
-    path: '/api/users/{uuid}/actions/enable',
+    path: '/api/users/{userId}/actions/enable',
     operationId: 'UsersController_enableUser',
   },
   {
     key: 'users.revoke_subscription',
     method: 'post',
-    path: '/api/users/{uuid}/actions/revoke',
+    path: '/api/users/{userId}/actions/revoke',
     operationId: 'UsersController_revokeUserSubscription',
   },
 ] as const satisfies readonly SelectedOpenApiOperation[];
@@ -363,7 +364,7 @@ export function extractOpenApiSnapshot(
       title: document.info?.title,
       version: document.info?.version,
       extractedAt: 'static',
-      source: 'remnawave-openapi-2.7.4.json',
+      source: OPENAPI_SOURCE_NAME,
     }),
     operations: selectedOperations.map((selection) => extractOperation(document, selection)),
   };
@@ -417,30 +418,27 @@ function classifySupportedOperation(operation: OpenApiEnumeration): { readonly k
     'get /api/subscriptions': 'subscriptions.list',
     'get /api/subscriptions/by-username/{username}': 'subscriptions.get_by_username',
     'get /api/subscriptions/by-short-uuid/{shortUuid}': 'subscriptions.get_by_short_uuid',
-    'get /api/subscriptions/by-uuid/{uuid}': 'subscriptions.get_by_uuid',
+    'get /api/subscriptions/by-id/{userId}': 'subscriptions.get_by_id',
     'get /api/subscriptions/by-short-uuid/{shortUuid}/raw': 'subscriptions.get_raw_by_short_uuid',
     'get /api/subscriptions/subpage-config/{shortUuid}': 'subscriptions.get_subpage_config_by_short_uuid',
-    'get /api/subscriptions/connection-keys/{uuid}': 'subscriptions.get_connection_keys_by_uuid',
+    'get /api/subscriptions/connection-keys/{userId}': 'subscriptions.get_connection_keys_by_user_id',
     'get /api/subscription-request-history': 'subscription_request_history.list',
     'get /api/subscription-request-history/stats': 'subscription_request_history.get_stats',
-    'get /api/users/{uuid}/subscription-request-history': 'users.get_subscription_request_history',
+    'get /api/users/{userId}/subscription-request-history': 'users.get_subscription_request_history',
     'post /api/users': 'users.create',
     'patch /api/users': 'users.update',
     'get /api/users': 'users.list',
-    'delete /api/users/{uuid}': 'users.delete',
-    'get /api/users/{uuid}': 'users.get',
+    'delete /api/users/{userId}': 'users.delete',
+    'get /api/users/{userId}': 'users.get',
     'get /api/users/tags': 'users.list_tags',
-    'get /api/users/{uuid}/accessible-nodes': 'users.get_accessible_nodes',
+    'get /api/users/{userId}/accessible-nodes': 'users.get_accessible_nodes',
     'get /api/users/by-short-uuid/{shortUuid}': 'users.get_by_short_uuid',
     'get /api/users/by-username/{username}': 'users.get_by_username',
-    'get /api/users/by-id/{id}': 'users.get_by_id',
-    'get /api/users/by-telegram-id/{telegramId}': 'users.get_by_telegram_id',
-    'get /api/users/by-email/{email}': 'users.get_by_email',
-    'get /api/users/by-tag/{tag}': 'users.get_by_tag',
-    'post /api/users/{uuid}/actions/revoke': 'users.revoke_subscription',
-    'post /api/users/{uuid}/actions/disable': 'users.disable',
-    'post /api/users/{uuid}/actions/enable': 'users.enable',
-    'post /api/users/{uuid}/actions/reset-traffic': 'users.reset_traffic',
+    'post /api/users/{userId}/actions/revoke': 'users.revoke_subscription',
+    'post /api/users/{userId}/actions/disable': 'users.disable',
+    'post /api/users/{userId}/actions/enable': 'users.enable',
+    'post /api/users/{userId}/actions/reset-traffic': 'users.reset_traffic',
+    'post /api/users/{userId}/actions/extend': 'users.extend_expiration',
     'post /api/users/resolve': 'users.resolve',
     'post /api/users/bulk/delete-by-status': 'users.bulk_delete_by_status',
     'post /api/users/bulk/delete': 'users.bulk_delete',
@@ -463,8 +461,8 @@ function classifySupportedOperation(operation: OpenApiEnumeration): { readonly k
     'get /api/keygen': 'keygen.generate_node_secret',
     'get /api/metadata/node/{uuid}': 'metadata.get_node',
     'put /api/metadata/node/{uuid}': 'metadata.upsert_node',
-    'get /api/metadata/user/{uuid}': 'metadata.get_user',
-    'put /api/metadata/user/{uuid}': 'metadata.upsert_user',
+    'get /api/metadata/user/{userId}': 'metadata.get_user',
+    'put /api/metadata/user/{userId}': 'metadata.upsert_user',
     'get /api/subscription-templates': 'templates.list',
     'get /api/subscription-templates/{uuid}': 'templates.get',
     'post /api/subscription-templates': 'templates.create',
@@ -512,20 +510,18 @@ function classifySupportedOperation(operation: OpenApiEnumeration): { readonly k
     'post /api/hosts/bulk/delete': 'hosts.bulk_delete',
     'post /api/hosts/bulk/disable': 'hosts.bulk_disable',
     'post /api/hosts/bulk/enable': 'hosts.bulk_enable',
-    'post /api/hosts/bulk/set-inbound': 'hosts.bulk_set_inbound',
-    'post /api/hosts/bulk/set-port': 'hosts.bulk_set_port',
+    'patch /api/hosts/bulk/update': 'hosts.bulk_update',
     'get /api/bandwidth-stats/nodes': 'bandwidth_stats.list_nodes_usage',
     'get /api/bandwidth-stats/nodes/{uuid}/users': 'bandwidth_stats.get_node_users_usage',
     'get /api/bandwidth-stats/nodes/{uuid}/users/legacy': 'bandwidth_stats.get_node_user_usage_legacy',
-    'get /api/bandwidth-stats/users/{uuid}': 'bandwidth_stats.get_user_usage',
-    'get /api/bandwidth-stats/users/{uuid}/legacy': 'bandwidth_stats.get_user_usage_legacy',
+    'get /api/bandwidth-stats/users/{userId}': 'bandwidth_stats.get_user_usage',
     'get /api/hwid/devices': 'hwid.list_users',
     'post /api/hwid/devices': 'hwid.create_device',
     'post /api/hwid/devices/delete': 'hwid.delete_device',
     'post /api/hwid/devices/delete-all': 'hwid.delete_all_devices',
     'get /api/hwid/devices/stats': 'hwid.get_stats',
     'get /api/hwid/devices/top-users': 'hwid.get_top_users',
-    'get /api/hwid/devices/{userUuid}': 'hwid.get_user_devices',
+    'get /api/hwid/devices/{userId}': 'hwid.get_user_devices',
     'get /api/subscription-settings': 'subscription_settings.get',
     'patch /api/subscription-settings': 'subscription_settings.update',
     'get /api/subscription-page-configs': 'subscription_page_configs.list',

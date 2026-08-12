@@ -17,10 +17,6 @@ function call(client: RemnawaveApiClient, context: RuntimeOperationFactoryContex
 }
 
 export function registerMetadataOperations(registry: OperationRegistry, context: RuntimeOperationFactoryContext): void {
-  for (const target of ['node', 'user'] as const) {
-    const getMethod = target === 'node' ? 'getNodeMetadata' : 'getUserMetadata';
-    const upsertMethod = target === 'node' ? 'upsertNodeMetadata' : 'upsertUserMetadata';
-    registry.register('metadata', `get_${target}`, context.supportedReadOperation('metadata', `get_${target}`, `Read one ${target} metadata document.`, `Send payload with uuid to read ${target} metadata.`, 'OpenAPI-backed metadata read.', `metadata_get_${target}`, getMethod, async (client, payload) => ({ result: await call(client, context, getMethod, `metadata.get_${target}`)(text(payload, 'uuid')) })));
-    registry.register('metadata', `upsert_${target}`, context.supportedWriteOperation('metadata', `upsert_${target}`, `Upsert one ${target} metadata document.`, `Send payload with uuid and metadata to upsert ${target} metadata.`, 'OpenAPI-backed metadata upsert with free-form object caps.', { uuid: `${target}-uuid`, metadata: { key: 'value' } }, `metadata_upsert_${target}`, upsertMethod, validate('metadata', `upsert_${target}`), async (client, payload) => ({ result: await call(client, context, upsertMethod, `metadata.upsert_${target}`)(text(payload, 'uuid'), record(payload, ['uuid'])) })));
-  }
+  registry.register('metadata', 'get_node', context.supportedReadOperation('metadata', 'get_node', 'Read one node metadata document.', 'Send payload with uuid to read node metadata.', 'OpenAPI-backed metadata read.', 'metadata_get_node', 'getNodeMetadata', async (client, payload) => ({ result: await call(client, context, 'getNodeMetadata', 'metadata.get_node')(text(payload, 'uuid')) })));
+  registry.register('metadata', 'upsert_node', context.supportedWriteOperation('metadata', 'upsert_node', 'Upsert one node metadata document.', 'Send payload with uuid and metadata to upsert node metadata.', 'OpenAPI-backed metadata upsert with free-form object caps.', { uuid: 'node-uuid', metadata: { key: 'value' } }, 'metadata_upsert_node', 'upsertNodeMetadata', validate('metadata', 'upsert_node'), async (client, payload) => ({ result: await call(client, context, 'upsertNodeMetadata', 'metadata.upsert_node')(text(payload, 'uuid'), record(payload, ['uuid'])) })));
 }

@@ -106,7 +106,7 @@ describe('normalization layer', () => {
     expect(normalized).toEqual({
       found: true,
       match: {
-        uuid: '<REDACTED>',
+        id: 2726,
         shortUuid: '<REDACTED>',
         username: '<REDACTED>',
       },
@@ -787,10 +787,36 @@ describe('RemnawaveClient', () => {
     });
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'https://panel.example.test/api/bandwidth-stats/nodes?topNodesLimit=5&start=2026-05-01&end=2026-05-06',
+      'https://panel.example.test/api/bandwidth-stats/nodes?start=2026-05-01&end=2026-05-06&topNodesLimit=5',
       expect.objectContaining({
         method: 'GET',
         body: undefined,
+      }),
+    );
+  });
+
+  test('preserves generated OpenAPI DELETE request bodies', async () => {
+    const fetchMock = vi.fn(
+      async (_input: string | URL | Request, _init?: RequestInit) => new Response(null, { status: 204 }),
+    );
+    const operation = REMNAWAVE_OPERATION_INVENTORY.operations.find((entry) => entry.key === 'snippets.delete');
+
+    if (operation?.status !== 'supported') {
+      throw new Error('snippets.delete operation fixture is missing.');
+    }
+
+    const client = new RemnawaveClient({
+      baseUrl: 'https://panel.example.test',
+      apiToken: 'token-value',
+      fetch: fetchMock,
+    });
+    await client.executeOpenApiOperation(operation, { name: 'headers' });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://panel.example.test/api/snippets',
+      expect.objectContaining({
+        method: 'DELETE',
+        body: JSON.stringify({ name: 'headers' }),
       }),
     );
   });
@@ -851,7 +877,7 @@ describe('RemnawaveClient', () => {
     expect(resolved).toEqual({
       found: true,
       match: {
-        uuid: '<REDACTED>',
+        id: 2726,
         shortUuid: '<REDACTED>',
         username: '<REDACTED>',
       },

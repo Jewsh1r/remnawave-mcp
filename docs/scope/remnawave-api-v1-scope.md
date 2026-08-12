@@ -35,7 +35,7 @@ See the [migration guide](../migration/flat-to-single-tool.md) for detailed migr
 
 ## Compact v2 scope summary
 
-The v1 discovery surface publishes the registry-backed compact v2 runtime surface. It currently exposes 150 supported operations across 19 domains.
+The v1 discovery surface publishes the registry-backed compact v2 runtime surface. It currently exposes 144 supported operations across 19 domains for Remnawave 3.2.3.
 
 Accepted baseline for this audited repo state:
 
@@ -74,18 +74,15 @@ These operations are currently `supported` and executable through the v1 single-
 - `users.bulk_revoke_subscription`
 - `users.bulk_update`
 - `users.bulk_update_squads`
-- `users.get_by_email`
-- `users.get_by_id`
 - `users.get_by_short_uuid`
-- `users.get_by_tag`
-- `users.get_by_telegram_id`
 - `users.get_by_username`
 - `users.resolve`
 - `users.list_tags`
 - `users.delete`
 - `users.get_accessible_nodes`
+- `users.extend_expiration`
 - `users.reset_traffic`
-- `hosts.bulk_set_port`
+- `hosts.bulk_update`
 - `hosts.list`
 - `hosts.update`
 - `hosts.create`
@@ -93,7 +90,6 @@ These operations are currently `supported` and executable through the v1 single-
 - `hosts.bulk_delete`
 - `hosts.bulk_disable`
 - `hosts.bulk_enable`
-- `hosts.bulk_set_inbound`
 - `hosts.list_tags`
 - `hosts.delete`
 - `hosts.get`
@@ -132,10 +128,10 @@ These operations are currently `supported` and executable through the v1 single-
 - `subscriptions.list`
 - `subscriptions.get_by_username`
 - `subscriptions.get_by_short_uuid`
-- `subscriptions.get_by_uuid`
+- `subscriptions.get_by_id`
 - `subscriptions.get_raw_by_short_uuid`
 - `subscriptions.get_subpage_config_by_short_uuid`
-- `subscriptions.get_connection_keys_by_uuid`
+- `subscriptions.get_connection_keys_by_user_id`
 - `subscription_request_history.list`
 - `subscription_request_history.get_stats`
 - `profiles.list`
@@ -265,18 +261,15 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
     "users.bulk_revoke_subscription",
     "users.bulk_update",
     "users.bulk_update_squads",
-    "users.get_by_email",
-    "users.get_by_id",
     "users.get_by_short_uuid",
-    "users.get_by_tag",
-    "users.get_by_telegram_id",
     "users.get_by_username",
     "users.resolve",
     "users.list_tags",
     "users.delete",
     "users.get_accessible_nodes",
+    "users.extend_expiration",
     "users.reset_traffic",
-    "hosts.bulk_set_port",
+    "hosts.bulk_update",
     "hosts.list",
     "hosts.update",
     "hosts.create",
@@ -284,7 +277,6 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
     "hosts.bulk_delete",
     "hosts.bulk_disable",
     "hosts.bulk_enable",
-    "hosts.bulk_set_inbound",
     "hosts.list_tags",
     "hosts.delete",
     "hosts.get",
@@ -323,10 +315,10 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
     "subscriptions.list",
     "subscriptions.get_by_username",
     "subscriptions.get_by_short_uuid",
-    "subscriptions.get_by_uuid",
+    "subscriptions.get_by_id",
     "subscriptions.get_raw_by_short_uuid",
     "subscriptions.get_subpage_config_by_short_uuid",
-    "subscriptions.get_connection_keys_by_uuid",
+    "subscriptions.get_connection_keys_by_user_id",
     "subscription_request_history.list",
     "subscription_request_history.get_stats",
     "profiles.list",
@@ -425,16 +417,13 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
         "bulk_revoke_subscription",
         "bulk_update",
         "bulk_update_squads",
-        "get_by_email",
-        "get_by_id",
         "get_by_short_uuid",
-        "get_by_tag",
-        "get_by_telegram_id",
         "get_by_username",
         "resolve",
         "list_tags",
         "delete",
         "get_accessible_nodes",
+        "extend_expiration",
         "reset_traffic"
       ],
       "deferred": [],
@@ -442,7 +431,7 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
     },
     "hosts": {
       "supported": [
-        "bulk_set_port",
+        "bulk_update",
         "list",
         "update",
         "create",
@@ -450,7 +439,6 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
         "bulk_delete",
         "bulk_disable",
         "bulk_enable",
-        "bulk_set_inbound",
         "list_tags",
         "delete",
         "get"
@@ -525,10 +513,10 @@ The runtime excludes auth/bootstrap, token, node-plugin, IP-control, and Remnawa
         "list",
         "get_by_username",
         "get_by_short_uuid",
-        "get_by_uuid",
+        "get_by_id",
         "get_raw_by_short_uuid",
         "get_subpage_config_by_short_uuid",
-        "get_connection_keys_by_uuid"
+        "get_connection_keys_by_user_id"
       ],
       "deferred": [],
       "denied": []

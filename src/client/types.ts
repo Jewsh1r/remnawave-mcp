@@ -51,7 +51,7 @@ export interface NormalizedNodesResponse {
 }
 
 export interface NormalizedUser {
-  readonly uuid: string;
+  readonly id: number;
   readonly shortUuid: string;
   readonly username: string;
   readonly status: UserStatus;
@@ -80,7 +80,7 @@ export interface NormalizedUsersResponse {
 }
 
 export interface NormalizedResolvedUser {
-  readonly uuid: string;
+  readonly id: number;
   readonly shortUuid: string;
   readonly username: string;
 }

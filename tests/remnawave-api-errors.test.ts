@@ -16,7 +16,7 @@ function createClient(overrides: Partial<RemnawaveApiClient> = {}): RemnawaveApi
       online: { now: 2, lastDay: 4, lastWeek: 6, never: 0 },
       nodes: { totalOnlineUsers: 3, lifetimeBytes: 0n },
     }),
-    createUser: async (payload) => ({ uuid: 'user-1', ...payload }),
+    executeOpenApiOperation: async (_operation, payload) => ({ id: 1, ...payload }),
     ...overrides,
   };
 }
@@ -55,7 +55,7 @@ describe('Remnawave API compact errors', () => {
   });
 
   test('upstream API failures use compact upstream errors', async () => {
-    const createUser = vi.fn(async () => {
+    const executeOpenApiOperation = vi.fn(async () => {
       throw new RemnawaveApiError(502, 'POST /api/users failed: Remote validation failed', { trace: 'internal' });
     });
 
@@ -65,7 +65,7 @@ describe('Remnawave API compact errors', () => {
         operation: 'create',
         payload: { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
       },
-      createClient({ createUser }),
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toEqual({
@@ -81,7 +81,7 @@ describe('Remnawave API compact errors', () => {
   });
 
   test('runtime execution failures use compact internal errors', async () => {
-    const createUser = vi.fn(async () => {
+    const executeOpenApiOperation = vi.fn(async () => {
       throw new Error('ENOENT: failed at /Users/local/private.ts');
     });
 
@@ -91,7 +91,7 @@ describe('Remnawave API compact errors', () => {
         operation: 'create',
         payload: { username: 'new-user', telegramId: 123456, expireAt: '2026-05-01T00:00:00.000Z' },
       },
-      createClient({ createUser }),
+      createClient({ executeOpenApiOperation }),
     );
 
     expect(result).toEqual({

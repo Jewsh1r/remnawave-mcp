@@ -11,7 +11,7 @@ function readRepoFile(relativePath: string): string {
   return readFileSync(path.join(repoRoot, relativePath), 'utf8');
 }
 
-describe('docs consistency for 0.2.0 compact v2 contract', () => {
+describe('docs consistency for 0.3.0 Remnawave 3 contract', () => {
   const readme = readRepoFile('README.md');
   const migration = readRepoFile('docs/migration/flat-to-single-tool.md');
   const readiness = readRepoFile('docs/release/production-readiness.md');
@@ -23,13 +23,13 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
   const workflowContract = readRepoFile('docs/contracts/priority-workflow-contract.md');
   const packageJson = JSON.parse(readRepoFile('package.json')) as { version: string };
 
-  test('package version is 0.2.1', () => {
-    expect(packageJson.version).toBe('0.2.1');
+  test('package version is 0.3.0', () => {
+    expect(packageJson.version).toBe('0.3.0');
   });
 
-  test('README and release docs contain version 0.2.1', () => {
-    expect(readme).toContain('0.2.1');
-    expect(readiness).toContain('0.2.1');
+  test('README and release docs contain version 0.3.0', () => {
+    expect(readme).toContain('0.3.0');
+    expect(readiness).toContain('0.3.0');
   });
 
   test('README documents compact v2 contract elements', () => {
@@ -40,8 +40,7 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
     expect(readme).toContain('preview/apply');
     expect(readme).toContain('confirmToken');
     expect(readme).toContain('applyToken');
-    expect(readme).toContain('2.7.0');
-    expect(readme).toContain('2.7.4');
+    expect(readme).toContain('3.2.3');
     expect(readme).toContain('unsupported-operation errors');
     expect(readme).toContain('absent from discovery');
   });
@@ -78,9 +77,8 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
   });
 
   test('release readiness aligns with compact v2 and version gate', () => {
-    expect(readiness).toContain('0.2.1');
-    expect(readiness).toContain('2.7.0');
-    expect(readiness).toContain('2.7.4');
+    expect(readiness).toContain('0.3.0');
+    expect(readiness).toContain('3.2.3');
     expect(readiness).toContain('compact v2');
     expect(readiness).toContain('absent from runtime discovery');
     expect(readiness).toContain('compact unsupported-operation errors');
@@ -199,7 +197,7 @@ describe('docs consistency for 0.2.0 compact v2 contract', () => {
   test('release readiness does not overclaim infra billing, inbound attachment, or stale grouped template snippet names', () => {
     const readinessBeforeMigration = readiness.split('## Migration and compatibility')[0] ?? readiness;
     expect(readinessBeforeMigration).toContain('Infra-billing provider, node, mutation, and history workflows');
-    expect(readinessBeforeMigration).toContain('`hosts.bulk_set_port` covers bounded host port changes only');
+    expect(readinessBeforeMigration).toContain('`hosts.bulk_update` covers validated updates to explicitly listed host UUIDs through preview/apply');
     expect(readinessBeforeMigration).not.toContain('currently supported provider/node mutation and history inspect boundary');
     expect(readinessBeforeMigration).not.toContain('inbound attachment');
     expect(readinessBeforeMigration).not.toContain('templates.manage_subscription');

@@ -1,6 +1,6 @@
 This matrix is the published capability-level support boundary for the current repository state. It is intentionally aligned to the single-tool `remnawave_api` contract, the runtime discovery surface, and the registry-backed scope map.
 
-Do not read this matrix as endpoint coverage or as a claim that all OpenAPI paths are supported. The current runtime publishes 150 supported operations across 19 domains.
+Do not read this matrix as endpoint coverage or as a claim that all OpenAPI paths are supported. The current runtime publishes 144 supported operations across 19 domains.
 
 ## Capability classes
 
@@ -16,7 +16,7 @@ See the [danger classes and side-effects reference](../safety/danger-classes-and
 
 ## Version and precedence notes that affect support claims
 
-- Global runtime gate: this repo supports Remnawave `2.7.0` through `2.7.4`; unknown or unsupported versions fail before discovery is advertised.
+- Global runtime gate: this repo supports exactly Remnawave `3.2.3`; unknown or unsupported versions fail before discovery is advertised.
 - Published support is capability-based and registry-backed, not path-count-based.
 - Discovery is supported-only; deferred and excluded operations are absent from runtime discovery.
 
@@ -38,7 +38,7 @@ See the [migration guide](../migration/flat-to-single-tool.md) for details on tr
 |---|---|---|---|
 | system | `supported` | `system.get_stats`, `system.get_metadata`, `system.get_health`, `system.get_bandwidth_stats`, `system.get_node_statistics`, `system.get_nodes_metrics`, `system.get_recap`, `system.generate_x25519_keypairs` | Runtime-discoverable through `remnawave_api`. |
 | users | `supported` | `users.list`, `users.create`, `users.get`, `users.get_subscription_request_history`, `users.revoke_subscription`, `users.disable`, `users.enable`, `users.update`, `users.bulk_all_extend_expiration_date`, `users.bulk_all_reset_traffic`, `users.bulk_all_update`, `users.bulk_delete`, `users.bulk_delete_by_status`, `users.bulk_extend_expiration_date`, `users.bulk_reset_traffic`, `users.bulk_revoke_subscription`, `users.bulk_update`, `users.bulk_update_squads`, `users.get_by_email`, `users.get_by_id`, `users.get_by_short_uuid`, `users.get_by_tag`, `users.get_by_telegram_id`, `users.get_by_username`, `users.resolve`, `users.list_tags`, `users.delete`, `users.get_accessible_nodes`, `users.reset_traffic` | Runtime-discoverable through `remnawave_api`. |
-| hosts | `supported` | `hosts.bulk_set_port`, `hosts.list`, `hosts.update`, `hosts.create`, `hosts.reorder`, `hosts.bulk_delete`, `hosts.bulk_disable`, `hosts.bulk_enable`, `hosts.bulk_set_inbound`, `hosts.list_tags`, `hosts.delete`, `hosts.get` | Runtime-discoverable through `remnawave_api`. |
+| hosts | `supported` | `hosts.bulk_update`, `hosts.list`, `hosts.update`, `hosts.create`, `hosts.reorder`, `hosts.bulk_delete`, `hosts.bulk_disable`, `hosts.bulk_enable`, `hosts.list_tags`, `hosts.delete`, `hosts.get` | Runtime-discoverable through `remnawave_api`. |
 | nodes | `supported` | `nodes.restart`, `nodes.list`, `nodes.update`, `nodes.create`, `nodes.reorder`, `nodes.restart_all`, `nodes.bulk_actions`, `nodes.profile_modification`, `nodes.bulk_update`, `nodes.list_tags`, `nodes.delete`, `nodes.get`, `nodes.disable`, `nodes.enable`, `nodes.reset_traffic` | Runtime-discoverable through `remnawave_api`. |
 | metadata | `supported` | `metadata.get_node`, `metadata.upsert_node`, `metadata.get_user`, `metadata.upsert_user` | Runtime-discoverable through `remnawave_api`. |
 | templates | `supported` | `templates.list`, `templates.get`, `templates.create`, `templates.update`, `templates.delete`, `templates.reorder` | Runtime-discoverable through `remnawave_api`. |
@@ -46,7 +46,7 @@ See the [migration guide](../migration/flat-to-single-tool.md) for details on tr
 | snippets | `supported` | `snippets.list`, `snippets.create`, `snippets.update`, `snippets.delete` | Runtime-discoverable through `remnawave_api`. |
 | Snippets | `supported` | `snippets.list`, `snippets.create`, `snippets.update`, `snippets.delete` | Snippet inventory and CRUD are supported; snippet reorder and broader composite workflows are deferred. |
 | public_subscriptions | `supported` | `public_subscriptions.get_info`, `public_subscriptions.get`, `public_subscriptions.get_by_client_type` | Runtime-discoverable through `remnawave_api`. |
-| subscriptions | `supported` | `subscriptions.list`, `subscriptions.get_by_username`, `subscriptions.get_by_short_uuid`, `subscriptions.get_by_uuid`, `subscriptions.get_raw_by_short_uuid`, `subscriptions.get_subpage_config_by_short_uuid`, `subscriptions.get_connection_keys_by_uuid` | Runtime-discoverable through `remnawave_api`. |
+| subscriptions | `supported` | `subscriptions.list`, `subscriptions.get_by_username`, `subscriptions.get_by_short_uuid`, `subscriptions.get_by_id`, `subscriptions.get_raw_by_short_uuid`, `subscriptions.get_subpage_config_by_short_uuid`, `subscriptions.get_connection_keys_by_user_id` | Runtime-discoverable through `remnawave_api`. |
 | subscription_request_history | `supported` | `subscription_request_history.list`, `subscription_request_history.get_stats` | Runtime-discoverable through `remnawave_api`. |
 | profiles | `supported` | `profiles.list`, `profiles.get`, `profiles.get_computed`, `profiles.list_inbounds`, `profiles.update`, `profiles.create`, `profiles.reorder`, `profiles.list_all_inbounds`, `profiles.delete` | Runtime-discoverable through `remnawave_api`. |
 | bandwidth_stats | `supported` | `bandwidth_stats.list_nodes_usage`, `bandwidth_stats.get_node_users_usage`, `bandwidth_stats.get_node_user_usage_legacy`, `bandwidth_stats.get_user_usage`, `bandwidth_stats.get_user_usage_legacy` | Runtime-discoverable through `remnawave_api`. |

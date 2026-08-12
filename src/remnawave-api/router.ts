@@ -337,9 +337,9 @@ async function handlePreviewApplyPreview(
   const preview = await buildPreviewApplyPreview(domain, operation, client, payload);
   if (preview.missingHostUuids !== undefined) {
     return validationError({
-      message: 'Payload references hosts that do not exist for hosts.bulk_set_port.',
+      message: 'Payload references hosts that do not exist for hosts.bulk_update.',
       validationIssues: preview.missingHostUuids.map((uuid) => ({
-        field: 'payload.hostUuids',
+        field: 'payload.uuids',
         code: 'HOST_NOT_FOUND',
         message: `Host UUID not found: ${uuid}.`,
       })),
@@ -409,10 +409,11 @@ async function handlePreviewApplyApply(
 }
 
 function hasRealPreviewBuilder(operation: OperationRegistration): boolean {
-  return operation.discovery.domain === 'hosts' && operation.discovery.operation === 'bulk_set_port'
+  return operation.discovery.domain === 'hosts' && operation.discovery.operation === 'bulk_update'
     || operation.openapi.method === 'delete' && operation.openapi.path.includes('{uuid}')
     || operation.openapi.method === 'patch'
     || operation.openapi.method === 'post' && operation.openapi.path.includes('/actions/reorder')
+    || operation.openapi.path.includes('/bulk-actions/')
     || operation.openapi.method === 'post' && operation.openapi.path.includes('/bulk')
     || operation.openapi.method === 'post' && operation.openapi.path.endsWith('/delete-all')
     || operation.discovery.domain === 'subscription_settings'
@@ -425,8 +426,8 @@ async function buildPreviewApplyPreview(
   client: RemnawaveApiClient,
   payload: Record<string, unknown>,
 ): Promise<PreviewApplyPreviewState> {
-  if (domain === 'hosts' && operation.discovery.operation === 'bulk_set_port') {
-    return buildHostBulkSetPortPreview(client, payload);
+  if (domain === 'hosts' && operation.discovery.operation === 'bulk_update') {
+    return buildHostBulkUpdatePreview(client, payload);
   }
 
   const plan = await readPreStatePlan(operation, client, payload);
@@ -444,18 +445,18 @@ async function buildPreviewApplyPreview(
   };
 }
 
-async function buildHostBulkSetPortPreview(
+async function buildHostBulkUpdatePreview(
   client: RemnawaveApiClient,
   payload: Record<string, unknown>,
 ): Promise<PreviewApplyPreviewState> {
 
   const getHosts = client.getHosts;
   if (getHosts === undefined) {
-    throw new Error('hosts.bulk_set_port preview requires getHosts client method.');
+    throw new Error('hosts.bulk_update preview requires getHosts client method.');
   }
 
-  const hostUuids = readStringArray(payload.hostUuids);
-  const nextPort = typeof payload.port === 'number' ? payload.port : 0;
+  const hostUuids = readStringArray(payload.uuids);
+  const patch = Object.fromEntries(Object.entries(payload).filter(([key]) => key !== 'uuids' && key !== 'applyToken'));
   const hosts = readHostItems(await getHosts());
   const selectedHosts = hostUuids.map((uuid) => hosts.find((host) => host.uuid === uuid) ?? null);
 
@@ -477,8 +478,8 @@ async function buildHostBulkSetPortPreview(
     preStateFingerprint: computeStateFingerprint(preState),
     changes: existingHosts.map((host) => ({
       target: host.uuid,
-      before: { port: host.port },
-      after: { port: nextPort },
+      before: { state: host },
+      after: { patch },
     })),
   };
 }
@@ -513,7 +514,7 @@ async function readPreStatePlan(
     return readCollectionPreState(operation, client, payload);
   }
 
-  if (operation.openapi.method === 'post' && operation.openapi.path.includes('/bulk')) {
+  if (operation.openapi.path.includes('/bulk-actions/') || operation.openapi.method === 'post' && operation.openapi.path.includes('/bulk')) {
     return readCollectionPreState(operation, client, payload);
   }
 

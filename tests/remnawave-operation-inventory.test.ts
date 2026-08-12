@@ -8,7 +8,7 @@ import {
 import { REMNAWAVE_OPERATION_INVENTORY } from '../src/remnawave-api/generated/operation-inventory.js';
 import type { RemnawaveOperationContract } from '../src/remnawave-api/operation-contract.js';
 
-const vendoredSnapshotPath = resolve('src/remnawave-api/openapi/remnawave-openapi-2.7.4.json');
+const vendoredSnapshotPath = resolve('src/remnawave-api/openapi/remnawave-openapi-3.2.3.json');
 const httpMethods = new Set(['get', 'put', 'post', 'delete', 'patch', 'options', 'head', 'trace']);
 
 function operationCoordinate(operation: RemnawaveOperationContract): string {
@@ -35,12 +35,12 @@ describe('Remnawave operation inventory', () => {
     expect(REMNAWAVE_OPERATION_INVENTORY.metadata).toEqual({
       generatedAt: 'static',
       openapi: '3.0.0',
-      source: 'remnawave-openapi-2.7.4.json',
-      title: 'Remnawave API v2.7.4',
-      totalOperations: 185,
-      version: '2.7.4',
+      source: 'remnawave-openapi-3.2.3.json',
+      title: 'Remnawave API v3.2.3',
+      totalOperations: 191,
+      version: '3.2.3',
     });
-    expect(Object.keys(document.paths ?? {})).toHaveLength(141);
+    expect(Object.keys(document.paths ?? {})).toHaveLength(147);
   });
 
   test('classifies every OpenAPI path and method exactly once', () => {
@@ -105,7 +105,7 @@ describe('Remnawave operation inventory', () => {
         method: 'post',
         operationId: 'UsersController_createUser',
         path: '/api/users',
-        requestSchemaKey: 'CreateUserRequestDto',
+        requestSchemaKey: 'CreateUserBodyDto',
       },
       riskTier: 'tier2',
       safetyMode: 'direct',
@@ -126,6 +126,18 @@ describe('Remnawave operation inventory', () => {
       openapi: { method: 'get', path: '/api/system/health', operationId: 'SystemController_getRemnawaveHealth' },
       rawAllowed: true,
       write: false,
+    });
+    expect(supported.find((operation) => operation.key === 'users.resolve')).toMatchObject({
+      openapi: { method: 'post', path: '/api/users/resolve', operationId: 'UsersController_resolveUser' },
+      riskTier: 'tier1',
+      safetyMode: 'direct',
+      write: false,
+    });
+    expect(supported.find((operation) => operation.key === 'hosts.bulk_update')).toMatchObject({
+      openapi: { method: 'patch', path: '/api/hosts/bulk/update', requestSchemaKey: 'UpdateManyHostsBodyDto' },
+      riskTier: 'tier3',
+      safetyMode: 'preview_apply',
+      write: true,
     });
     expect(supported.find((operation) => operation.key === 'metadata.upsert_node')).toMatchObject({
       openapi: { method: 'put', path: '/api/metadata/node/{uuid}', operationId: 'MetadataController_upsertNodeMetadata' },
@@ -169,9 +181,9 @@ describe('Remnawave operation inventory', () => {
       exclusionReason: 'excluded_auth',
       status: 'excluded',
     });
-    expect(excluded.find((operation) => operation.openapi.path === '/api/ip-control/fetch-users-ips/{nodeUuid}')).toMatchObject({
-      domain: 'ip_control',
-      exclusionReason: 'excluded_ip_control',
+    expect(excluded.find((operation) => operation.openapi.path === '/api/connections/drop')).toMatchObject({
+      domain: 'connections',
+      exclusionReason: 'excluded_connections',
       status: 'excluded',
     });
     expect(excluded.find((operation) => operation.openapi.path === '/api/node-plugins')).toMatchObject({
@@ -202,7 +214,7 @@ describe('Remnawave operation inventory', () => {
       'users.disable',
       'users.enable',
       'nodes.restart',
-      'hosts.bulk_set_port',
+      'hosts.bulk_update',
     ]));
   });
 });

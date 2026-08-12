@@ -31,14 +31,14 @@ describe('task 20 release-readiness consistency', () => {
     expect(packageJson.files).toEqual(['dist', 'README.md', 'LICENSE', 'NOTICE.md']);
     expect(packageJson.license).toBe('MIT');
     expect(packageJson.scripts.prepack).toBe('npm run build');
-    expect(packageJson.version).toBe('0.2.1');
+    expect(packageJson.version).toBe('0.3.0');
     expect(packageJson.engines).toEqual({
       node: '>=20.11.0',
       npm: '>=10.0.0',
     });
 
     for (const publishedText of [readme, readiness]) {
-      expect(publishedText).toContain('2.7.4');
+      expect(publishedText).toContain('3.2.3');
       expect(publishedText).toContain('remnawave_api');
     }
 
@@ -47,7 +47,7 @@ describe('task 20 release-readiness consistency', () => {
     expect(readme).toContain('- Package name: `remnawave-mcp`');
     expect(readme).toContain('npm install -g remnawave-mcp');
     expect(readme).toContain('The package `bin` entry maps `remnawave-mcp` to `dist/index.js`.');
-    expect(readme).toContain('- Server version: `0.2.1`');
+    expect(readme).toContain('- Server version: `0.3.0`');
     expect(readme).toContain('These operations are currently `supported` and executable');
     expect(readme).toContain('system.get_stats');
     expect(readme).toContain('users.create');
@@ -59,7 +59,7 @@ describe('task 20 release-readiness consistency', () => {
     const readiness = readRepoFile('docs/release/production-readiness.md');
 
     expect(readiness).toContain('local stdio runtime only');
-    expect(readiness).toContain('Remnawave `2.7.0` through `2.7.4`');
+    expect(readiness).toContain('Remnawave `3.2.3`');
     expect(readiness).toContain('single-tool contract');
     expect(readiness).toContain('remnawave_api');
     expect(readiness).toContain('Any broader release claim would overstate the verified implementation.');

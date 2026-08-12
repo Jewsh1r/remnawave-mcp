@@ -5,8 +5,8 @@ import { RuntimeConfigError, redactSecrets } from '../src/runtime/errors.js';
 import { buildDiscoveryManifest } from '../src/server/discovery.js';
 
 describe('loadRuntimeConfig', () => {
-  const supportedRemnawaveVersions = ['2.7.0', '2.7.1', '2.7.2', '2.7.3', '2.7.4'] as const;
-  const supportedRemnawaveRange = '2.7.0-2.7.4';
+  const supportedRemnawaveVersions = ['3.2.3'] as const;
+  const supportedRemnawaveRange = '3.2.3';
 
   test.each(supportedRemnawaveVersions)('marks supported Remnawave patch version %s as supported', (version) => {
     const config = loadRuntimeConfig({
@@ -24,12 +24,12 @@ describe('loadRuntimeConfig', () => {
     expect(config.startupDiagnostics.capabilities.tools).toBe(true);
   });
 
-  test('returns config and marks fixture version 2.7.4 as supported', () => {
+  test('returns config and marks fixture version 3.2.3 as supported', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
       LOG_LEVEL: 'debug',
-      REMNAWAVE_VERSION: '2.7.4',
+      REMNAWAVE_VERSION: '3.2.3',
     });
 
     expect(config.remnawaveBaseUrl).toBe('https://panel.example.test');
@@ -38,7 +38,7 @@ describe('loadRuntimeConfig', () => {
     expect(config.startupDiagnostics.remnawaveVersion).toEqual({
       supported: true,
       status: 'supported',
-      value: '2.7.4',
+      value: '3.2.3',
       supportedRange: supportedRemnawaveRange,
     });
     expect(config.startupDiagnostics.capabilities.tools).toBe(true);

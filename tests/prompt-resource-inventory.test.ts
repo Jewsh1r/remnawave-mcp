@@ -10,7 +10,7 @@ describe('single-tool discovery inventory', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.4',
+      REMNAWAVE_VERSION: '3.2.3',
     });
 
     const manifest = buildDiscoveryManifest(config);
@@ -23,7 +23,7 @@ describe('single-tool discovery inventory', () => {
     const config = loadRuntimeConfig({
       REMNAWAVE_BASE_URL: 'https://panel.example.test',
       REMNAWAVE_API_TOKEN: 'token-value',
-      REMNAWAVE_VERSION: '2.7.4',
+      REMNAWAVE_VERSION: '3.2.3',
     });
 
     const manifest = buildDiscoveryManifest(config);

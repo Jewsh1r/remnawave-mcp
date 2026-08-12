@@ -3,6 +3,7 @@ import type { RemnawaveOperationContract, RemnawaveSupportedOperationContract } 
 
 const EXCLUDED_RUNTIME_DOMAINS = new Set([
   'auth',
+  'connections',
   'ip_control',
   'node_plugins',
   'remnawave_settings',
@@ -28,6 +29,7 @@ export function isExcludedRuntimeSurface(operation: RemnawaveOperationContract):
   return EXCLUDED_RUNTIME_DOMAINS.has(operation.domain)
     || operation.openapi.path.startsWith('/api/auth')
     || operation.openapi.path.startsWith('/api/ip-control')
+    || operation.openapi.path.startsWith('/api/connections')
     || operation.openapi.path.startsWith('/api/node-plugins')
     || operation.openapi.path === '/api/remnawave-settings'
     || operation.openapi.path === '/api/system/tools/happ/encrypt'

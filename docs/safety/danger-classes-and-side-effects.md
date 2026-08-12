@@ -33,7 +33,7 @@ The Remnawave MCP uses a three-tier risk classification system to govern operati
 - Require explicit gating before execution
 - Two gating styles exist: confirmation (`confirmToken`) and preview/apply (`applyToken`)
 - Confirmation examples: `nodes.restart`, `users.disable`, `users.revoke_subscription`
-- Preview/apply example: `hosts.bulk_set_port`
+- Preview/apply example: `hosts.bulk_update`
 
 ## Side-Effect Classification
 
@@ -136,9 +136,9 @@ Tier 3 preview/apply operations use a two-step flow.
 {
   "tool": "remnawave_api",
   "domain": "hosts",
-  "operation": "bulk_set_port",
+  "operation": "bulk_update",
   "payload": {
-    "hostUuids": ["host-1"],
+    "uuids": ["11111111-1111-4111-8111-111111111111"],
     "port": 443
   }
 }
@@ -149,9 +149,9 @@ Response:
 ```json
 {
   "applyToken": "def456",
-  "expiresAt": 1715432100000,
+  "expiresAt": "2026-05-01T00:10:00.000Z",
   "changes": [
-    { "target": "host-1", "before": { "port": 80 }, "after": { "port": 443 } }
+    { "target": "11111111-1111-4111-8111-111111111111", "before": { "state": { "port": 80 } }, "after": { "patch": { "port": 443 } } }
   ]
 }
 ```
@@ -162,7 +162,7 @@ Response:
 {
   "tool": "remnawave_api",
   "domain": "hosts",
-  "operation": "bulk_set_port",
+  "operation": "bulk_update",
   "payload": {
     "applyToken": "def456"
   }
@@ -200,9 +200,9 @@ These operations require a preview/apply token before execution:
 
 | Domain | Operation | Effect | Why Tier 3 |
 |--------|-----------|--------|------------|
-| `hosts` | `bulk_set_port` | `update` | Can affect multiple routes |
+| `hosts` | `bulk_update` | `update` | Can affect multiple routes |
 | `profiles` | `update`, `delete`, `reorder` | `update/delete` | Changes delivery profile state; preview/apply protects against stale profile state |
-| `hosts` | `delete`, `reorder`, `bulk_delete`, `bulk_disable`, `bulk_enable`, `bulk_set_inbound` | `update/delete` | Changes host routing state; preview/apply protects against stale host inventory |
+| `hosts` | `delete`, `reorder`, `bulk_delete`, `bulk_disable`, `bulk_enable` | `update/delete` | Changes host routing state; preview/apply protects against stale host inventory |
 | `nodes` | `delete`, `reorder`, `bulk_actions`, `bulk_update`, `profile_modification` | `update/delete` | Changes node/control-plane state; preview/apply protects against stale node inventory |
 | `users` | `bulk_*` operations | `bulk update/delete` | Can mutate many users; preview/apply protects against stale user inventory |
 | `subscription_settings` | `update` | `update` | Changes global subscription behavior; preview/apply protects against stale settings |

@@ -93,14 +93,14 @@ function createRuntimeConfig() {
       remnawaveVersion: {
         supported: true,
         status: 'supported' as const,
-        value: '2.7.4',
+        value: '3.2.3',
       },
       capabilities: {
         tools: true,
       },
       server: {
         name: 'remnawave-mcp',
-        version: '0.2.1',
+        version: '0.3.0',
         protocolVersion: '2024-11-05',
       },
     },

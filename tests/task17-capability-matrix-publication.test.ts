@@ -15,7 +15,7 @@ describe('task 17 published capability matrix and support boundary', () => {
 
     expect(readme).toContain('## Current status');
     expect(readme).toContain('- Runtime model: local stdio server only');
-    expect(readme).toContain('- Supported Remnawave version gate: `2.7.0` through `2.7.4`');
+    expect(readme).toContain('- Supported Remnawave version gate: exactly `3.2.3`');
     expect(readme).toContain('## Quickstart: Using the single-tool API');
     expect(readme).toContain('remnawave_api');
     expect(readme).toContain('### Currently executable operations');
