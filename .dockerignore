@@ -1,0 +1,10 @@
+.git
+.github
+dist
+node_modules
+coverage
+docs
+fixtures
+scripts
+tests
+*.log
