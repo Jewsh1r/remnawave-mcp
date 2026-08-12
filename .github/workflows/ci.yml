@@ -36,3 +36,26 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm audit --omit=dev
+
+  docker-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --tag remnawave-mcp:test .
+      - name: Verify MCP initialization
+        run: |
+          response="$(
+            printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"docker-smoke","version":"1.0.0"}}}' |
+              docker run --rm -i \
+                -e REMNAWAVE_BASE_URL=http://remnawave:3000 \
+                -e REMNAWAVE_API_TOKEN=placeholder \
+                -e REMNAWAVE_VERSION=3.2.3 \
+                -e LOG_LEVEL=error \
+                remnawave-mcp:test
+          )"
+          printf '%s\n' "$response"
+          jq -e '
+            .id == 1 and
+            .result.protocolVersion == "2025-06-18" and
+            .result.serverInfo.name == "remnawave-mcp"
+          ' <<<"$response"
