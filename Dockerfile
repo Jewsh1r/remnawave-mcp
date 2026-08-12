@@ -14,6 +14,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 RUN addgroup -S mcp && adduser -S -G mcp mcp
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build --chown=mcp:mcp /app/dist/index.js ./index.js
 
 USER mcp
